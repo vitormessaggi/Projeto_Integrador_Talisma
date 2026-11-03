@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fundo do ícone padrão do template; a T02 troca pelo ícone gerado a partir de ic_marcador_casa. -->
+    <color name="ic_launcher_background">#8D001A</color>
+</resources>

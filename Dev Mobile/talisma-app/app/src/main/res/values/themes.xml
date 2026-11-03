@@ -1,0 +1,7 @@
+<resources>
+    <!-- Tema mínimo da T01; a T02 completa cores e estilos do design system (6.4). App só claro. -->
+    <style name="Base.Theme.Talisma" parent="Theme.Material3.Light.NoActionBar">
+    </style>
+
+    <style name="Theme.Talisma" parent="Base.Theme.Talisma" />
+</resources>

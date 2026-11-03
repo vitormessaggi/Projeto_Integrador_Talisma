@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" translatable="false">Talismã Imóveis</string>
+
+    <!-- Conteúdo provisório da Home (a T02 substitui) -->
+    <string name="home_provisorio">Talismã Imóveis — em construção</string>
+
+    <!-- Formatos (6.6) -->
+    <string name="formato_preco_mes">%1$s/mês</string>
+    <string name="formato_area">%1$s m²</string>
+    <string name="formato_distancia">a %1$s km</string>
+
+    <!-- Mensagens de erro (6.6) -->
+    <string name="erro_sem_conexao">Sem conexão. Verifique sua internet.</string>
+    <string name="erro_servidor">Algo deu errado. Tente novamente.</string>
+
+    <!-- Estado de tela (6.4) -->
+    <string name="estado_carregando">Carregando…</string>
+    <string name="estado_tentar_novamente">Tentar novamente</string>
+</resources>
