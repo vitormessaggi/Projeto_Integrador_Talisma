@@ -18,17 +18,28 @@ Abra http://127.0.0.1:8025 para ler os códigos e notificações. A API usa o SM
 
 ## Backend
 
-Na pasta do backend, configure as variáveis no terminal atual:
+No PowerShell 7, abra a pasta `Dev BackEnd/imoveisapi` e confira o Java:
 
 ```powershell
-$env:JAVA_HOME = 'C:/Program Files/Java/<pasta do JDK 25>'
-$env:DB_URL = 'jdbc:mysql://127.0.0.1:3306/talisma?connectionTimeZone=UTC'
-$env:DB_USER = 'talisma_app'
-$env:DB_PASSWORD = Read-Host 'Senha MySQL' -MaskInput
-$env:APP_JWT_KEY = [Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+java -version
+.\mvnw.cmd -version
 ```
 
-Reutilize a mesma chave entre reinícios para preservar a validade dos tokens já emitidos. O Flyway aplica as migrations quando a API inicia. Para provisionar o primeiro administrador:
+Os dois comandos devem indicar Java 25. Se necessário, aponte `JAVA_HOME` para a pasta do JDK 25 e inclua a subpasta `bin` no `Path` do Windows. Abra outro terminal após editar as variáveis.
+
+Execute o script com o usuário MySQL criado para o banco `talisma` neste computador:
+
+```powershell
+.\scripts\configurar-local.ps1 -UsuarioBanco talisma_app
+.\mvnw.cmd spring-boot:run
+```
+
+O script solicita a senha e cria a chave JWT uma vez. Ele grava as credenciais em `$env:USERPROFILE\.talisma\imoveisapi.properties` e registra apenas o caminho em `config/application.properties`, ignorado pelo Git. Se o arquivo de credenciais já existir, o script o reutiliza. Edite esse arquivo local se precisar trocar a conta, a senha ou a URL do banco.
+
+No IntelliJ, abra a pasta `imoveisapi` como projeto Maven, selecione o JDK 25 e execute `ImoveisapiApplication` com a pasta do módulo como diretório de trabalho. Essa execução carrega a mesma configuração criada pelo script.
+
+O Flyway aplica as migrations ao iniciar. Se você estiver trocando de computador e quiser manter os dados locais, restaure um backup do MySQL e copie o diretório de fotos conforme [o guia do banco](../../../Dev%20BancoDados/README.md). O Git leva o código e as migrations. Se estiver começando com uma base vazia, siga a etapa de criação do administrador abaixo.
+Para provisionar o primeiro administrador:
 
 ```powershell
 $env:ADMIN_NOME = Read-Host 'Nome do administrador'
