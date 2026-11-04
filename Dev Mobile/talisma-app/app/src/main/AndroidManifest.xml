@@ -89,6 +89,14 @@
             android:name=".MeusContatosActivity"
             android:exported="false" />
 
+        <!-- Área do corretor (EAP 2.5.1, D33, T08): sem bottom nav -->
+        <activity
+            android:name=".SelecionarImovelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FotosImovelActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

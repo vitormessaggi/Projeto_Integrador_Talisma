@@ -14,6 +14,9 @@
     <color name="alerta">#B26A00</color>
     <color name="erro">#B3261E</color>
 
+    <!-- Véu sobre a foto nova em envio (T08) -->
+    <color name="veu_foto">#80000000</color>
+
     <!-- Ícone do app (adaptive icon gerado a partir de ic_marcador_casa) -->
     <color name="ic_launcher_background">#8D001A</color>
 </resources>

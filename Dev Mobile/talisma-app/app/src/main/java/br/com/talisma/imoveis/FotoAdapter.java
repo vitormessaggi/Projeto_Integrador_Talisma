@@ -14,12 +14,13 @@ import java.util.List;
 import br.com.talisma.imoveis.util.CarregadorImagem;
 
 /**
- * Fotos de um imóvel (6.2): {@code MINIATURA} (72dp, Detalhe) ou {@code GALERIA} (tela cheia).
+ * Fotos de um imóvel (6.2): {@code MINIATURA} (72dp, Detalhe), {@code GALERIA} (tela cheia) ou
+ * {@code GRADE} (quadrado da grade "Fotos atuais" do corretor — T08).
  * O toque devolve a posição para abrir a Galeria naquela foto.
  */
 public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.Holder> {
 
-    public enum Modo { MINIATURA, GALERIA }
+    public enum Modo { MINIATURA, GALERIA, GRADE }
 
     public interface Ouvinte {
         void aoTocar(int posicao);
@@ -48,7 +49,8 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.Holder> {
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layout = modo == Modo.GALERIA ? R.layout.item_foto_galeria : R.layout.item_miniatura;
+        int layout = modo == Modo.GALERIA ? R.layout.item_foto_galeria
+                : modo == Modo.GRADE ? R.layout.item_foto_grade : R.layout.item_miniatura;
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new Holder(view);
     }
@@ -73,7 +75,8 @@ public class FotoAdapter extends RecyclerView.Adapter<FotoAdapter.Holder> {
 
         Holder(View view) {
             super(view);
-            img = (ImageView) view;
+            // item_miniatura e item_foto_galeria são o próprio ImageView; item_foto_grade o envolve num ConstraintLayout
+            img = view instanceof ImageView ? (ImageView) view : view.findViewById(R.id.imgMiniatura);
         }
     }
 }

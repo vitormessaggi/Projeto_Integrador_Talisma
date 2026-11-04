@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Foto nova do corretor (FotosImovel, 6.5, 2.5.2): quadrado da grade com lixeira no canto e estado
+    aguardando (só a foto), enviando (véu + ProgressBar), enviada (véu + check) ou falhou (véu + ↻; toque reenvia).
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/espaco_4">
+
+    <ImageView
+        android:id="@+id/imgFoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/placeholder_foto"
+        android:contentDescription="@string/desc_foto_nova"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vwVeu"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/fundo_estado_foto"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/imgFoto"
+        app:layout_constraintEnd_toEndOf="@id/imgFoto"
+        app:layout_constraintStart_toStartOf="@id/imgFoto"
+        app:layout_constraintTop_toTopOf="@id/imgFoto"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/prgEnvio"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_12"
+        android:layout_marginEnd="@dimen/espaco_12"
+        android:max="100"
+        android:progressBackgroundTint="@color/texto_secundario"
+        android:progressTint="@color/branco"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/imgFoto"
+        app:layout_constraintEnd_toEndOf="@id/imgFoto"
+        app:layout_constraintStart_toStartOf="@id/imgFoto"
+        app:layout_constraintTop_toTopOf="@id/imgFoto"
+        tools:progress="60"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/imgEstado"
+        android:layout_width="@dimen/tamanho_icone_estado_foto"
+        android:layout_height="@dimen/tamanho_icone_estado_foto"
+        android:contentDescription="@string/desc_foto_enviada"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/imgFoto"
+        app:layout_constraintEnd_toEndOf="@id/imgFoto"
+        app:layout_constraintStart_toStartOf="@id/imgFoto"
+        app:layout_constraintTop_toTopOf="@id/imgFoto"
+        app:srcCompat="@drawable/ic_check"
+        app:tint="@color/branco" />
+
+    <ImageButton
+        android:id="@+id/btnRemover"
+        android:layout_width="@dimen/tamanho_lixeira_foto"
+        android:layout_height="@dimen/tamanho_lixeira_foto"
+        android:layout_margin="@dimen/espaco_4"
+        android:background="@drawable/fundo_lixeira_foto"
+        android:contentDescription="@string/desc_remover_foto"
+        android:padding="@dimen/espaco_4"
+        app:layout_constraintEnd_toEndOf="@id/imgFoto"
+        app:layout_constraintTop_toTopOf="@id/imgFoto"
+        app:srcCompat="@drawable/ic_lixeira"
+        app:tint="@color/borgonha" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
