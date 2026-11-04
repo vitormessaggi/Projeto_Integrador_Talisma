@@ -46,6 +46,8 @@ public class Imovel {
     /** Calculada no app ("Perto de mim" — D15); não vem nem vai para o JSON. */
     @Nullable
     public Float distanciaKm;
+    /** {@code true} quando veio do cache porque a rede falhou (banner offline — D36); fora do JSON. */
+    public boolean offline;
 
     public boolean isLocacao() {
         return LOCACAO.equals(finalidade);

@@ -19,6 +19,8 @@ public class Pagina<T> {
     public int pagina;
     public int tamanho = TAMANHO_PADRAO;
     public int totalPaginas;
+    /** {@code true} quando veio do cache porque a rede falhou (banner offline — D36); fora do JSON. */
+    public boolean offline;
 
     /** Converte um item do {@code content}. */
     public interface Conversor<T> {
@@ -32,6 +34,18 @@ public class Pagina<T> {
 
     public boolean temProxima() {
         return pagina + 1 < totalPaginas;
+    }
+
+    /** Recorta a página {@code pagina} (base 0) de uma lista completa (simulado e cache offline). */
+    public static <T> Pagina<T> recortar(List<T> todos, int pagina) {
+        Pagina<T> p = new Pagina<>();
+        p.pagina = pagina;
+        p.totalPaginas = (todos.size() + TAMANHO_PADRAO - 1) / TAMANHO_PADRAO;
+        int inicio = pagina * TAMANHO_PADRAO;
+        if (pagina >= 0 && inicio < todos.size()) {
+            p.itens.addAll(todos.subList(inicio, Math.min(inicio + TAMANHO_PADRAO, todos.size())));
+        }
+        return p;
     }
 
     public static <T> Pagina<T> deJson(JSONObject o, Conversor<T> conversor) throws JSONException {

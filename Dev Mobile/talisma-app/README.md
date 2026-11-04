@@ -47,12 +47,18 @@ app/src/main/
 │   ├── *Activity                 # uma Activity por tela
 │   ├── dados/                    # modelos, Api, ApiRotas, ApiException, BancoLocal, Sessao,
 │   │                             # Preferencias, ServidorSimulado e Repositories
-│   └── util/                     # Tarefas, CarregadorImagem, Formatos, Validacoes, EstadoTela, BarraNavegacao
+│   └── util/                     # Tarefas, CarregadorImagem, Formatos, Validacoes, EstadoTela, BarraNavegacao,
+│                                 # Localizacao
 └── res/                          # layouts, strings, cores, dimens, temas, estilos (6.4), fontes Poppins, ícones
 ```
 
 - `util/Tarefas`: `ExecutorService` + `Handler` da main thread; callback único `Tarefas.Callback<T>`.
 - `dados/BancoLocal`: favoritos, cache da vitrine, buscas recentes e tabelas `sim_*` (SQLite versão 1).
 - `dados/Sessao` e `dados/Preferencias`: SharedPreferences `sessao` e `config`.
+- `dados/ImovelRepository`: lista (filtros, 10 por página), destaques, detalhe e opções; cache usado só
+  quando a rede falha (resultado com `offline = true`); buscas recentes e último filtro.
+- `dados/FavoritoRepository`: favoritos locais no SQLite (funcionam sem login e offline).
+- `util/Localizacao`: localização do aparelho, distância ("Perto de mim") e `Geocoder` sem lat/long.
+- "Simular sem conexão" (`Preferencias.setSimularFalhaRede`): o `ServidorSimulado` passa a falhar como sem rede.
 - `util/EstadoTela`: estados CARREGANDO, VAZIO, ERRO e OFFLINE sobre `layout/estado_tela.xml`.
 - `util/BarraNavegacao`: bottom nav das 4 telas principais (`configurar(this, R.id.nav_x)`): abre a aba com `FLAG_ACTIVITY_REORDER_TO_FRONT` sem animação; Voltar na Home sai do app, nas outras abas volta à Home.
