@@ -47,11 +47,12 @@ app/src/main/
 │   ├── *Activity                 # uma Activity por tela
 │   ├── dados/                    # modelos, Api, ApiRotas, ApiException, BancoLocal, Sessao,
 │   │                             # Preferencias, ServidorSimulado e Repositories
-│   └── util/                     # Tarefas, CarregadorImagem, Formatos, Validacoes, EstadoTela
-└── res/                          # layouts, strings, cores, temas
+│   └── util/                     # Tarefas, CarregadorImagem, Formatos, Validacoes, EstadoTela, BarraNavegacao
+└── res/                          # layouts, strings, cores, dimens, temas, estilos (6.4), fontes Poppins, ícones
 ```
 
 - `util/Tarefas`: `ExecutorService` + `Handler` da main thread; callback único `Tarefas.Callback<T>`.
 - `dados/BancoLocal`: favoritos, cache da vitrine, buscas recentes e tabelas `sim_*` (SQLite versão 1).
 - `dados/Sessao` e `dados/Preferencias`: SharedPreferences `sessao` e `config`.
 - `util/EstadoTela`: estados CARREGANDO, VAZIO, ERRO e OFFLINE sobre `layout/estado_tela.xml`.
+- `util/BarraNavegacao`: bottom nav das 4 telas principais (`configurar(this, R.id.nav_x)`): abre a aba com `FLAG_ACTIVITY_REORDER_TO_FRONT` sem animação; Voltar na Home sai do app, nas outras abas volta à Home.

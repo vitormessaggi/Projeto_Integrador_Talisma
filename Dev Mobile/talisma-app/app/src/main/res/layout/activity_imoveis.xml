@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Imóveis (protótipo Imóveis, 6.5, D32). T02: topo final (título, abas À venda | Locação e chips de filtro)
+    e lista provisória; a T04 liga os sheets, rvImoveis e a paginação.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImoveisActivity">
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        style="@style/Texto.TituloTela"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:gravity="center_vertical"
+        android:text="@string/imoveis_titulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tgFinalidade"
+        style="@style/Abas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginEnd="@dimen/margem_tela"
+        app:checkedButton="@id/btnVenda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitulo">
+
+        <Button
+            android:id="@+id/btnVenda"
+            style="@style/Abas.Botao.Cinza"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/imoveis_a_venda" />
+
+        <Button
+            android:id="@+id/btnLocacao"
+            style="@style/Abas.Botao.Cinza"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/imoveis_locacao" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <HorizontalScrollView
+        android:id="@+id/scrollFiltros"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_12"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margem_tela"
+        android:paddingEnd="@dimen/margem_tela"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tgFinalidade">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/grupoFiltros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="@dimen/espaco_8"
+            app:singleLine="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPreco"
+                style="@style/Chip.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filtro_preco" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTipo"
+                style="@style/Chip.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filtro_tipo" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipQuartos"
+                style="@style/Chip.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filtro_quartos" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCidade"
+                style="@style/Chip.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filtro_cidade" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPertoDeMim"
+                style="@style/Chip.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filtro_perto_de_mim" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvImoveis"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/espaco_8"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margem_tela"
+        android:paddingEnd="@dimen/margem_tela"
+        android:paddingBottom="@dimen/espaco_16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollFiltros" />
+
+    <TextView
+        android:id="@+id/txtProvisorio"
+        style="@style/Texto.Legenda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:gravity="center"
+        android:text="@string/provisorio_em_construcao"
+        app:layout_constraintBottom_toBottomOf="@id/rvImoveis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rvImoveis" />
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollFiltros" />
+
+    <include layout="@layout/barra_navegacao" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ImoveisActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FavoritosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PerfilActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -8,7 +8,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-/** Tela inicial (LAUNCHER). Conteúdo provisório da T01; a T02/T04 fazem o layout e o comportamento finais. */
+import br.com.talisma.imoveis.util.BarraNavegacao;
+
+/** Tela inicial (LAUNCHER, 6.5). T02: topo final e navegação; a T04 liga busca, destaques e localização. */
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -21,5 +23,6 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        BarraNavegacao.configurar(this, R.id.nav_inicio);
     }
 }

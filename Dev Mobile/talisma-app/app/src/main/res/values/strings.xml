@@ -1,8 +1,70 @@
 <resources>
+    <!-- Marca (D21: translatable=false para marca, URL, telefone) -->
     <string name="app_name" translatable="false">Talismã Imóveis</string>
+    <string name="marca_curta" translatable="false">Talismã</string>
+    <string name="versao_app">Versão %1$s</string>
 
-    <!-- Conteúdo provisório da Home (a T02 substitui) -->
-    <string name="home_provisorio">Talismã Imóveis — em construção</string>
+    <!-- Navegação inferior (6.4) -->
+    <string name="nav_inicio">Início</string>
+    <string name="nav_imoveis">Imóveis</string>
+    <string name="nav_favoritos">Favoritos</string>
+    <string name="nav_perfil">Perfil</string>
+
+    <!-- Acessibilidade de ícones -->
+    <string name="desc_logo">Logo Talismã Imóveis</string>
+    <string name="desc_voltar">Voltar</string>
+    <string name="desc_foto_imovel">Foto do imóvel</string>
+    <string name="desc_avatar">Foto do perfil</string>
+    <string name="desc_favoritar">Favoritar imóvel</string>
+    <string name="desc_compartilhar">Compartilhar imóvel</string>
+
+    <!-- Home (6.5) -->
+    <string name="home_destaque">O imóvel que você procura está aqui!</string>
+    <string name="home_comprar">Comprar</string>
+    <string name="home_alugar">Alugar</string>
+    <string name="home_tipo_imovel">Tipo de imóvel</string>
+    <string name="home_onde_morar">Onde deseja morar?</string>
+    <string name="home_buscar">Buscar</string>
+    <string name="home_imoveis_destaque">Imóveis em Destaque</string>
+    <string name="home_ver_todos">Ver todos</string>
+    <string name="opcao_selecione">Selecione</string>
+    <string-array name="opcoes_provisorias">
+        <item>@string/opcao_selecione</item>
+    </string-array>
+
+    <!-- Imóveis (6.5) -->
+    <string name="imoveis_titulo">Imóveis</string>
+    <string name="imoveis_a_venda">À venda</string>
+    <string name="imoveis_locacao">Locação</string>
+    <string name="filtro_preco">Faixa de preço</string>
+    <string name="filtro_tipo">Tipo</string>
+    <string name="filtro_quartos">Quartos</string>
+    <string name="filtro_cidade">Cidade</string>
+    <string name="filtro_perto_de_mim">Perto de mim</string>
+    <string name="imoveis_vazio">Nenhum imóvel encontrado com esses filtros</string>
+    <string name="imoveis_limpar_filtros">Limpar filtros</string>
+
+    <!-- Favoritos (6.5) -->
+    <string name="favoritos_titulo">Favoritos</string>
+    <string name="favoritos_subtitulo">Imóveis que você salvou</string>
+    <string name="favoritos_vazio">Você ainda não salvou imóveis</string>
+    <string name="favoritos_explorar">Explorar imóveis</string>
+
+    <!-- Perfil (6.5, D31) -->
+    <string name="perfil_titulo">Perfil</string>
+    <string name="perfil_convite">Entre para salvar visitas e favoritos</string>
+    <string name="perfil_entrar">Entrar</string>
+    <string name="perfil_cadastrar">Cadastrar</string>
+    <string name="perfil_dados_pessoais">Dados pessoais</string>
+    <string name="perfil_meus_favoritos">Meus favoritos</string>
+    <string name="perfil_meus_contatos">Meus contatos com corretores</string>
+    <string name="perfil_alterar_senha">Alterar senha</string>
+    <string name="perfil_fale_conosco">Fale com a imobiliária</string>
+    <string name="perfil_termos">Termos e Condições</string>
+    <string name="perfil_sair">Sair</string>
+
+    <!-- Conteúdo provisório das telas da T02 (a T04/T06 substituem) -->
+    <string name="provisorio_em_construcao">Conteúdo em construção</string>
 
     <!-- Formatos (6.6) -->
     <string name="formato_preco_mes">%1$s/mês</string>
@@ -12,6 +74,7 @@
     <!-- Mensagens de erro (6.6) -->
     <string name="erro_sem_conexao">Sem conexão. Verifique sua internet.</string>
     <string name="erro_servidor">Algo deu errado. Tente novamente.</string>
+    <string name="banner_offline">Você está offline — mostrando dados salvos</string>
 
     <!-- Estado de tela (6.4) -->
     <string name="estado_carregando">Carregando…</string>

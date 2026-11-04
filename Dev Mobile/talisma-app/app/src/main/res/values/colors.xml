@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Paleta do design system (plano 6.4, D23): spec v2.0, borgonha #8D001A. -->
 <resources>
-    <!-- Fundo do ícone padrão do template; a T02 troca pelo ícone gerado a partir de ic_marcador_casa. -->
+    <color name="borgonha">#8D001A</color>
+    <color name="borgonha_escuro">#6B0014</color>
+    <color name="borgonha_claro">#AF001F</color>
+    <color name="texto">#1E1E1E</color>
+    <color name="texto_secundario">#6B6B6B</color>
+    <color name="superficie">#F2F2F2</color>
+    <color name="borda">#D9D9D9</color>
+    <color name="placeholder_foto">#DADADA</color>
+    <color name="branco">#FFFFFF</color>
+    <color name="sucesso">#1E7D32</color>
+    <color name="alerta">#B26A00</color>
+    <color name="erro">#B3261E</color>
+
+    <!-- Ícone do app (adaptive icon gerado a partir de ic_marcador_casa) -->
     <color name="ic_launcher_background">#8D001A</color>
 </resources>

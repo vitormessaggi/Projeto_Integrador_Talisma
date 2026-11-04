@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Layout MÍNIMO da T01 para o util/EstadoTela compilar; a T02 redesenha (6.4) mantendo os ids:
-    estadoTela (raiz), prgEstado, imgEstado, txtEstado, btnTentarNovamente.
+    Estado das telas de dados (6.4): ProgressBar borgonha, ícone, texto e Botao.Contorno "Tentar novamente".
+    Variantes CARREGANDO, VAZIO, ERRO e OFFLINE controladas por util/EstadoTela (ids fixos:
+    estadoTela, prgEstado, imgEstado, txtEstado, btnTentarNovamente).
     Uso: <include android:id="@+id/estadoTela" layout="@layout/estado_tela" ... /> e
     EstadoTela.mostrar(findViewById(R.id.estadoTela), EstadoTela.Tipo.CARREGANDO, null).
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/estadoTela"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone">
+    android:background="@color/branco"
+    android:padding="@dimen/margem_tela"
+    android:visibility="gone"
+    tools:visibility="visible">
 
     <ProgressBar
         android:id="@+id/prgEstado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Progresso"
+        android:layout_width="@dimen/altura_minima_toque"
+        android:layout_height="@dimen/altura_minima_toque"
         app:layout_constraintBottom_toTopOf="@id/imgEstado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,29 +30,39 @@
 
     <ImageView
         android:id="@+id/imgEstado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/tamanho_icone_estado"
+        android:layout_height="@dimen/tamanho_icone_estado"
         android:importantForAccessibility="no"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/txtEstado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/prgEstado" />
+        app:layout_constraintTop_toBottomOf="@id/prgEstado"
+        app:srcCompat="@drawable/ic_nuvem_off"
+        app:tint="@color/texto_secundario"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/txtEstado"
-        android:layout_width="wrap_content"
+        style="@style/Texto.Corpo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_16"
         android:gravity="center"
+        android:textColor="@color/texto_secundario"
         app:layout_constraintBottom_toTopOf="@id/btnTentarNovamente"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgEstado" />
+        app:layout_constraintTop_toBottomOf="@id/imgEstado"
+        tools:text="@string/erro_sem_conexao" />
 
     <Button
         android:id="@+id/btnTentarNovamente"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+        style="@style/Botao.Contorno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:minWidth="@dimen/largura_cartao_destaque"
         android:text="@string/estado_tentar_novamente"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

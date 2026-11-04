@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dimensões do design system (plano 6.4). values-sw600dp sobrescreve margem_tela e colunas_lista (T04). -->
+<resources>
+    <dimen name="margem_tela">20dp</dimen>
+    <dimen name="espaco_8">8dp</dimen>
+    <dimen name="espaco_12">12dp</dimen>
+    <dimen name="espaco_16">16dp</dimen>
+    <dimen name="espaco_24">24dp</dimen>
+    <dimen name="espaco_4">4dp</dimen>
+
+    <dimen name="raio_cartao">12dp</dimen>
+    <dimen name="raio_botao">10dp</dimen>
+    <dimen name="raio_campo">8dp</dimen>
+    <dimen name="raio_cartao_auth">16dp</dimen>
+    <dimen name="raio_chip">20dp</dimen>
+
+    <dimen name="altura_botao">52dp</dimen>
+    <dimen name="altura_campo">52dp</dimen>
+    <dimen name="altura_minima_toque">48dp</dimen>
+    <dimen name="altura_item_menu">56dp</dimen>
+    <dimen name="altura_barra_topo">56dp</dimen>
+    <dimen name="altura_banner_offline">32dp</dimen>
+    <dimen name="altura_barra_navegacao">64dp</dimen>
+    <dimen name="largura_borda">1dp</dimen>
+
+    <dimen name="altura_cartao_lista">112dp</dimen>
+    <dimen name="largura_foto_cartao">120dp</dimen>
+    <dimen name="largura_cartao_destaque">200dp</dimen>
+    <dimen name="altura_cartao_destaque">220dp</dimen>
+    <dimen name="tamanho_miniatura">72dp</dimen>
+    <dimen name="tamanho_icone">24dp</dimen>
+    <dimen name="tamanho_icone_estado">64dp</dimen>
+    <dimen name="tamanho_logo_barra">32dp</dimen>
+    <dimen name="tamanho_logo_auth">48dp</dimen>
+    <dimen name="tamanho_avatar">72dp</dimen>
+    <dimen name="tamanho_icone_avatar">40dp</dimen>
+
+    <integer name="colunas_lista">1</integer>
+</resources>

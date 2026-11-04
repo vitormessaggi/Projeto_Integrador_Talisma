@@ -1,7 +1,44 @@
 <resources>
-    <!-- Tema mínimo da T01; a T02 completa cores e estilos do design system (6.4). App só claro. -->
+    <!-- Tema do app (6.1/6.4): só claro, sobre Material3 Light NoActionBar, fonte Poppins e paleta borgonha. -->
     <style name="Base.Theme.Talisma" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/borgonha</item>
+        <item name="colorPrimaryVariant">@color/borgonha_escuro</item>
+        <item name="colorOnPrimary">@color/branco</item>
+        <item name="colorPrimaryContainer">@color/borgonha</item>
+        <item name="colorOnPrimaryContainer">@color/branco</item>
+        <item name="colorSecondary">@color/borgonha_claro</item>
+        <item name="colorOnSecondary">@color/branco</item>
+        <item name="colorSurface">@color/branco</item>
+        <item name="colorOnSurface">@color/texto</item>
+        <item name="colorSurfaceVariant">@color/superficie</item>
+        <item name="colorOnSurfaceVariant">@color/texto_secundario</item>
+        <item name="colorOutline">@color/borda</item>
+        <item name="colorError">@color/erro</item>
+        <item name="android:colorBackground">@color/branco</item>
+        <item name="android:windowBackground">@color/branco</item>
+        <item name="android:textColorPrimary">@color/texto</item>
+        <item name="android:textColorSecondary">@color/texto_secundario</item>
+
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Talisma.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Talisma.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Talisma.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Talisma.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Talisma.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Talisma.LabelSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Talisma.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Talisma.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Talisma.TitleSmall</item>
+
+        <item name="materialButtonStyle">@style/Botao.Primario</item>
+        <item name="textInputStyle">@style/Campo</item>
+        <item name="chipStyle">@style/Chip.Filtro</item>
+        <item name="bottomNavigationStyle">@style/BarraNavegacao</item>
     </style>
 
-    <style name="Theme.Talisma" parent="Base.Theme.Talisma" />
+    <style name="Theme.Talisma" parent="Base.Theme.Talisma">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>
