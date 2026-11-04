@@ -1,0 +1,1 @@
+INSERT INTO perfil(codigo) VALUES ('CLIENTE'),('CORRETOR'),('ADMIN');
