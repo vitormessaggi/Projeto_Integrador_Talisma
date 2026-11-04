@@ -147,7 +147,9 @@ intencional nas linhas rótulo + link, que precisam de `wrap_content` para encol
 
 1. Rodar o roteiro em **aparelho físico** (e com TalkBack ligado de verdade).
 2. No Pixel_9_Pro (ou aparelho): falha/reenvio de foto, mapa, imóvel 14, "Perto de mim" e fonte 130%.
-3. Fase 6 da 6.11 ("APK release instala por cima") fica para a T10.
+3. Fase 6 da 6.11 ("APK release instala por cima"): feita na T10 no `Talisma_API36` — release assinado com o
+   keystore de demonstração instalado (após desinstalar o debug, de outra assinatura) e reinstalado por cima com
+   `adb install -r`; Home e Detalhe ok (`prints/t10/`). Falta repetir no API 24 e no aparelho físico.
 
 ## Prints (`Dev Mobile/docs/prints/t09/`, reduzidos a 50%)
 

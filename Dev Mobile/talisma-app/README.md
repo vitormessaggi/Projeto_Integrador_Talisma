@@ -3,6 +3,9 @@
 App nativo (Java) da imobiliária Talismã, parte do Projeto Integrador (EAP 2 — Desenvolvimento Mobile).
 Plano completo e decisões (D1–D46): [`../PLANO_IMPLEMENTACAO_MOBILE.md`](../PLANO_IMPLEMENTACAO_MOBILE.md).
 
+Documentação: [manual do usuário](../docs/manual-usuario.md) · [roteiro de demonstração](../docs/roteiro-demonstracao.md)
+· [roteiro de testes em dispositivo](../docs/roteiro-testes.md).
+
 ## Requisitos
 
 - Android Studio com o JDK embutido (`jbr`) e Android SDK 36.
@@ -38,9 +41,36 @@ export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
   `BuildConfig.API_URL`; todas as rotas ficam em `dados/ApiRotas.java` e a conversão JSON nos
   métodos `deJson`/`paraJson` dos modelos.
 
+- **Alternar modo demonstração × API:** no Perfil (logado ou não), toque **5 vezes em "Versão 1.0"**. O diálogo
+  liga/desliga o modo demonstração e o **Simular sem conexão**; ao alternar, a sessão e o cache são limpos.
+
+## Gerar o release
+
+O release é um **APK assinado com o keystore de demonstração** commitado em `keystore/` (D17, D42): uso só
+acadêmico, **nunca** publicar na Play Store com essa chave. Como todos usam a mesma chave, qualquer colega gera
+o mesmo release e as versões instalam por cima umas das outras (o APK debug tem outra assinatura: desinstale-o
+antes de instalar o release).
+
+- `keystore/talisma-demo.jks` (alias `talisma-demo`) e `keystore/keystore.properties` (senhas) são lidos pelo
+  `signingConfig` do `app/build.gradle.kts`. Versão: `versionCode 1` / `versionName "1.0"`.
+- Android Studio: **Build → Generate App Bundles or APKs → Build APK(s)** com a variante `release`, ou:
+
+```bash
+./gradlew assembleRelease
+# APK: app/build/outputs/apk/release/app-release.apk
+# conferir a assinatura (build-tools do SDK):
+"$LOCALAPPDATA/Android/Sdk/build-tools/36.0.0/apksigner.bat" verify --print-certs app/build/outputs/apk/release/app-release.apk
+adb install -r app/build/outputs/apk/release/app-release.apk
+```
+
+- O APK não vai para o git (`*.apk` no `.gitignore`). Para distribuir, anexe-o a um **GitHub Release
+  `mobile-v1.0`** (só com aprovação do Marcio), por exemplo:
+  `gh release create mobile-v1.0 app/build/outputs/apk/release/app-release.apk --target mobile --title "App mobile v1.0"`.
+
 ## Estrutura
 
 ```
+keystore/                         # keystore de DEMONSTRAÇÃO (D42) e keystore.properties
 app/src/main/
 ├── assets/fake/                  # dados e fotos do modo demonstração
 ├── java/br/com/talisma/imoveis/
