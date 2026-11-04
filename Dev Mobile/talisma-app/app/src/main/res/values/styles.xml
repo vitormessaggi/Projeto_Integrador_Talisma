@@ -178,6 +178,40 @@
         <item name="hintTextColor">@color/texto_secundario</item>
         <item name="errorTextColor">@color/erro</item>
     </style>
+    <!-- Formulários de conta (T06): rótulo Texto.Rotulo acima do campo sem hint flutuante, como nos protótipos -->
+    <style name="Campo.SemRotulo">
+        <item name="hintEnabled">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/espaco_12</item>
+    </style>
+    <style name="Texto.Rotulo.Campo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/espaco_4</item>
+    </style>
+    <!-- Dígito do código de verificação (6.5): caixa superficie 56dp, número grande centralizado -->
+    <style name="CampoDigito" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">@dimen/tamanho_digito_codigo</item>
+        <item name="android:layout_height">@dimen/tamanho_digito_codigo</item>
+        <item name="android:background">@drawable/fundo_digito_codigo</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <!-- Linha de contato (Fale com a imobiliária, D38): ícone borgonha à esquerda -->
+    <style name="Texto.Contato">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/espaco_12</item>
+        <item name="android:drawablePadding">@dimen/espaco_12</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="drawableTint">@color/borgonha_escuro</item>
+    </style>
+
     <!-- Spinner com a aparência do Campo (Home) -->
     <style name="CampoSpinner">
         <item name="android:background">@drawable/fundo_campo_spinner</item>

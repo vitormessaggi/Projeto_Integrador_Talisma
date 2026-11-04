@@ -38,5 +38,9 @@
     <dimen name="tamanho_icone_caracteristica">22dp</dimen>
     <dimen name="largura_coluna_paisagem">320dp</dimen>
 
+    <!-- Conta e visitas (T06) -->
+    <dimen name="tamanho_digito_codigo">56dp</dimen>
+    <dimen name="tamanho_foto_contato">64dp</dimen>
+
     <integer name="colunas_lista">1</integer>
 </resources>

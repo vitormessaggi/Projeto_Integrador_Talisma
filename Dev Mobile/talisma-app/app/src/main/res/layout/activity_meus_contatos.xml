@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Meus contatos com corretores (nova, D37, 6.5): toolbar "Meus contatos" e rvContatos com item_contato;
+    vazio "Você ainda não solicitou visitas" em estado_tela.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MeusContatosActivity">
+
+    <include
+        android:id="@+id/barraTopo"
+        layout="@layout/barra_topo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContatos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margem_tela"
+        android:paddingTop="@dimen/espaco_8"
+        android:paddingEnd="@dimen/margem_tela"
+        android:paddingBottom="@dimen/espaco_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo"
+        tools:listitem="@layout/item_contato" />
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
