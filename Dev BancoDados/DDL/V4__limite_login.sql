@@ -1,0 +1,1 @@
+ALTER TABLE usuario ADD COLUMN limitado_ate DATETIME(6) NULL;
