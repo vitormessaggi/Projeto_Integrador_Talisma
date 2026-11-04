@@ -11,6 +11,12 @@ val propriedadesLocais = Properties().apply {
 }
 val apiUrl: String = propriedadesLocais.getProperty("api.url", "http://10.0.2.2:8080")
 
+// Keystore de demonstração commitado (D42): uso só acadêmico, nunca na Play Store
+val pastaKeystore = rootProject.file("keystore")
+val propriedadesKeystore = Properties().apply {
+    pastaKeystore.resolve("keystore.properties").inputStream().use { load(it) }
+}
+
 android {
     namespace = "br.com.talisma.imoveis"
     compileSdk = 36
@@ -25,12 +31,22 @@ android {
         buildConfigField("String", "API_URL", "\"$apiUrl\"")
     }
 
+    signingConfigs {
+        create("demonstracao") {
+            storeFile = pastaKeystore.resolve(propriedadesKeystore.getProperty("storeFile"))
+            storePassword = propriedadesKeystore.getProperty("storePassword")
+            keyAlias = propriedadesKeystore.getProperty("keyAlias")
+            keyPassword = propriedadesKeystore.getProperty("keyPassword")
+        }
+    }
+
     buildFeatures {
         buildConfig = true
     }
 
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("demonstracao")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
