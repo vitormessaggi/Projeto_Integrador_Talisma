@@ -154,6 +154,9 @@
         <item name="strokeWidth">@dimen/largura_borda</item>
         <item name="android:textAppearance">@style/TextAppearance.Talisma.LabelLarge</item>
         <item name="android:minHeight">@dimen/altura_minima_toque</item>
+        <!-- Padding lateral menor: "Comprar" cabe na coluna de paisagem com fonte em 130% (T09) -->
+        <item name="android:paddingStart">@dimen/espaco_8</item>
+        <item name="android:paddingEnd">@dimen/espaco_8</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="cornerRadius">@dimen/raio_botao</item>

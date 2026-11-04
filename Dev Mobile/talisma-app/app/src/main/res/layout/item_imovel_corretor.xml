@@ -6,14 +6,16 @@
     android:id="@+id/cardImovel"
     style="@style/CartaoImovel"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/altura_cartao_lista"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/espaco_12"
     android:clickable="true"
     android:focusable="true">
 
+    <!-- Altura mínima de 112dp; cresce com a fonte do sistema (130%) em vez de sobrepor os textos (T09). -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/altura_cartao_lista">
 
         <ImageView
             android:id="@+id/imgCapa"
@@ -61,9 +63,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginTop="@dimen/espaco_4"
             android:layout_marginEnd="@dimen/espaco_12"
             android:layout_marginBottom="@dimen/espaco_12"
             android:drawablePadding="@dimen/espaco_4"
+            app:layout_constraintTop_toBottomOf="@id/txtLocalizacao"
+            app:layout_constraintVertical_bias="1"
             android:gravity="center_vertical"
             android:textColor="@color/borgonha"
             app:drawableStartCompat="@drawable/ic_galeria"

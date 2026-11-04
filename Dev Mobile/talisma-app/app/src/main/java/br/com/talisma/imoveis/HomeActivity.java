@@ -49,6 +49,8 @@ public class HomeActivity extends AppCompatActivity implements ImovelAdapter.Ouv
     private ImovelAdapter adapter;
     private View estado;
     private View banner;
+    /** Modo (demonstração ou API) dos destaques exibidos; se mudar no Perfil, recarrega ao voltar. */
+    private boolean modoCarregado;
     private Spinner spnCidade;
     private MaterialButtonToggleGroup tgFinalidade;
     private Spinner spnTipo;
@@ -102,6 +104,9 @@ public class HomeActivity extends AppCompatActivity implements ImovelAdapter.Ouv
     @Override
     protected void onResume() {
         super.onResume();
+        if (modoCarregado != Preferencias.modoDemonstracao(this)) {
+            carregar(); // o Modo demonstração foi alternado no Perfil: os destaques vêm da outra fonte (6.7)
+        }
         favoritoRepository.ids(new Tarefas.Callback<Set<Long>>() {
             @Override
             public void sucesso(Set<Long> ids) {
@@ -159,6 +164,7 @@ public class HomeActivity extends AppCompatActivity implements ImovelAdapter.Ouv
     // ---------------------------------------------------------------- destaques e opções
 
     private void carregar() {
+        modoCarregado = Preferencias.modoDemonstracao(this);
         EstadoTela.mostrar(estado, EstadoTela.Tipo.CARREGANDO, null);
         imovelRepository.destaques(new Tarefas.Callback<List<Imovel>>() {
             @Override

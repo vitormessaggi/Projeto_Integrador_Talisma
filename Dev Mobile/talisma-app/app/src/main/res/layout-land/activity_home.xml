@@ -118,6 +118,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espaco_12"
+                android:labelFor="@id/spnTipo"
                 android:text="@string/home_tipo_imovel"
                 app:layout_constraintEnd_toEndOf="@id/tgFinalidade"
                 app:layout_constraintStart_toStartOf="@id/tgFinalidade"
@@ -140,6 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espaco_12"
+                android:labelFor="@id/spnCidade"
                 android:text="@string/home_onde_morar"
                 app:layout_constraintEnd_toEndOf="@id/tgFinalidade"
                 app:layout_constraintStart_toStartOf="@id/tgFinalidade"
@@ -203,30 +205,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/txtTituloDestaques" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDestaques"
+    <!-- Rolagem vertical: em paisagem o cartão de destaque (220dp ou mais com fonte grande) não cabe na altura (T09). -->
+    <ScrollView
+        android:id="@+id/scrollDestaques"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/espaco_8"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/espaco_16"
-        android:paddingEnd="@dimen/espaco_16"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/scrollConteudo"
-        app:layout_constraintTop_toBottomOf="@id/txtTituloDestaques" />
+        app:layout_constraintTop_toBottomOf="@id/txtTituloDestaques">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDestaques"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/espaco_16"
+            android:paddingEnd="@dimen/espaco_16"
+            android:paddingBottom="@dimen/espaco_8"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </ScrollView>
 
     <include
         android:id="@+id/estadoTela"
         layout="@layout/estado_tela"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/rvDestaques"
+        app:layout_constraintBottom_toBottomOf="@id/scrollDestaques"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/rvDestaques"
-        app:layout_constraintTop_toTopOf="@id/rvDestaques" />
+        app:layout_constraintStart_toStartOf="@id/scrollDestaques"
+        app:layout_constraintTop_toTopOf="@id/scrollDestaques" />
 
     <include layout="@layout/barra_navegacao" />
 
