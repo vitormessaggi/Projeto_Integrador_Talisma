@@ -1,4 +1,4 @@
-CREATE TABLE lead (
+CREATE TABLE lead_contato (
  id BIGINT PRIMARY KEY AUTO_INCREMENT,
  cliente_id BIGINT NOT NULL,
  corretor_id BIGINT,
@@ -27,7 +27,7 @@ CREATE TABLE visita (
  versao BIGINT NOT NULL DEFAULT 0,
  CHECK(periodo IN ('MANHA','TARDE','NOITE')),
  CHECK(status IN ('PENDENTE','CONFIRMADA','CONCLUIDA','CANCELADA')),
- FOREIGN KEY(lead_id) REFERENCES lead(id)
+ FOREIGN KEY(lead_id) REFERENCES lead_contato(id)
 ) ENGINE=InnoDB;
 CREATE TABLE sessao (
  id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -65,7 +65,7 @@ CREATE TABLE notificacao (
  criada_em DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
  CHECK(status IN ('PENDENTE','ENVIADA','FALHOU')),
  FOREIGN KEY(usuario_id) REFERENCES usuario(id),
- FOREIGN KEY(lead_id) REFERENCES lead(id),
+ FOREIGN KEY(lead_id) REFERENCES lead_contato(id),
  INDEX idx_envio(status,proxima_tentativa)
 ) ENGINE=InnoDB;
 CREATE TABLE historico_imovel (
@@ -79,3 +79,4 @@ CREATE TABLE historico_imovel (
  FOREIGN KEY(autor_id) REFERENCES usuario(id),
  INDEX idx_historico(imovel_id,criado_em)
 ) ENGINE=InnoDB;
+
