@@ -13,8 +13,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +45,12 @@ import br.com.talisma.imoveis.util.Validacoes;
  * {@code sim_usuario} (D27); login errado incrementa {@code tentativas} e a 3ª falha bloqueia (RN-002,
  * 423); e-mail não verificado → 403; código de verificação sempre {@value #CODIGO_VERIFICACAO};
  * token {@code "simulado-" + id} (token inválido → 401 de sessão expirada). Visita PENDENTE vira
- * CONFIRMADA quando lida 2 min após {@code criada_em} (D37). Fotos (T07) entram na task seguinte.
+ * CONFIRMADA quando lida 2 min após {@code criada_em} (D37).
+ * <p>
+ * Fotos do corretor (T07, 2.5.2): imóveis do corretor logado (perfil CORRETOR, senão 403) e envio
+ * de foto, que copia o JPEG para {@code filesDir/}{@value #PASTA_FOTOS_ENVIADAS} e registra em
+ * {@code sim_foto}; toda leitura de imóvel acrescenta essas fotos ao fim de {@link Imovel#fotos}
+ * (Detalhe, Galeria e "Fotos atuais").
  */
 public class ServidorSimulado {
 
@@ -59,6 +68,11 @@ public class ServidorSimulado {
     private static final long CONFIRMAR_VISITA_MS = 2 * 60 * 1000;
     private static final String[] COLUNAS_VISITA =
             {"id", "imovel_id", "data", "periodo", "telefone", "mensagem", "status", "criada_em"};
+
+    /** Pasta em {@code filesDir} das fotos enviadas no modo simulado (6.7; declarada no FileProvider). */
+    public static final String PASTA_FOTOS_ENVIADAS = "fotos_enviadas";
+    /** Passos de progresso em que o atraso de rede do upload é dividido. */
+    private static final int PASSOS_UPLOAD = 10;
 
     private static List<Imovel> imoveisCarregados;
     private static boolean usuariosCopiados;
@@ -433,6 +447,98 @@ public class ServidorSimulado {
         return visita(db, id, visitaId);
     }
 
+    // ---------------------------------------------------------------- fotos do corretor (D3, D33, 2.5.2)
+
+    /** {@code GET /api/corretor/imoveis}: imóveis do corretor logado; conta que não é corretor → 403. */
+    public List<Imovel> imoveisDoCorretor(@Nullable String token) throws ApiException {
+        simularRede();
+        long corretorId = corretorDoToken(banco(), token);
+        List<Imovel> imoveis = new ArrayList<>();
+        for (Imovel i : carregarImoveis(context)) {
+            if (i.corretorId == corretorId) {
+                imoveis.add(copia(i));
+            }
+        }
+        return imoveis;
+    }
+
+    /**
+     * {@code POST /api/imoveis/{id}/fotos} → {@code { url }} (aqui o caminho local da cópia).
+     * Só o corretor do imóvel envia (403); imóvel inexistente → 404. O atraso de rede é dividido em
+     * passos para o {@code progresso} andar como num upload real; falha de rede simulada → erro de rede.
+     */
+    public String enviarFoto(@Nullable String token, long imovelId, File jpeg,
+                             @Nullable Api.Progresso progresso) throws ApiException {
+        if (Preferencias.simularFalhaRede(context)) {
+            esperar(ATRASO_MS);
+            throw ApiException.semConexao(null);
+        }
+        SQLiteDatabase db = banco();
+        long corretorId = corretorDoToken(db, token);
+        Imovel imovel = imovelDoSeed(imovelId);
+        if (imovel == null) {
+            throw new ApiException(404, texto(R.string.visita_erro_imovel_nao_encontrado));
+        }
+        if (imovel.corretorId != corretorId) {
+            throw new ApiException(403, texto(R.string.foto_erro_imovel_de_outro_corretor));
+        }
+        for (int passo = 0; passo < PASSOS_UPLOAD; passo++) {
+            if (progresso != null) {
+                progresso.atualizar(passo * 100 / PASSOS_UPLOAD);
+            }
+            esperar(ATRASO_MS / PASSOS_UPLOAD);
+        }
+        File pasta = new File(context.getFilesDir(), PASTA_FOTOS_ENVIADAS);
+        if (!pasta.exists() && !pasta.mkdirs()) {
+            throw new ApiException(500, null);
+        }
+        File destino = new File(pasta, "imovel_" + imovelId + "_" + System.currentTimeMillis() + ".jpg");
+        try (InputStream in = new FileInputStream(jpeg); OutputStream out = new FileOutputStream(destino)) {
+            byte[] buffer = new byte[8192];
+            int lidos;
+            while ((lidos = in.read(buffer)) != -1) {
+                out.write(buffer, 0, lidos);
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "Falha ao gravar foto enviada: " + e.getClass().getSimpleName());
+            if (destino.exists() && !destino.delete()) {
+                Log.d(TAG, "Cópia incompleta não removida");
+            }
+            throw new ApiException(500, null, e);
+        }
+        ContentValues valores = new ContentValues();
+        valores.put("imovel_id", imovelId);
+        valores.put("caminho", destino.getAbsolutePath());
+        valores.put("enviada_em", System.currentTimeMillis());
+        db.insertOrThrow(BancoLocal.SIM_FOTO, null, valores);
+        if (progresso != null) {
+            progresso.atualizar(100);
+        }
+        return destino.getAbsolutePath();
+    }
+
+    /** Id do usuário do token, exigindo perfil CORRETOR (403 caso contrário). */
+    private long corretorDoToken(SQLiteDatabase db, @Nullable String token) throws ApiException {
+        long id = usuarioDoToken(db, token);
+        if (!Usuario.CORRETOR.equals(usuario(db, id).perfil)) {
+            throw new ApiException(403, texto(R.string.conta_erro_nao_corretor));
+        }
+        return id;
+    }
+
+    /** Caminhos das fotos enviadas para o imóvel, da mais antiga para a mais nova. */
+    private List<String> fotosEnviadas(long imovelId) {
+        List<String> caminhos = new ArrayList<>();
+        SQLiteDatabase db = BancoLocal.instancia(context).getReadableDatabase();
+        try (Cursor c = db.query(BancoLocal.SIM_FOTO, new String[]{"caminho"}, "imovel_id = ?",
+                new String[]{String.valueOf(imovelId)}, null, null, "enviada_em, id")) {
+            while (c.moveToNext()) {
+                caminhos.add(c.getString(0));
+            }
+        }
+        return caminhos;
+    }
+
     // ---------------------------------------------------------------- internos de contas e visitas
 
     private SQLiteDatabase banco() throws ApiException {
@@ -618,20 +724,29 @@ public class ServidorSimulado {
 
     /** Atraso de rede e, se ligado no Modo demonstração, falha de conexão. */
     private void simularRede() throws ApiException {
-        try {
-            Thread.sleep(ATRASO_MS);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        esperar(ATRASO_MS);
         if (Preferencias.simularFalhaRede(context)) {
             throw ApiException.semConexao(null);
         }
     }
 
-    /** Cópia do imóvel do seed: quem recebe pode alterar (ex.: {@code distanciaKm}) sem afetar o seed. */
-    private static Imovel copia(Imovel i) throws ApiException {
+    private static void esperar(long ms) {
         try {
-            return Imovel.deJson(i.paraJson());
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
+     * Cópia do imóvel do seed com as fotos enviadas pelo corretor ao fim de {@code fotos} (6.7): quem
+     * recebe pode alterar (ex.: {@code distanciaKm}) sem afetar o seed.
+     */
+    private Imovel copia(Imovel i) throws ApiException {
+        try {
+            Imovel copia = Imovel.deJson(i.paraJson());
+            copia.fotos.addAll(fotosEnviadas(i.id));
+            return copia;
         } catch (JSONException e) {
             throw new ApiException(500, null, e);
         }

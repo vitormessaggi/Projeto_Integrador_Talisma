@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fotos do corretor — dados (T07, EAP 2.5.2). Mensagens do FotoRepository e do ServidorSimulado. -->
+    <string name="foto_erro_imovel_de_outro_corretor">Este imóvel não é seu.</string>
+    <string name="foto_erro_arquivo">Não foi possível ler esta foto.</string>
+</resources>
