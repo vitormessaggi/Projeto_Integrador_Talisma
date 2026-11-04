@@ -34,6 +34,9 @@ public final class BarraNavegacao {
         barra.setOnItemSelectedListener(item -> {
             if (item.getItemId() != itemAtual) {
                 abrir(activity, item.getItemId());
+                // false: esta tela continua marcando a própria aba (ao voltar a ela com
+                // REORDER_TO_FRONT o onCreate não roda de novo e a seleção ficaria errada)
+                return false;
             }
             return true;
         });

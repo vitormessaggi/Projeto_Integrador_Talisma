@@ -35,6 +35,17 @@
         <item name="textInputStyle">@style/Campo</item>
         <item name="chipStyle">@style/Chip.Filtro</item>
         <item name="bottomNavigationStyle">@style/BarraNavegacao</item>
+        <item name="bottomSheetDialogTheme">@style/Tema.Sheet</item>
+        <!-- Ação do Snackbar ("Desfazer") em branco sobre o fundo escuro -->
+        <item name="colorPrimaryInverse">@color/branco</item>
+    </style>
+
+    <!-- Sheets de filtro (D32) com fundo branco, sem a tonalidade do Material3 -->
+    <style name="Tema.Sheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Sheet</item>
+    </style>
+    <style name="Sheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/branco</item>
     </style>
 
     <style name="Theme.Talisma" parent="Base.Theme.Talisma">

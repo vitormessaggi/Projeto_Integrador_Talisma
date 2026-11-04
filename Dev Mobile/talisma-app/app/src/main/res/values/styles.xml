@@ -261,6 +261,18 @@
         <item name="cardCornerRadius">@dimen/raio_cartao</item>
     </style>
 
+    <!-- Característica do Detalhe (6.5): caixa superficie com ícone em cima e "3 / Quartos" em duas linhas -->
+    <style name="Caracteristica" parent="Texto.Legenda">
+        <item name="android:background">@drawable/fundo_caracteristica</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:drawablePadding">@dimen/espaco_4</item>
+        <item name="drawableTint">@color/borgonha</item>
+        <item name="android:paddingTop">@dimen/espaco_8</item>
+        <item name="android:paddingBottom">@dimen/espaco_8</item>
+        <item name="android:lines">2</item>
+    </style>
+
     <!-- Progresso borgonha (estado_tela, rodapé da paginação) -->
     <style name="Progresso" parent="Widget.AppCompat.ProgressBar">
         <item name="android:indeterminateTint">@color/borgonha</item>

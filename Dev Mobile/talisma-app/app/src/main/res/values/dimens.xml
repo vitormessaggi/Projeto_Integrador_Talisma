@@ -34,6 +34,9 @@
     <dimen name="tamanho_logo_auth">48dp</dimen>
     <dimen name="tamanho_avatar">72dp</dimen>
     <dimen name="tamanho_icone_avatar">40dp</dimen>
+    <dimen name="altura_max_lista_sheet">320dp</dimen>
+    <dimen name="tamanho_icone_caracteristica">22dp</dimen>
+    <dimen name="largura_coluna_paisagem">320dp</dimen>
 
     <integer name="colunas_lista">1</integer>
 </resources>

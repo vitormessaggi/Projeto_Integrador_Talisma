@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    CartaoImovel horizontal (6.4): foto à esquerda 120dp, título, localização e preço à direita;
+    coração no canto (favoritos) e "a X km" quando "Perto de mim" está ativo (D15).
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardImovel"
+    style="@style/CartaoImovel"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/altura_cartao_lista"
+    android:layout_marginBottom="@dimen/espaco_12"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgCapa"
+            android:layout_width="@dimen/largura_foto_cartao"
+            android:layout_height="0dp"
+            android:background="@color/placeholder_foto"
+            android:contentDescription="@string/desc_foto_imovel"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTitulo"
+            style="@style/Texto.TituloCartao"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginTop="@dimen/espaco_12"
+            android:layout_marginEnd="@dimen/espaco_8"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintEnd_toStartOf="@id/btnFavorito"
+            app:layout_constraintStart_toEndOf="@id/imgCapa"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Casa na Praia" />
+
+        <TextView
+            android:id="@+id/txtLocalizacao"
+            style="@style/Texto.Legenda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginEnd="@dimen/espaco_12"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgCapa"
+            app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+            tools:text="São Paulo, Praia Grande" />
+
+        <TextView
+            android:id="@+id/txtPreco"
+            style="@style/Texto.Preco"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginEnd="@dimen/espaco_8"
+            android:layout_marginBottom="@dimen/espaco_12"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/txtDistancia"
+            app:layout_constraintStart_toEndOf="@id/imgCapa"
+            tools:text="R$ 220.000" />
+
+        <TextView
+            android:id="@+id/txtDistancia"
+            style="@style/Texto.Legenda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/espaco_12"
+            android:visibility="gone"
+            app:layout_constraintBaseline_toBaselineOf="@id/txtPreco"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="a 1,2 km"
+            tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/btnFavorito"
+            android:layout_width="@dimen/altura_minima_toque"
+            android:layout_height="@dimen/altura_minima_toque"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/desc_favoritar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_favorito"
+            app:tint="@color/borgonha" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
