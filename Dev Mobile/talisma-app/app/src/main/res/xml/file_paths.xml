@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FileProvider (2.1.3): fotos tiradas pela câmera do corretor (cacheDir/fotos) e enviadas (filesDir/fotos_enviadas). -->
+<paths>
+    <cache-path name="fotos" path="fotos/" />
+    <files-path name="fotos_enviadas" path="fotos_enviadas/" />
+</paths>

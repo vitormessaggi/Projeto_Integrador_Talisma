@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Login (protótipo Login do cliente, 6.5, D33): fundo borgonha, CartaoAuth com "Acesse sua conta", E-mail,
+    Senha (olho), Entrar, Esqueci minha senha, Cadastre-se, divisória e "É corretor? Acesse a área interna".
+    Modo CORRETOR: título "Área do corretor", esconde os links e mostra "Sou cliente". Paisagem em layout-land.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/borgonha"
+    tools:context=".LoginActivity">
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAuth"
+                style="@style/CartaoAuth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/espaco_24">
+
+                    <include layout="@layout/cabecalho_auth" />
+
+                    <TextView
+                        android:id="@+id/txtSubtitulo"
+                        style="@style/Texto.Corpo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espaco_8"
+                        android:layout_marginBottom="@dimen/espaco_24"
+                        android:gravity="center"
+                        android:text="@string/login_subtitulo"
+                        android:textColor="@color/texto_secundario" />
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtEmail"
+                        android:text="@string/campo_email" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmail"
+                        style="@style/Campo.SemRotulo">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="emailAddress"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtSenha"
+                        android:text="@string/campo_senha" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilSenha"
+                        style="@style/Campo.SemRotulo"
+                        app:endIconMode="password_toggle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="password"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnEntrar"
+                        style="@style/Botao.Primario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espaco_8"
+                        android:text="@string/login_entrar" />
+
+                    <TextView
+                        android:id="@+id/txtEsqueciSenha"
+                        style="@style/Texto.Link"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/altura_minima_toque"
+                        android:layout_marginTop="@dimen/espaco_8"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:text="@string/login_esqueci_senha" />
+
+                    <LinearLayout
+                        android:id="@+id/linhaCadastro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:minHeight="@dimen/altura_minima_toque"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/Texto.Corpo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_marginEnd="@dimen/espaco_4"
+                            android:text="@string/login_sem_conta" />
+
+                        <TextView
+                            android:id="@+id/txtCadastrar"
+                            style="@style/Texto.Link"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:text="@string/login_cadastre_se" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/vwDivisoria"
+                        style="@style/Divisoria"
+                        android:layout_marginTop="@dimen/espaco_8"
+                        android:layout_marginBottom="@dimen/espaco_8" />
+
+                    <LinearLayout
+                        android:id="@+id/linhaCorretor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:minHeight="@dimen/altura_minima_toque"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/Texto.Corpo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_marginEnd="@dimen/espaco_4"
+                            android:text="@string/login_e_corretor" />
+
+                        <TextView
+                            android:id="@+id/txtAreaInterna"
+                            style="@style/Texto.Link"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:text="@string/login_area_interna" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtSouCliente"
+                        style="@style/Texto.Link"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/altura_minima_toque"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:text="@string/login_sou_cliente"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Verificar e-mail em paisagem (D20): cabeçalho à esquerda; código, Enviar, Reenviar e Cancelar à direita.
+    Mesmos ids do retrato.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/borgonha"
+    tools:context=".VerificarEmailActivity">
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/espaco_16">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAuth"
+                style="@style/CartaoAuth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/espaco_24"
+                    android:paddingTop="@dimen/espaco_8"
+                    android:paddingEnd="@dimen/espaco_24"
+                    android:paddingBottom="@dimen/espaco_24">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/btnVoltar"
+                            android:layout_width="@dimen/altura_minima_toque"
+                            android:layout_height="@dimen/altura_minima_toque"
+                            android:layout_gravity="start"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/desc_voltar"
+                            app:srcCompat="@drawable/ic_voltar"
+                            app:tint="@color/borgonha" />
+
+                        <include layout="@layout/cabecalho_auth" />
+
+                        <TextView
+                            android:id="@+id/txtTituloForm"
+                            style="@style/Texto.TituloSecao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/espaco_16"
+                            android:gravity="center"
+                            android:text="@string/verificar_titulo" />
+
+                        <TextView
+                            android:id="@+id/txtInstrucao"
+                            style="@style/Texto.Corpo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/espaco_8"
+                            android:gravity="center"
+                            android:textColor="@color/texto_secundario"
+                            tools:text="@string/verificar_texto" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/espaco_24"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/linhaCodigo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/edtDigito1"
+                                style="@style/CampoDigito"
+                            android:hint="@string/verificar_digito_dica"
+                            android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/edtDigito2"
+                                style="@style/CampoDigito"
+                                android:layout_marginStart="@dimen/espaco_12"
+                            android:hint="@string/verificar_digito_dica"
+                            android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/edtDigito3"
+                                style="@style/CampoDigito"
+                                android:layout_marginStart="@dimen/espaco_12"
+                            android:hint="@string/verificar_digito_dica"
+                            android:importantForAutofill="no" />
+
+                            <EditText
+                                android:id="@+id/edtDigito4"
+                                style="@style/CampoDigito"
+                                android:layout_marginStart="@dimen/espaco_12"
+                            android:hint="@string/verificar_digito_dica"
+                            android:importantForAutofill="no"
+                                android:imeOptions="actionDone" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtErroCodigo"
+                            style="@style/Texto.Legenda"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/espaco_8"
+                            android:gravity="center"
+                            android:textColor="@color/erro"
+                            android:visibility="gone"
+                            tools:text="@string/conta_erro_codigo_invalido" />
+
+                        <Button
+                            android:id="@+id/btnEnviar"
+                            style="@style/Botao.Primario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/espaco_16"
+                            android:text="@string/verificar_enviar" />
+
+                        <LinearLayout
+                            android:id="@+id/linhaReenviar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:minHeight="@dimen/altura_minima_toque"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/Texto.Corpo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:layout_marginEnd="@dimen/espaco_4"
+                                android:text="@string/verificar_nao_recebeu" />
+
+                            <TextView
+                                android:id="@+id/txtReenviar"
+                                style="@style/Texto.Link"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center"
+                                android:text="@string/verificar_reenviar" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtCancelar"
+                            style="@style/Texto.Link"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/altura_minima_toque"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:text="@string/verificar_cancelar" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

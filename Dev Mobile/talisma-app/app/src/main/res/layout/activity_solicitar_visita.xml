@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Solicitar visita (nova, D30, 6.5): toolbar "Solicitar visita"; cartão-resumo do imóvel (foto 64dp, título,
+    preço); Data preferida (MaterialDatePicker, a partir de amanhã); Período (chips Manhã/Tarde/Noite);
+    Telefone/WhatsApp (obrigatório, pré-preenchido); CPF (só se o usuário não tiver); Mensagem (300 caracteres)
+    e Enviar solicitação. Exige login (D9); carrega imóvel e perfil com estado_tela.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SolicitarVisitaActivity">
+
+    <include
+        android:id="@+id/barraTopo"
+        layout="@layout/barra_topo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardImovel"
+                style="@style/CartaoImovel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espaco_24">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/espaco_12">
+
+                    <ImageView
+                        android:id="@+id/imgCapa"
+                        android:layout_width="@dimen/tamanho_foto_contato"
+                        android:layout_height="@dimen/tamanho_foto_contato"
+                        android:background="@color/placeholder_foto"
+                        android:contentDescription="@string/desc_foto_imovel"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtTitulo"
+                        style="@style/Texto.TituloCartao"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/espaco_12"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        app:layout_constraintBottom_toTopOf="@id/txtPreco"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imgCapa"
+                        app:layout_constraintTop_toTopOf="@id/imgCapa"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="Casa na Praia" />
+
+                    <TextView
+                        android:id="@+id/txtPreco"
+                        style="@style/Texto.Preco"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/espaco_12"
+                        app:layout_constraintBottom_toBottomOf="@id/imgCapa"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imgCapa"
+                        app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+                        tools:text="R$ 220.000" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/Texto.Rotulo.Campo"
+                android:labelFor="@id/edtData"
+                android:text="@string/visita_data" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilData"
+                style="@style/Campo.SemRotulo"
+                app:endIconDrawable="@drawable/ic_calendario"
+                app:endIconMode="custom"
+                app:endIconTint="@color/borgonha">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:importantForAutofill="no"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    tools:text="12/11/2026" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Texto.Rotulo.Campo"
+                android:text="@string/visita_periodo" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/grupoPeriodo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espaco_12"
+                app:selectionRequired="false"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipManha"
+                    style="@style/Chip.Filtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visita_manha" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTarde"
+                    style="@style/Chip.Filtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visita_tarde" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipNoite"
+                    style="@style/Chip.Filtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visita_noite" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/txtErroPeriodo"
+                style="@style/Texto.Legenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espaco_12"
+                android:text="@string/visita_periodo_obrigatorio"
+                android:textColor="@color/erro"
+                android:visibility="gone" />
+
+            <TextView
+                style="@style/Texto.Rotulo.Campo"
+                android:labelFor="@id/edtTelefone"
+                android:text="@string/campo_telefone" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilTelefone"
+                style="@style/Campo.SemRotulo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtTelefone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="phone"
+                    android:inputType="phone"
+                    android:maxLength="15"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/txtRotuloCpf"
+                style="@style/Texto.Rotulo.Campo"
+                android:labelFor="@id/edtCpf"
+                android:text="@string/campo_cpf"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCpf"
+                style="@style/Campo.SemRotulo"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtCpf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="phone"
+                    android:maxLength="14"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Texto.Rotulo.Campo"
+                android:labelFor="@id/edtMensagem"
+                android:text="@string/visita_mensagem" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilMensagem"
+                style="@style/Campo.SemRotulo"
+                app:counterEnabled="true"
+                app:counterMaxLength="300">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtMensagem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:maxLength="300"
+                    android:minLines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnEnviarSolicitacao"
+                style="@style/Botao.Primario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_12"
+                android:text="@string/visita_enviar" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

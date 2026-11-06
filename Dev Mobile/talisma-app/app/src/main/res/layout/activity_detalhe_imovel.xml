@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Detalhe do imóvel (protótipo Detalhe, 6.5, D4, D38): barra com voltar, "Detalhes", compartilhar e coração;
+    banner offline; conteúdo rolável (foto 16:10, miniaturas, título, preço, 4 características, descrição com
+    Ver mais, Localização com endereço — mapa osmdroid entra na Fase 5) e rodapé fixo com o CTA.
+    Paisagem em layout-land/activity_detalhe_imovel.xml.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetalheImovelActivity">
+
+    <ImageButton
+        android:id="@+id/btnVoltar"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/desc_voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_voltar"
+        app:tint="@color/borgonha" />
+
+    <TextView
+        android:id="@+id/txtTituloTela"
+        style="@style/Texto.TituloToolbar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:gravity="center"
+        android:text="@string/detalhe_titulo"
+        app:layout_constraintEnd_toStartOf="@id/btnCompartilhar"
+        app:layout_constraintStart_toEndOf="@id/btnVoltar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnCompartilhar"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/desc_compartilhar"
+        app:layout_constraintEnd_toStartOf="@id/btnFavorito"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_compartilhar"
+        app:tint="@color/borgonha" />
+
+    <ImageButton
+        android:id="@+id/btnFavorito"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/desc_favoritar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_favorito"
+        app:tint="@color/borgonha" />
+
+    <include
+        android:id="@+id/txtBannerOffline"
+        layout="@layout/banner_offline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnVoltar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/vwRodape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtBannerOffline">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/conteudoDetalhe"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/espaco_24">
+
+            <ImageView
+                android:id="@+id/imgPrincipal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/placeholder_foto"
+                android:contentDescription="@string/desc_abrir_galeria"
+                android:foreground="?attr/selectableItemBackground"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="16:10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMiniaturas"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/tamanho_miniatura"
+                android:layout_marginTop="@dimen/espaco_12"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margem_tela"
+                android:paddingEnd="@dimen/margem_tela"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgPrincipal" />
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                style="@style/Texto.TituloTela"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_16"
+                android:layout_marginEnd="@dimen/margem_tela"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvMiniaturas"
+                tools:text="Apartamento São Caetano" />
+
+            <TextView
+                android:id="@+id/txtPreco"
+                style="@style/Texto.Preco.Detalhe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:layout_marginEnd="@dimen/margem_tela"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+                tools:text="R$ 222.999" />
+
+            <TextView
+                android:id="@+id/txtLocalizacao"
+                style="@style/Texto.Legenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginEnd="@dimen/margem_tela"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPreco"
+                tools:text="Centro, São Caetano do Sul" />
+
+            <TextView
+                android:id="@+id/txtQuartos"
+                style="@style/Caracteristica"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_16"
+                android:layout_marginEnd="@dimen/espaco_8"
+                app:drawableTopCompat="@drawable/ic_cama"
+                app:layout_constraintEnd_toStartOf="@id/txtBanheiros"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLocalizacao"
+                tools:text="3\nQuartos" />
+
+            <TextView
+                android:id="@+id/txtBanheiros"
+                style="@style/Caracteristica"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/espaco_8"
+                app:drawableTopCompat="@drawable/ic_banheira"
+                app:layout_constraintEnd_toStartOf="@id/txtVagas"
+                app:layout_constraintStart_toEndOf="@id/txtQuartos"
+                app:layout_constraintTop_toTopOf="@id/txtQuartos"
+                tools:text="2\nBanheiros" />
+
+            <TextView
+                android:id="@+id/txtVagas"
+                style="@style/Caracteristica"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/espaco_8"
+                app:drawableTopCompat="@drawable/ic_carro"
+                app:layout_constraintEnd_toStartOf="@id/txtArea"
+                app:layout_constraintStart_toEndOf="@id/txtBanheiros"
+                app:layout_constraintTop_toTopOf="@id/txtQuartos"
+                tools:text="1\nVagas" />
+
+            <TextView
+                android:id="@+id/txtArea"
+                style="@style/Caracteristica"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margem_tela"
+                app:drawableTopCompat="@drawable/ic_area"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtVagas"
+                app:layout_constraintTop_toTopOf="@id/txtQuartos"
+                tools:text="65 m²\nÁrea" />
+
+            <TextView
+                android:id="@+id/txtTituloDescricao"
+                style="@style/Texto.TituloCartao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_24"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:text="@string/detalhe_descricao"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtQuartos" />
+
+            <TextView
+                android:id="@+id/txtDescricao"
+                style="@style/Texto.Corpo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:ellipsize="end"
+                android:maxLines="4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTituloDescricao"
+                tools:text="[Descrição do imóvel cadastrada pelo corretor]" />
+
+            <TextView
+                android:id="@+id/txtVerMais"
+                style="@style/Texto.Link"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/altura_minima_toque"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:text="@string/detalhe_ver_mais"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDescricao" />
+
+            <TextView
+                android:id="@+id/txtTituloLocalizacao"
+                style="@style/Texto.TituloCartao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:text="@string/detalhe_localizacao"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtVerMais" />
+
+            <TextView
+                android:id="@+id/txtEndereco"
+                style="@style/Texto.Corpo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:drawablePadding="@dimen/espaco_8"
+                app:drawableStartCompat="@drawable/ic_localizacao"
+                app:drawableTint="@color/borgonha"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTituloLocalizacao"
+                tools:text="Centro, São Caetano do Sul - SP" />
+
+            <!-- Mapa osmdroid (D14, 2.5.3): marcador no imóvel, zoom 15; some quando não há coordenadas -->
+            <org.osmdroid.views.MapView
+                android:id="@+id/mapa"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/altura_mapa"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:contentDescription="@string/desc_mapa"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtEndereco"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtAtribuicaoMapa"
+                style="@style/Texto.Legenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:text="@string/mapa_atribuicao"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mapa"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtBannerOffline" />
+
+    <View
+        android:id="@+id/vwRodape"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/largura_borda"
+        android:background="@color/borda"
+        app:layout_constraintBottom_toTopOf="@id/btnInteresse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnInteresse"
+        style="@style/Botao.Primario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_12"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:text="@string/detalhe_comprar_agora"
+        app:layout_constraintBottom_toTopOf="@id/txtLegendaCta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtLegendaCta"
+        style="@style/Texto.Legenda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_8"
+        android:layout_marginBottom="@dimen/espaco_12"
+        android:gravity="center"
+        android:text="@string/detalhe_legenda_cta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

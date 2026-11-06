@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Foto em tela cheia da Galeria (6.5): fundo preto, deslize horizontal com PagerSnapHelper. -->
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imgFoto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:contentDescription="@string/desc_foto_imovel"
+    android:scaleType="fitCenter" />

@@ -1,0 +1,317 @@
+<resources>
+    <!-- ===== Tipografia Poppins (6.4) ===== -->
+    <style name="TextAppearance.Talisma.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+    <style name="TextAppearance.Talisma.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+    <style name="TextAppearance.Talisma.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+    <style name="TextAppearance.Talisma.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextAppearance.Talisma.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+    <style name="TextAppearance.Talisma.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+    <style name="TextAppearance.Talisma.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+    </style>
+    <style name="TextAppearance.Talisma.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+    </style>
+    <style name="TextAppearance.Talisma.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <!-- Estilos de texto aplicados com style="@style/Texto.X" nos TextViews -->
+    <style name="Texto">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Texto.Destaque">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+    <style name="Texto.TituloTela">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="Texto.TituloToolbar">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Texto.TituloSecao">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/borgonha</item>
+    </style>
+    <style name="Texto.TituloCartao">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="Texto.Preco">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/borgonha</item>
+    </style>
+    <style name="Texto.Preco.Detalhe">
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="Texto.Rotulo">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Texto.Corpo" />
+    <style name="Texto.Legenda">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/texto_secundario</item>
+    </style>
+    <style name="Texto.Link">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textColor">@color/borgonha_claro</item>
+    </style>
+    <style name="Texto.Marca">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="Texto.MarcaAuth">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="Texto.ItemMenu">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- ===== Botões (6.4) ===== -->
+    <style name="Botao.Primario" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/botao_primario_fundo</item>
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:textAppearance">@style/TextAppearance.Talisma.LabelLarge</item>
+        <item name="android:minHeight">@dimen/altura_botao</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/raio_botao</item>
+        <item name="rippleColor">@color/borgonha_escuro</item>
+    </style>
+    <style name="Botao.Contorno" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/borgonha</item>
+        <item name="strokeWidth">@dimen/largura_borda</item>
+        <item name="android:textColor">@color/borgonha</item>
+        <item name="android:textAppearance">@style/TextAppearance.Talisma.LabelLarge</item>
+        <item name="android:minHeight">@dimen/altura_botao</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/raio_botao</item>
+        <item name="rippleColor">@color/superficie</item>
+    </style>
+    <!-- Variante para fundo borgonha (Perfil deslogado, D31) -->
+    <style name="Botao.Primario.Branco">
+        <item name="backgroundTint">@color/branco</item>
+        <item name="android:textColor">@color/borgonha</item>
+        <item name="rippleColor">@color/superficie</item>
+    </style>
+    <style name="Botao.Contorno.Branco">
+        <item name="strokeColor">@color/branco</item>
+        <item name="android:textColor">@color/branco</item>
+        <item name="rippleColor">@color/borgonha_claro</item>
+    </style>
+    <style name="Botao.Texto" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/borgonha</item>
+        <item name="android:textAppearance">@style/TextAppearance.Talisma.LabelLarge</item>
+    </style>
+    <style name="Botao.Icone" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">@color/texto</item>
+        <item name="android:minWidth">@dimen/altura_minima_toque</item>
+        <item name="android:minHeight">@dimen/altura_minima_toque</item>
+    </style>
+
+    <!-- Abas: par de botões num MaterialButtonToggleGroup (6.4). Selecionado borgonha/branco. -->
+    <style name="Abas" parent="Widget.Material3.MaterialButtonToggleGroup">
+        <item name="singleSelection">true</item>
+        <item name="selectionRequired">true</item>
+    </style>
+    <!-- Aba sobre cartão branco (Home): não selecionada = branco com borda e texto borgonha -->
+    <style name="Abas.Botao" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/aba_fundo</item>
+        <item name="android:textColor">@color/aba_texto</item>
+        <item name="strokeColor">@color/borgonha</item>
+        <item name="strokeWidth">@dimen/largura_borda</item>
+        <item name="android:textAppearance">@style/TextAppearance.Talisma.LabelLarge</item>
+        <item name="android:minHeight">@dimen/altura_minima_toque</item>
+        <!-- Padding lateral menor: "Comprar" cabe na coluna de paisagem com fonte em 130% (T09) -->
+        <item name="android:paddingStart">@dimen/espaco_8</item>
+        <item name="android:paddingEnd">@dimen/espaco_8</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/raio_botao</item>
+        <item name="rippleColor">@color/superficie</item>
+    </style>
+    <!-- Aba em fundo branco (Imóveis): não selecionada = cinza superficie com texto escuro -->
+    <style name="Abas.Botao.Cinza">
+        <item name="backgroundTint">@color/aba_fundo_cinza</item>
+        <item name="android:textColor">@color/aba_texto_cinza</item>
+        <item name="strokeColor">@color/aba_fundo_cinza</item>
+    </style>
+
+    <!-- Campo: TextInputLayout OutlinedBox, fundo superficie, borda borda, raio 8dp (6.4) -->
+    <style name="Campo" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/superficie</item>
+        <item name="boxStrokeColor">@color/campo_borda</item>
+        <item name="boxStrokeWidth">@dimen/largura_borda</item>
+        <item name="boxCornerRadiusTopStart">@dimen/raio_campo</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/raio_campo</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/raio_campo</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/raio_campo</item>
+        <item name="hintTextColor">@color/texto_secundario</item>
+        <item name="errorTextColor">@color/erro</item>
+    </style>
+    <!-- Formulários de conta (T06): rótulo Texto.Rotulo acima do campo sem hint flutuante, como nos protótipos -->
+    <style name="Campo.SemRotulo">
+        <item name="hintEnabled">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/espaco_12</item>
+    </style>
+    <style name="Texto.Rotulo.Campo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/espaco_4</item>
+    </style>
+    <!-- Dígito do código de verificação (6.5): caixa superficie 56dp, número grande centralizado -->
+    <style name="CampoDigito" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">@dimen/tamanho_digito_codigo</item>
+        <item name="android:layout_height">@dimen/tamanho_digito_codigo</item>
+        <item name="android:background">@drawable/fundo_digito_codigo</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <!-- Linha de contato (Fale com a imobiliária, D38): ícone borgonha à esquerda -->
+    <style name="Texto.Contato">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/espaco_12</item>
+        <item name="android:drawablePadding">@dimen/espaco_12</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="drawableTint">@color/borgonha_escuro</item>
+    </style>
+
+    <!-- Spinner com a aparência do Campo (Home) -->
+    <style name="CampoSpinner">
+        <item name="android:background">@drawable/fundo_campo_spinner</item>
+        <item name="android:minHeight">@dimen/altura_campo</item>
+        <item name="android:paddingStart">@dimen/espaco_16</item>
+        <item name="android:paddingEnd">@dimen/espaco_16</item>
+    </style>
+
+    <!-- Chip.Filtro: contorno borda, texto 13sp; ativo (checked): fundo borgonha, texto branco (6.4, D32) -->
+    <style name="Chip.Filtro" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_fundo</item>
+        <item name="android:textColor">@color/chip_texto</item>
+        <item name="chipStrokeColor">@color/chip_borda</item>
+        <item name="chipStrokeWidth">@dimen/largura_borda</item>
+        <item name="chipCornerRadius">@dimen/raio_chip</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="rippleColor">@color/superficie</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+    </style>
+
+    <!-- ItemMenu (Perfil): linha de 56dp, texto 15sp, seta borgonha, divisória borda -->
+    <style name="ItemMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/altura_item_menu</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/margem_tela</item>
+        <item name="android:paddingEnd">@dimen/margem_tela</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:drawableEnd">@drawable/ic_seta_direita</item>
+        <item name="android:drawableTint">@color/borgonha</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+    <style name="Divisoria">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/largura_borda</item>
+        <item name="android:background">@color/borda</item>
+    </style>
+
+    <!-- Bottom nav: fundo branco, ícones outline, ativo borgonha com rótulo SemiBold (6.4) -->
+    <style name="BarraNavegacao" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/branco</item>
+        <item name="backgroundTint">@color/branco</item>
+        <item name="itemIconTint">@color/nav_item</item>
+        <item name="itemTextColor">@color/nav_item</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Talisma.NavAtivo</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Talisma.NavInativo</item>
+        <item name="itemRippleColor">@color/superficie</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="elevation">0dp</item>
+        <!-- O inset da barra do sistema já é aplicado em R.id.main (D7); BarraNavegacao também anula o listener -->
+        <item name="paddingBottomSystemWindowInsets">false</item>
+    </style>
+    <style name="TextAppearance.Talisma.NavAtivo" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TextAppearance.Talisma.NavInativo" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- Cartões (6.4) -->
+    <style name="CartaoImovel" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/superficie</item>
+        <item name="cardCornerRadius">@dimen/raio_cartao</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="CartaoDestaque" parent="CartaoImovel" />
+    <style name="CartaoAuth" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/branco</item>
+        <item name="cardCornerRadius">@dimen/raio_cartao_auth</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="CartaoBusca" parent="CartaoAuth">
+        <item name="cardCornerRadius">@dimen/raio_cartao</item>
+    </style>
+
+    <!-- Característica do Detalhe (6.5): caixa superficie com ícone em cima e "3 / Quartos" em duas linhas -->
+    <style name="Caracteristica" parent="Texto.Legenda">
+        <item name="android:background">@drawable/fundo_caracteristica</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:drawablePadding">@dimen/espaco_4</item>
+        <item name="drawableTint">@color/borgonha</item>
+        <item name="android:paddingTop">@dimen/espaco_8</item>
+        <item name="android:paddingBottom">@dimen/espaco_8</item>
+        <item name="android:lines">2</item>
+    </style>
+
+    <!-- Progresso borgonha (estado_tela, rodapé da paginação) -->
+    <style name="Progresso" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/borgonha</item>
+    </style>
+</resources>

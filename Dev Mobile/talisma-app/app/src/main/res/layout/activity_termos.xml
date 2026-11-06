@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Termos e Condições (nova, 6.5): toolbar "Termos e Condições" e ScrollView com as seções de
+    recursos/textos/termos_e_condicoes.md (strings termos_sN_*).
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TermosActivity">
+
+    <include
+        android:id="@+id/barraTopo"
+        layout="@layout/barra_topo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <TextView
+                style="@style/Texto.TituloSecao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termos_s1_titulo" />
+
+            <TextView
+                style="@style/Texto.Corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginBottom="@dimen/espaco_24"
+                android:text="@string/termos_s1_texto" />
+
+            <TextView
+                style="@style/Texto.TituloSecao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termos_s2_titulo" />
+
+            <TextView
+                style="@style/Texto.Corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginBottom="@dimen/espaco_24"
+                android:text="@string/termos_s2_texto" />
+
+            <TextView
+                style="@style/Texto.TituloSecao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termos_s3_titulo" />
+
+            <TextView
+                style="@style/Texto.Corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginBottom="@dimen/espaco_24"
+                android:text="@string/termos_s3_texto" />
+
+            <TextView
+                style="@style/Texto.TituloSecao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termos_s4_titulo" />
+
+            <TextView
+                style="@style/Texto.Corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginBottom="@dimen/espaco_24"
+                android:text="@string/termos_s4_texto" />
+
+            <TextView
+                style="@style/Texto.TituloSecao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termos_s5_titulo" />
+
+            <TextView
+                style="@style/Texto.Corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:layout_marginBottom="@dimen/espaco_24"
+                android:text="@string/termos_s5_texto" />
+
+            <TextView
+                style="@style/Texto.TituloSecao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termos_s6_titulo" />
+
+            <TextView
+                style="@style/Texto.Corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:text="@string/termos_s6_texto" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

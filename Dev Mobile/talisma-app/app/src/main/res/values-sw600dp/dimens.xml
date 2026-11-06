@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tablet (D20, 6.4): margem maior e lista em 2 colunas. -->
+<resources>
+    <dimen name="margem_tela">48dp</dimen>
+    <integer name="colunas_lista">2</integer>
+</resources>

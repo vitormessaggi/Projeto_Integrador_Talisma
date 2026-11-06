@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cartão branco de raio 12dp sobre fundo borgonha (cartão de busca da Home, 6.4) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/branco" />
+    <corners android:radius="@dimen/raio_cartao" />
+</shape>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Cadastro (protótipo Cadastro, 6.5, D12, D34): voltar, CartaoAuth, "Cadastro de Usuário", Nome, CPF
+    (opcional, máscara), E-mail, Senha, Confirmar senha, aceite dos Termos e Cadastrar. Paisagem em layout-land.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/borgonha"
+    tools:context=".CadastroActivity">
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAuth"
+                style="@style/CartaoAuth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/espaco_24"
+                    android:paddingTop="@dimen/espaco_8"
+                    android:paddingEnd="@dimen/espaco_24"
+                    android:paddingBottom="@dimen/espaco_24">
+
+                    <ImageButton
+                        android:id="@+id/btnVoltar"
+                        android:layout_width="@dimen/altura_minima_toque"
+                        android:layout_height="@dimen/altura_minima_toque"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/desc_voltar"
+                        app:srcCompat="@drawable/ic_voltar"
+                        app:tint="@color/borgonha" />
+
+                    <include layout="@layout/cabecalho_auth" />
+
+                    <TextView
+                        android:id="@+id/txtTituloForm"
+                        style="@style/Texto.TituloSecao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espaco_8"
+                        android:layout_marginBottom="@dimen/espaco_16"
+                        android:gravity="center"
+                        android:text="@string/cadastro_titulo" />
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtNome"
+                        android:text="@string/campo_nome" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilNome"
+                        style="@style/Campo.SemRotulo">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtNome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="name"
+                            android:inputType="textPersonName|textCapWords"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtCpf"
+                        android:text="@string/campo_cpf_opcional" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilCpf"
+                        style="@style/Campo.SemRotulo">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtCpf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:importantForAutofill="no"
+                            android:inputType="phone"
+                            android:maxLength="14"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtEmail"
+                        android:text="@string/campo_email" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmail"
+                        style="@style/Campo.SemRotulo">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="emailAddress"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtSenha"
+                        android:text="@string/campo_senha" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilSenha"
+                        style="@style/Campo.SemRotulo"
+                        app:endIconMode="password_toggle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="newPassword"
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtConfirmarSenha"
+                        android:text="@string/campo_confirmar_senha" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilConfirmarSenha"
+                        style="@style/Campo.SemRotulo"
+                        app:endIconMode="password_toggle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtConfirmarSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="newPassword"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <CheckBox
+                        android:id="@+id/chkTermos"
+                        style="@style/Texto.Corpo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/altura_minima_toque"
+                        android:text="@string/cadastro_aceite" />
+
+                    <TextView
+                        android:id="@+id/txtVerTermos"
+                        style="@style/Texto.Link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/altura_minima_toque"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/espaco_8"
+                        android:paddingEnd="@dimen/espaco_8"
+                        android:text="@string/cadastro_ver_termos" />
+
+                    <TextView
+                        android:id="@+id/txtErroTermos"
+                        style="@style/Texto.Legenda"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/espaco_8"
+                        android:paddingEnd="@dimen/espaco_8"
+                        android:text="@string/cadastro_aceite_obrigatorio"
+                        android:textColor="@color/erro"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnCadastrar"
+                        style="@style/Botao.Primario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espaco_16"
+                        android:text="@string/cadastro_botao" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

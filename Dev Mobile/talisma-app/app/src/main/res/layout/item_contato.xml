@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Item de Meus contatos (ContatoAdapter, D37): foto 64dp, título do imóvel, "12/11/2026 · Tarde", chip de
+    status (Pendente alerta, Confirmada sucesso, Concluída texto_secundario, Cancelada erro) e botão
+    "Cancelar" quando Pendente/Confirmada. Toque abre o Detalhe.
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardContato"
+    style="@style/CartaoImovel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/espaco_12"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/espaco_12">
+
+        <ImageView
+            android:id="@+id/imgCapa"
+            android:layout_width="@dimen/tamanho_foto_contato"
+            android:layout_height="@dimen/tamanho_foto_contato"
+            android:background="@color/placeholder_foto"
+            android:contentDescription="@string/desc_foto_imovel"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTitulo"
+            style="@style/Texto.TituloCartao"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espaco_12"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgCapa"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Casa na Praia" />
+
+        <TextView
+            android:id="@+id/txtDataPeriodo"
+            style="@style/Texto.Legenda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginTop="@dimen/espaco_4"
+            android:drawablePadding="@dimen/espaco_4"
+            android:gravity="center_vertical"
+            app:drawableStartCompat="@drawable/ic_calendario"
+            app:drawableTint="@color/texto_secundario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgCapa"
+            app:layout_constraintTop_toBottomOf="@id/txtTitulo"
+            tools:text="12/11/2026 · Tarde" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipStatus"
+            style="@style/Widget.Material3.Chip.Assist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginTop="@dimen/espaco_8"
+            android:clickable="false"
+            android:focusable="false"
+            android:textColor="@color/branco"
+            app:chipMinHeight="@dimen/espaco_24"
+            app:chipStrokeWidth="0dp"
+            app:ensureMinTouchTargetSize="false"
+            app:layout_constraintStart_toEndOf="@id/imgCapa"
+            app:layout_constraintTop_toBottomOf="@id/txtDataPeriodo"
+            tools:chipBackgroundColor="@color/alerta"
+            tools:text="Pendente" />
+
+        <Button
+            android:id="@+id/btnCancelar"
+            style="@style/Botao.Texto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contatos_cancelar"
+            app:layout_constraintBottom_toBottomOf="@id/chipStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/chipStatus" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

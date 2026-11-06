@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Bottom nav das 4 telas principais (6.4): fundo branco, borda superior `borda`, ícones outline,
+    ativo borgonha com rótulo SemiBold. Incluída na base de cada tela com
+    <include layout="@layout/barra_navegacao" /> (ids: vwBordaNavegacao e navInferior).
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <View
+        android:id="@+id/vwBordaNavegacao"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/largura_borda"
+        android:background="@color/borda"
+        app:layout_constraintBottom_toTopOf="@id/navInferior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navInferior"
+        style="@style/BarraNavegacao"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/altura_barra_navegacao"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_navegacao" />
+
+</merge>

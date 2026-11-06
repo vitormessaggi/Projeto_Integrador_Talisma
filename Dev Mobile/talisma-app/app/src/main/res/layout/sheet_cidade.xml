@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Sheet "Cidade" (6.5, D32): "Buscas recentes" (últimas 5) no topo e lista de cidades do repositório,
+    cada uma como RadioButton criado em código no rgCidades; Limpar | Aplicar.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margem_tela">
+
+    <TextView
+        android:id="@+id/txtTituloSheet"
+        style="@style/Texto.TituloSecao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/filtro_cidade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollCidades"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_8"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/btnAplicar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="@dimen/altura_max_lista_sheet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloSheet">
+
+        <RadioGroup
+            android:id="@+id/rgCidades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/prgCidades"
+        style="@style/Progresso"
+        android:layout_width="@dimen/altura_minima_toque"
+        android:layout_height="@dimen/altura_minima_toque"
+        android:layout_marginTop="@dimen/espaco_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloSheet" />
+
+    <Button
+        android:id="@+id/btnLimpar"
+        style="@style/Botao.Contorno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/espaco_8"
+        android:text="@string/filtro_limpar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnAplicar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnAplicar"
+        style="@style/Botao.Primario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_8"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:text="@string/filtro_aplicar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnLimpar"
+        app:layout_constraintTop_toBottomOf="@id/scrollCidades" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
