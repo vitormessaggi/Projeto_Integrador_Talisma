@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fotos do imóvel (nova, D33, 6.5, 2.5.1/2.5.2): toolbar borgonha com voltar e título do imóvel;
+    "Fotos atuais" (grade 3 colunas, só leitura) e "Novas fotos" (grade 3 colunas com lixeira e estado);
+    botões Câmera e Galeria (até 10 por envio) e rodapé fixo "Enviar N fotos".
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FotosImovelActivity">
+
+    <include
+        android:id="@+id/barraTopo"
+        layout="@layout/barra_topo_corretor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/vwRodape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/conteudoFotos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/espaco_16"
+            android:paddingTop="@dimen/espaco_16"
+            android:paddingEnd="@dimen/espaco_16"
+            android:paddingBottom="@dimen/espaco_24">
+
+            <TextView
+                android:id="@+id/txtTituloAtuais"
+                style="@style/Texto.TituloSecao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/espaco_4"
+                android:text="@string/fotos_atuais"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtAtuaisVazio"
+                style="@style/Texto.Legenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/espaco_4"
+                android:layout_marginTop="@dimen/espaco_8"
+                android:text="@string/fotos_atuais_vazio"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTituloAtuais"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAtuais"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtAtuaisVazio"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_foto_grade" />
+
+            <TextView
+                android:id="@+id/txtTituloNovas"
+                style="@style/Texto.TituloSecao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/espaco_4"
+                android:layout_marginTop="@dimen/espaco_16"
+                android:text="@string/fotos_novas"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvAtuais" />
+
+            <TextView
+                android:id="@+id/txtNovasVazio"
+                style="@style/Texto.Legenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/espaco_4"
+                android:layout_marginTop="@dimen/espaco_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTituloNovas"
+                tools:text="@string/fotos_novas_vazio" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNovas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtNovasVazio"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_foto_nova" />
+
+            <Button
+                android:id="@+id/btnCamera"
+                style="@style/Botao.Contorno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/espaco_4"
+                android:layout_marginTop="@dimen/espaco_16"
+                android:layout_marginEnd="@dimen/espaco_8"
+                android:text="@string/fotos_camera"
+                app:icon="@drawable/ic_camera"
+                app:iconGravity="textStart"
+                app:iconTint="@color/borgonha"
+                app:layout_constraintEnd_toStartOf="@id/btnGaleria"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvNovas" />
+
+            <Button
+                android:id="@+id/btnGaleria"
+                style="@style/Botao.Contorno"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/espaco_4"
+                android:text="@string/fotos_galeria"
+                app:icon="@drawable/ic_galeria"
+                app:iconGravity="textStart"
+                app:iconTint="@color/borgonha"
+                app:layout_constraintBottom_toBottomOf="@id/btnCamera"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnCamera"
+                app:layout_constraintTop_toTopOf="@id/btnCamera" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/vwRodape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo" />
+
+    <View
+        android:id="@+id/vwRodape"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/largura_borda"
+        android:background="@color/borda"
+        app:layout_constraintBottom_toTopOf="@id/btnEnviarFotos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnEnviarFotos"
+        style="@style/Botao.Primario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_12"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:layout_marginBottom="@dimen/espaco_12"
+        android:enabled="false"
+        android:text="@string/fotos_enviar_vazio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

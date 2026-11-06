@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Área do corretor e mapa (T08, EAP 2.5.1 / 2.5.3, D3, D14, D33) -->
+
+    <!-- Selecionar imóvel -->
+    <string name="corretor_titulo">Área do corretor</string>
+    <string name="corretor_sair">Sair</string>
+    <string name="corretor_ola">Olá, %1$s</string>
+    <string name="corretor_subtitulo">Escolha o imóvel para enviar fotos</string>
+    <string name="corretor_sem_imoveis">Você ainda não tem imóveis cadastrados</string>
+    <string name="corretor_sair_titulo">Sair da área do corretor?</string>
+    <plurals name="corretor_contagem_fotos">
+        <item quantity="one">%1$d foto</item>
+        <item quantity="other">%1$d fotos</item>
+    </plurals>
+
+    <!-- Fotos do imóvel -->
+    <string name="fotos_atuais">Fotos atuais</string>
+    <string name="fotos_atuais_vazio">Este imóvel ainda não tem fotos</string>
+    <string name="fotos_novas">Novas fotos</string>
+    <string name="fotos_novas_vazio">Tire uma foto ou escolha da galeria (até %1$d por envio)</string>
+    <string name="fotos_camera">Câmera</string>
+    <string name="fotos_galeria">Galeria</string>
+    <plurals name="fotos_enviar">
+        <item quantity="one">Enviar %1$d foto</item>
+        <item quantity="other">Enviar %1$d fotos</item>
+    </plurals>
+    <string name="fotos_enviar_vazio">Enviar fotos</string>
+    <string name="fotos_limite">Máximo de %1$d fotos por envio.</string>
+    <string name="fotos_camera_indisponivel">Não foi possível abrir a câmera.</string>
+    <string name="fotos_camera_negada">Sem permissão de câmera. Permita nas configurações do aparelho para tirar fotos.</string>
+    <string name="fotos_camera_explicacao">A câmera é usada apenas para fotografar o imóvel e enviar as fotos à imobiliária.</string>
+    <plurals name="fotos_enviadas">
+        <item quantity="one">%1$d foto enviada.</item>
+        <item quantity="other">%1$d fotos enviadas.</item>
+    </plurals>
+    <plurals name="fotos_falharam">
+        <item quantity="one">%1$d foto falhou — toque nela para reenviar.</item>
+        <item quantity="other">%1$d fotos falharam — toque nelas para reenviar.</item>
+    </plurals>
+    <string name="desc_foto_nova">Foto nova</string>
+    <string name="desc_remover_foto">Remover foto</string>
+    <string name="desc_foto_enviada">Foto enviada</string>
+    <string name="desc_foto_falhou">Falha no envio. Toque para reenviar</string>
+    <string name="desc_foto_enviando">Enviando foto, %1$d%%</string>
+
+    <!-- Mapa do Detalhe (D14) -->
+    <string name="mapa_atribuicao" translatable="false">© OpenStreetMap contributors</string>
+    <string name="desc_mapa">Mapa com a localização do imóvel</string>
+</resources>

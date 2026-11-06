@@ -250,15 +250,31 @@
                 app:layout_constraintTop_toBottomOf="@id/txtTituloLocalizacao"
                 tools:text="Centro, São Caetano do Sul - SP" />
 
-            <!-- A T08 (Fase 5.3) insere o MapView osmdroid abaixo de txtEndereco -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerMapa"
+            <!-- Mapa osmdroid (D14, 2.5.3): marcador no imóvel, zoom 15; some quando não há coordenadas -->
+            <org.osmdroid.views.MapView
+                android:id="@+id/mapa"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/altura_mapa"
                 android:layout_marginTop="@dimen/espaco_8"
+                android:contentDescription="@string/desc_mapa"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtEndereco" />
+                app:layout_constraintTop_toBottomOf="@id/txtEndereco"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtAtribuicaoMapa"
+                style="@style/Texto.Legenda"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaco_4"
+                android:text="@string/mapa_atribuicao"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mapa"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

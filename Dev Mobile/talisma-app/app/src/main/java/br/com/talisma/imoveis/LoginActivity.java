@@ -29,17 +29,23 @@ import br.com.talisma.imoveis.util.Validacoes;
 
 /**
  * Login (protótipo Login do cliente, 6.5, D9, D33). Extra {@link #EXTRA_MODO} = {@link Usuario#CLIENTE}
- * (padrão) | {@link Usuario#CORRETOR} ("Área do corretor", sem cadastro/esqueci; a navegação pós-login do
- * corretor é da Fase 5). Quem exige login abre esta tela com {@code registerForActivityResult} e continua
- * a ação no {@code RESULT_OK}. Extra {@link #EXTRA_MENSAGEM}: aviso mostrado ao abrir ("Sua sessão expirou").
+ * (padrão) | {@link Usuario#CORRETOR} ("Área do corretor", sem cadastro/esqueci). Quem exige login abre
+ * esta tela com {@code registerForActivityResult} e continua a ação no {@code RESULT_OK}. Extra
+ * {@link #EXTRA_MENSAGEM}: aviso mostrado ao abrir ("Sua sessão expirou").
+ * <p>
+ * Corretor (D3, D33, 6.3): login no modo CORRETOR abre SelecionarImovel (a não ser que
+ * {@link #EXTRA_ABRIR_AREA_CORRETOR} seja {@code false} — quando é a própria SelecionarImovel que pediu o
+ * login); se a sessão já é de corretor, tocar em "Acesse a área interna" abre SelecionarImovel direto.
  * <p>
  * Erros: credencial inválida no campo senha; conta bloqueada em diálogo (RN-002); e-mail não verificado →
- * VerificarEmail(CADASTRO); perfil diferente do modo → mensagem do repositório.
+ * VerificarEmail(CADASTRO); perfil diferente do modo → "Esta conta não é de corretor/cliente" no campo e-mail.
  */
 public class LoginActivity extends AppCompatActivity {
 
     public static final String EXTRA_MODO = "modo";
     public static final String EXTRA_MENSAGEM = "mensagem";
+    /** {@code false} = não abrir SelecionarImovel após o login de corretor (padrão {@code true}). */
+    public static final String EXTRA_ABRIR_AREA_CORRETOR = "abrir_area_corretor";
 
     private ContaRepository contaRepository;
     private String modo;
@@ -106,8 +112,17 @@ public class LoginActivity extends AppCompatActivity {
                 esqueciSenha.launch(new Intent(this, EsqueciSenhaActivity.class)));
         findViewById(R.id.txtCadastrar).setOnClickListener(v ->
                 fluxoQueLoga.launch(new Intent(this, CadastroActivity.class)));
-        findViewById(R.id.txtAreaInterna).setOnClickListener(v -> trocarModo(Usuario.CORRETOR));
+        findViewById(R.id.txtAreaInterna).setOnClickListener(v -> abrirAreaInterna());
         findViewById(R.id.txtSouCliente).setOnClickListener(v -> trocarModo(Usuario.CLIENTE));
+
+        // Aberta já no modo CORRETOR com sessão de corretor: vai direto para a área interna (6.3)
+        if (savedInstanceState == null && Usuario.CORRETOR.equals(modo) && abrirAreaCorretor()
+                && SelecionarImovelActivity.sessaoDeCorretor(this)) {
+            startActivity(SelecionarImovelActivity.intent(this));
+            setResult(RESULT_OK);
+            finish();
+            return;
+        }
 
         aplicarModo();
 
@@ -120,8 +135,24 @@ public class LoginActivity extends AppCompatActivity {
     private void trocarModo(String novoModo) {
         modo = novoModo;
         getIntent().putExtra(EXTRA_MODO, modo);
+        tilEmail.setError(null);
         tilSenha.setError(null);
         aplicarModo();
+    }
+
+    /** "É corretor? Acesse a área interna": sessão de corretor abre SelecionarImovel direto; senão troca o modo (6.3). */
+    private void abrirAreaInterna() {
+        if (SelecionarImovelActivity.sessaoDeCorretor(this)) {
+            startActivity(SelecionarImovelActivity.intent(this));
+            setResult(RESULT_OK);
+            finish();
+            return;
+        }
+        trocarModo(Usuario.CORRETOR);
+    }
+
+    private boolean abrirAreaCorretor() {
+        return getIntent().getBooleanExtra(EXTRA_ABRIR_AREA_CORRETOR, true);
     }
 
     /** Modo CORRETOR: título "Área do corretor", esconde cadastro/esqueci/corretor e mostra "Sou cliente". */
@@ -156,6 +187,9 @@ public class LoginActivity extends AppCompatActivity {
         contaRepository.entrar(email, senha, modo, new Tarefas.Callback<Usuario>() {
             @Override
             public void sucesso(Usuario usuario) {
+                if (usuario.isCorretor() && abrirAreaCorretor()) {
+                    startActivity(SelecionarImovelActivity.intent(LoginActivity.this));
+                }
                 setResult(RESULT_OK);
                 finish();
             }
@@ -179,6 +213,9 @@ public class LoginActivity extends AppCompatActivity {
             fluxoQueLoga.launch(VerificarEmailActivity.intent(this, VerificarEmailActivity.MODO_CADASTRO, email));
         } else if (e.getStatus() == ApiException.NAO_AUTORIZADO) {
             tilSenha.setError(e.mensagemParaUsuario(this));
+        } else if (e.getStatus() == ApiException.PERFIL_INCOMPATIVEL) {
+            // "Esta conta não é de corretor/cliente" (6.5): a conta existe, mas não é do modo da tela
+            tilEmail.setError(e.mensagemParaUsuario(this));
         } else {
             Snackbar.make(findViewById(R.id.main), e.mensagemParaUsuario(this), Snackbar.LENGTH_LONG).show();
         }

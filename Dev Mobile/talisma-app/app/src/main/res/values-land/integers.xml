@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paisagem (D20): grades de fotos do corretor com mais colunas para as miniaturas não ficarem gigantes. -->
+<resources>
+    <integer name="colunas_fotos">6</integer>
+</resources>

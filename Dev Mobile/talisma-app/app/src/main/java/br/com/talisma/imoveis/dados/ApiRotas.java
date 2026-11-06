@@ -36,6 +36,9 @@ public final class ApiRotas {
 
     // Corretor
     public static final String IMOVEIS_CORRETOR = "/api/corretor/imoveis";
+    /** Campo do arquivo no multipart de {@link #fotosImovel} e seu tipo (JPEG). */
+    public static final String CAMPO_FOTO = "arquivo";
+    public static final String TIPO_FOTO = "image/jpeg";
 
     private ApiRotas() {
     }

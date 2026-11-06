@@ -1,8 +1,11 @@
 package br.com.talisma.imoveis.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
@@ -28,8 +31,11 @@ import java.util.Comparator;
  * <ul>
  *   <li>{@code http://} ou {@code https://} → baixa (com cache em disco);</li>
  *   <li>caminho absoluto ({@code /...}) → arquivo local (fotos enviadas no modo simulado);</li>
+ *   <li>{@code content://} → Uri da câmera (FileProvider) ou da galeria (fotos novas do corretor);</li>
  *   <li>qualquer outro → nome de arquivo em {@code assets/fake/fotos/}.</li>
  * </ul>
+ * Envio de fotos (2.5.2, 6.5): {@link #comprimirParaEnvio} reduz a foto escolhida/tirada para no
+ * máximo {@value #LADO_ENVIO} px no maior lado e grava JPEG {@value #QUALIDADE_ENVIO}%.
  */
 public final class CarregadorImagem {
 
@@ -39,6 +45,10 @@ public final class CarregadorImagem {
     private static final long LIMITE_DISCO = 50L * 1024 * 1024;
     private static final int LADO_PADRAO = 1080;
     private static final int TIMEOUT_MS = 15_000;
+    /** Maior lado da foto enviada pelo corretor (6.5). */
+    public static final int LADO_ENVIO = 1600;
+    /** Qualidade JPEG da foto enviada (6.5). */
+    public static final int QUALIDADE_ENVIO = 80;
 
     private static final LruCache<String, Bitmap> MEMORIA =
             new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / 8)) {
@@ -96,6 +106,9 @@ public final class CarregadorImagem {
             if (foto.startsWith("/")) {
                 return decodificarArquivo(new File(foto), largura, altura);
             }
+            if (foto.startsWith("content://")) {
+                return decodificarUri(context, Uri.parse(foto), largura, altura);
+            }
             BitmapFactory.Options opcoes = new BitmapFactory.Options();
             opcoes.inJustDecodeBounds = true;
             try (InputStream in = context.getAssets().open(PASTA_ASSETS + foto)) {
@@ -109,6 +122,112 @@ public final class CarregadorImagem {
         } catch (IOException e) {
             Log.w(TAG, "Falha ao carregar imagem: " + e.getClass().getSimpleName());
             return null;
+        }
+    }
+
+    /**
+     * Lê a foto de {@code uri} (câmera via FileProvider ou galeria), corrige a rotação do EXIF, reduz
+     * para no máximo {@link #LADO_ENVIO} px no maior lado e grava em {@code destino} como JPEG
+     * {@link #QUALIDADE_ENVIO}%. Rodar fora da main thread.
+     *
+     * @return {@code false} se a foto não pôde ser lida ou gravada
+     */
+    public static boolean comprimirParaEnvio(Context context, Uri uri, File destino) {
+        Bitmap bitmap = null;
+        try {
+            BitmapFactory.Options opcoes = new BitmapFactory.Options();
+            opcoes.inJustDecodeBounds = true;
+            try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+                if (in == null) {
+                    return false;
+                }
+                BitmapFactory.decodeStream(in, null, opcoes);
+            }
+            if (opcoes.outWidth <= 0 || opcoes.outHeight <= 0) {
+                return false;
+            }
+            // inSampleSize mantém o maior lado ≥ LADO_ENVIO; o ajuste fino vem na Matrix abaixo.
+            int amostra = 1;
+            int maiorLado = Math.max(opcoes.outWidth, opcoes.outHeight);
+            while (maiorLado / (amostra * 2) >= LADO_ENVIO) {
+                amostra *= 2;
+            }
+            opcoes.inJustDecodeBounds = false;
+            opcoes.inSampleSize = amostra;
+            try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+                bitmap = in != null ? BitmapFactory.decodeStream(in, null, opcoes) : null;
+            }
+            if (bitmap == null) {
+                return false;
+            }
+            Matrix matriz = new Matrix();
+            float escala = Math.min(1f, (float) LADO_ENVIO / Math.max(bitmap.getWidth(), bitmap.getHeight()));
+            matriz.postScale(escala, escala);
+            matriz.postRotate(rotacaoExif(context, uri));
+            Bitmap ajustado = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matriz, true);
+            if (ajustado != bitmap) {
+                bitmap.recycle();
+                bitmap = ajustado;
+            }
+            File pasta = destino.getParentFile();
+            if (pasta != null && !pasta.exists() && !pasta.mkdirs()) {
+                return false;
+            }
+            try (OutputStream out = new FileOutputStream(destino)) {
+                return bitmap.compress(Bitmap.CompressFormat.JPEG, QUALIDADE_ENVIO, out);
+            }
+        } catch (IOException | SecurityException | OutOfMemoryError e) {
+            Log.w(TAG, "Falha ao comprimir foto: " + e.getClass().getSimpleName());
+            return false;
+        } finally {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+        }
+    }
+
+    /**
+     * Graus de rotação indicados no EXIF da foto (0 se não houver). Usa o ExifInterface da plataforma
+     * (estável a partir da API 24 = minSdk), já que o plano não admite a biblioteca androidx (6.1).
+     */
+    @SuppressLint("ExifInterface")
+    private static int rotacaoExif(Context context, Uri uri) {
+        try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+            if (in == null) {
+                return 0;
+            }
+            int orientacao = new android.media.ExifInterface(in).getAttributeInt(
+                    android.media.ExifInterface.TAG_ORIENTATION, android.media.ExifInterface.ORIENTATION_NORMAL);
+            switch (orientacao) {
+                case android.media.ExifInterface.ORIENTATION_ROTATE_90:
+                    return 90;
+                case android.media.ExifInterface.ORIENTATION_ROTATE_180:
+                    return 180;
+                case android.media.ExifInterface.ORIENTATION_ROTATE_270:
+                    return 270;
+                default:
+                    return 0;
+            }
+        } catch (IOException e) {
+            return 0;
+        }
+    }
+
+    /** Miniatura de uma Uri {@code content://} (fotos novas do corretor, antes do envio). */
+    @Nullable
+    private static Bitmap decodificarUri(Context context, Uri uri, int largura, int altura) throws IOException {
+        BitmapFactory.Options opcoes = new BitmapFactory.Options();
+        opcoes.inJustDecodeBounds = true;
+        try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+            if (in == null) {
+                return null;
+            }
+            BitmapFactory.decodeStream(in, null, opcoes);
+        }
+        opcoes.inSampleSize = calcularAmostra(opcoes, largura, altura);
+        opcoes.inJustDecodeBounds = false;
+        try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+            return in != null ? BitmapFactory.decodeStream(in, null, opcoes) : null;
         }
     }
 

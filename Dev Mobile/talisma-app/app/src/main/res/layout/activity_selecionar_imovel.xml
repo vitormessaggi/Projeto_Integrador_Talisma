@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Selecionar imóvel (nova, D33, 6.5): toolbar borgonha "Área do corretor" com Sair; saudação "Olá, {nome}";
+    lista dos imóveis do corretor com contagem de fotos; toque abre FotosImovel. Sem bottom nav.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SelecionarImovelActivity">
+
+    <include
+        android:id="@+id/barraTopo"
+        layout="@layout/barra_topo_corretor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtSaudacao"
+        style="@style/Texto.TituloSecao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/margem_tela"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraTopo"
+        tools:text="Olá, Carlos" />
+
+    <TextView
+        android:id="@+id/txtSubtitulo"
+        style="@style/Texto.Legenda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:text="@string/corretor_subtitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSaudacao" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvImoveis"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margem_tela"
+        android:paddingTop="@dimen/espaco_12"
+        android:paddingEnd="@dimen/margem_tela"
+        android:paddingBottom="@dimen/espaco_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo"
+        tools:listitem="@layout/item_imovel_corretor" />
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

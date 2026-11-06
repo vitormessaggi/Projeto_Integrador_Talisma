@@ -42,5 +42,11 @@
     <dimen name="tamanho_digito_codigo">56dp</dimen>
     <dimen name="tamanho_foto_contato">64dp</dimen>
 
+    <!-- Área do corretor e mapa (T08) -->
+    <dimen name="tamanho_icone_estado_foto">32dp</dimen>
+    <dimen name="tamanho_lixeira_foto">28dp</dimen>
+    <dimen name="altura_mapa">180dp</dimen>
+
     <integer name="colunas_lista">1</integer>
+    <integer name="colunas_fotos">3</integer>
 </resources>
