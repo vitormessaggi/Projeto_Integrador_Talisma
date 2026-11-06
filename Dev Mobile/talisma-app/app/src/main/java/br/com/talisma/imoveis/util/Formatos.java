@@ -34,7 +34,14 @@ public final class Formatos {
         NumberFormat formato = NumberFormat.getCurrencyInstance(PT_BR);
         formato.setMaximumFractionDigits(0);
         formato.setMinimumFractionDigits(0);
-        return formato.format(valor);
+        // Android 7 (ICU antigo) formata "R$450.000" sem espaço; os mais novos usam espaço não separável (T09).
+        String texto = formato.format(valor);
+        String simbolo = formato.getCurrency() != null ? formato.getCurrency().getSymbol(PT_BR) : "";
+        if (!simbolo.isEmpty() && texto.startsWith(simbolo) && texto.length() > simbolo.length()
+                && !Character.isSpaceChar(texto.charAt(simbolo.length()))) {
+            texto = simbolo + ' ' + texto.substring(simbolo.length());
+        }
+        return texto;
     }
 
     /** Preço do imóvel: "R$ 450.000" na venda, "R$ 2.500/mês" na locação. */

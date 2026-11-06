@@ -6,14 +6,16 @@
     android:id="@+id/cardImovel"
     style="@style/CartaoDestaque"
     android:layout_width="@dimen/largura_cartao_destaque"
-    android:layout_height="@dimen/altura_cartao_destaque"
+    android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/espaco_12"
     android:clickable="true"
     android:focusable="true">
 
+    <!-- Altura mínima de 220dp; cresce com a fonte do sistema (130%) em vez de sobrepor os textos (T09). -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/altura_cartao_destaque">
 
         <ImageView
             android:id="@+id/imgCapa"
@@ -73,11 +75,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/espaco_12"
+            android:layout_marginTop="@dimen/espaco_4"
             android:layout_marginEnd="@dimen/espaco_12"
             android:layout_marginBottom="@dimen/espaco_8"
             android:ellipsize="end"
             android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtLocalizacao"
+            app:layout_constraintVertical_bias="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="R$ 220.000" />

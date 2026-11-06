@@ -57,6 +57,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/conteudoHome"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/espaco_24">
@@ -135,6 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espaco_16"
+                android:labelFor="@id/spnTipo"
                 android:text="@string/home_tipo_imovel"
                 app:layout_constraintEnd_toEndOf="@id/tgFinalidade"
                 app:layout_constraintStart_toStartOf="@id/tgFinalidade"
@@ -157,6 +160,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/espaco_16"
+                android:labelFor="@id/spnCidade"
                 android:text="@string/home_onde_morar"
                 app:layout_constraintEnd_toEndOf="@id/tgFinalidade"
                 app:layout_constraintStart_toStartOf="@id/tgFinalidade"

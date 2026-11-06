@@ -49,6 +49,7 @@ import br.com.talisma.imoveis.dados.Filtro;
 import br.com.talisma.imoveis.dados.Imovel;
 import br.com.talisma.imoveis.dados.ImovelRepository;
 import br.com.talisma.imoveis.dados.Pagina;
+import br.com.talisma.imoveis.dados.Preferencias;
 import br.com.talisma.imoveis.util.BarraNavegacao;
 import br.com.talisma.imoveis.util.EstadoTela;
 import br.com.talisma.imoveis.util.Formatos;
@@ -95,6 +96,8 @@ public class ImoveisActivity extends AppCompatActivity implements ImovelAdapter.
     private boolean carregando;
     private boolean vazio;
     private boolean sincronizandoViews;
+    /** Modo (demonstração ou API) da lista exibida; se mudar no Perfil, recarrega ao voltar. */
+    private boolean modoCarregado;
     @Nullable
     private Location origem;
 
@@ -165,6 +168,7 @@ public class ImoveisActivity extends AppCompatActivity implements ImovelAdapter.
         pedidoLocalizacao = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(), this::aoResponderLocalizacao);
 
+        modoCarregado = Preferencias.modoDemonstracao(this);
         if (savedInstanceState != null) {
             restaurar(savedInstanceState);
         } else if (!aplicarFiltroDaIntent(getIntent())) {
@@ -202,6 +206,9 @@ public class ImoveisActivity extends AppCompatActivity implements ImovelAdapter.
     @Override
     protected void onResume() {
         super.onResume();
+        if (modoCarregado != Preferencias.modoDemonstracao(this)) {
+            recarregar(); // o Modo demonstração foi alternado no Perfil: a lista vem da outra fonte (6.7)
+        }
         favoritoRepository.ids(new Tarefas.Callback<Set<Long>>() {
             @Override
             public void sucesso(Set<Long> ids) {
@@ -579,6 +586,7 @@ public class ImoveisActivity extends AppCompatActivity implements ImovelAdapter.
     // ---------------------------------------------------------------- carregamento (D28, D36)
 
     private void recarregar() {
+        modoCarregado = Preferencias.modoDemonstracao(this);
         pagina = 0;
         totalPaginas = 0;
         adapter.substituir(new ArrayList<>());

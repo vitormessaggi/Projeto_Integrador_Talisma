@@ -113,8 +113,10 @@
 
                     <LinearLayout
                         android:id="@+id/linhaCadastro"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/altura_minima_toque"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:minHeight="@dimen/altura_minima_toque"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -122,6 +124,8 @@
                             style="@style/Texto.Corpo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
                             android:layout_marginEnd="@dimen/espaco_4"
                             android:text="@string/login_sem_conta" />
 
@@ -143,8 +147,10 @@
 
                     <LinearLayout
                         android:id="@+id/linhaCorretor"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/altura_minima_toque"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:minHeight="@dimen/altura_minima_toque"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -152,6 +158,8 @@
                             style="@style/Texto.Corpo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
                             android:layout_marginEnd="@dimen/espaco_4"
                             android:text="@string/login_e_corretor" />
 

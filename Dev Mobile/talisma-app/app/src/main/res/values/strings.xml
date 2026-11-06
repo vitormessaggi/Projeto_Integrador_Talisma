@@ -64,8 +64,8 @@
     <string name="imoveis_limpar_filtros">Limpar filtros</string>
     <string name="filtro_limpar">Limpar</string>
     <string name="filtro_aplicar">Aplicar</string>
-    <string name="filtro_preco_minimo">Preço mínimo (R$)</string>
-    <string name="filtro_preco_maximo">Preço máximo (R$)</string>
+    <string name="filtro_preco_minimo">Mínimo (R$)</string>
+    <string name="filtro_preco_maximo">Máximo (R$)</string>
     <string name="filtro_preco_faixa">%1$s – %2$s</string>
     <string name="filtro_preco_a_partir">a partir de %1$s</string>
     <string name="filtro_preco_ate">até %1$s</string>
