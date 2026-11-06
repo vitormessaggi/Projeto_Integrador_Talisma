@@ -103,9 +103,36 @@
     <string name="galeria_contador">%1$d/%2$d</string>
     <string name="desc_fechar">Fechar</string>
 
-    <!-- Solicitar visita (provisória até a T06, D30) -->
+    <!-- Solicitar visita (6.5, D30) -->
     <string name="visita_titulo">Solicitar visita</string>
-    <string name="visita_em_breve">Em breve você poderá solicitar sua visita por aqui.</string>
+    <string name="visita_data">Data preferida</string>
+    <string name="visita_periodo">Período</string>
+    <string name="visita_manha">Manhã</string>
+    <string name="visita_tarde">Tarde</string>
+    <string name="visita_noite">Noite</string>
+    <string name="visita_mensagem">Mensagem (opcional)</string>
+    <string name="visita_enviar">Enviar solicitação</string>
+    <string name="visita_sucesso_titulo">Solicitação enviada!</string>
+    <string name="visita_sucesso_texto">Um corretor entrará em contato para confirmar a visita.</string>
+    <string name="visita_ver_contatos">Ver meus contatos</string>
+    <string name="visita_data_obrigatoria">Escolha a data da visita.</string>
+    <string name="visita_periodo_obrigatorio">Escolha o período da visita.</string>
+    <string name="desc_icone_sucesso">Enviado com sucesso</string>
+
+    <!-- Meus contatos (6.5, D37) -->
+    <string name="contatos_titulo">Meus contatos</string>
+    <string name="contatos_vazio">Você ainda não solicitou visitas</string>
+    <string name="contatos_data_periodo">%1$s · %2$s</string>
+    <string name="contatos_status_pendente">Pendente</string>
+    <string name="contatos_status_confirmada">Confirmada</string>
+    <string name="contatos_status_concluida">Concluída</string>
+    <string name="contatos_status_cancelada">Cancelada</string>
+    <string name="contatos_cancelar">Cancelar</string>
+    <string name="contatos_cancelar_titulo">Cancelar visita?</string>
+    <string name="contatos_cancelar_texto">A solicitação de visita a %1$s será cancelada.</string>
+    <string name="contatos_cancelar_confirmar">Cancelar visita</string>
+    <string name="contatos_cancelada">Visita cancelada</string>
+    <string name="contatos_manter">Manter</string>
 
     <!-- Favoritos (6.5) -->
     <string name="favoritos_titulo">Favoritos</string>
@@ -117,7 +144,6 @@
     <string name="favoritos_adicionado">Salvo nos favoritos</string>
 
     <!-- Perfil (6.5, D31) -->
-    <string name="perfil_titulo">Perfil</string>
     <string name="perfil_convite">Entre para salvar visitas e favoritos</string>
     <string name="perfil_entrar">Entrar</string>
     <string name="perfil_cadastrar">Cadastrar</string>
@@ -128,6 +154,103 @@
     <string name="perfil_fale_conosco">Fale com a imobiliária</string>
     <string name="perfil_termos">Termos e Condições</string>
     <string name="perfil_sair">Sair</string>
+    <string name="perfil_sair_titulo">Sair da conta?</string>
+    <string name="perfil_sair_texto">Seus favoritos continuam salvos neste aparelho.</string>
+    <string name="perfil_convidado">Visitante</string>
+
+    <!-- Fale com a imobiliária (D38; dados de recursos/textos/empresa.md) -->
+    <string name="fale_titulo">Fale com a imobiliária</string>
+    <string name="fale_telefone" translatable="false">(11) 9999-9999</string>
+    <string name="fale_email" translatable="false">contato@talismaimoveis.com</string>
+    <string name="fale_endereco" translatable="false">R. Paulo Nunes Félix, 534 — Parque São Rafael, São Paulo — SP</string>
+    <string name="fale_horario">Seg–Sex: 9h às 18h</string>
+    <string name="fale_ligar">Ligar</string>
+    <string name="fale_enviar_email">Enviar e-mail</string>
+    <string name="fale_assunto_email">Contato pelo app Talismã Imóveis</string>
+    <string name="fale_sem_app">Nenhum aplicativo encontrado para esta ação.</string>
+
+    <!-- Modo demonstração (D26, 6.7) -->
+    <string name="demo_titulo">Modo demonstração</string>
+    <string name="demo_switch">Usar dados simulados (sem API)</string>
+    <string name="demo_simular_offline">Simular sem conexão</string>
+    <string name="demo_aviso">Ao alternar, a sessão e os dados salvos serão limpos.</string>
+    <string name="demo_favoritos_pendentes">Você tem %1$d favorito(s) ainda não enviado(s) à sua conta. Eles continuam no aparelho e serão enviados no próximo login. Alternar mesmo assim?</string>
+    <string name="demo_alternar">Alternar</string>
+    <string name="demo_url_api">API: %1$s</string>
+    <string name="acao_cancelar">Cancelar</string>
+    <string name="acao_ok">OK</string>
+    <string name="acao_fechar">Fechar</string>
+
+    <!-- Autenticação (6.5, D11, D29): Login, Cadastro, Verificar e-mail, Esqueci/Nova senha -->
+    <string name="login_subtitulo">Acesse sua conta</string>
+    <string name="login_titulo_corretor">Área do corretor</string>
+    <string name="campo_email">E-mail</string>
+    <string name="campo_senha">Senha</string>
+    <string name="campo_nome">Nome</string>
+    <string name="campo_cpf">CPF</string>
+    <string name="campo_cpf_opcional">CPF (opcional)</string>
+    <string name="campo_confirmar_senha">Confirmar senha</string>
+    <string name="campo_senha_atual">Senha atual</string>
+    <string name="campo_nova_senha">Nova senha</string>
+    <string name="campo_telefone">Telefone/WhatsApp</string>
+    <string name="login_entrar">Entrar</string>
+    <string name="login_esqueci_senha">Esqueci minha senha</string>
+    <string name="login_sem_conta">Não possui uma conta?</string>
+    <string name="login_cadastre_se">Cadastre-se aqui</string>
+    <string name="login_e_corretor">É corretor?</string>
+    <string name="login_area_interna">Acesse a área interna</string>
+    <string name="login_sou_cliente">Sou cliente</string>
+    <string name="login_conta_bloqueada_titulo">Conta bloqueada</string>
+    <string name="login_senha_alterada">Senha alterada. Entre com a nova senha</string>
+    <string name="erro_campo_obrigatorio">Campo obrigatório.</string>
+    <string name="erro_senhas_diferentes">As senhas não coincidem.</string>
+
+    <string name="cadastro_titulo">Cadastro de Usuário</string>
+    <string name="cadastro_aceite">Li e aceito os Termos e Condições</string>
+    <string name="cadastro_aceite_obrigatorio">Você precisa aceitar os Termos e Condições.</string>
+    <string name="cadastro_ver_termos">Ver termos</string>
+    <string name="cadastro_botao">Cadastrar</string>
+
+    <string name="verificar_titulo">Verifique seu e-mail</string>
+    <string name="verificar_texto">Digite o código de 4 dígitos enviado para</string>
+    <string name="verificar_enviar">Enviar</string>
+    <string name="verificar_nao_recebeu">Não recebeu?</string>
+    <string name="verificar_reenviar">Reenviar código</string>
+    <string name="verificar_reenviar_em">Reenviar em %1$d s</string>
+    <string name="verificar_reenviado">Código reenviado.</string>
+    <string name="verificar_cancelar">Cancelar</string>
+    <string name="verificar_codigo_incompleto">Digite os 4 dígitos do código.</string>
+    <string name="verificar_digito_dica" translatable="false">0</string>
+
+    <string name="esqueci_titulo">Esqueceu sua senha?</string>
+    <string name="esqueci_texto">Informe seu e-mail para receber um código</string>
+    <string name="esqueci_enviar">Enviar código</string>
+    <string name="esqueci_voltar">Voltar ao login</string>
+
+    <string name="nova_senha_titulo">Crie uma nova senha</string>
+    <string name="acao_salvar">Salvar</string>
+
+    <string name="alterar_senha_titulo">Alterar senha</string>
+    <string name="alterar_senha_sucesso">Senha alterada com sucesso</string>
+
+    <string name="dados_titulo">Dados pessoais</string>
+    <string name="dados_cpf_editar">Editar</string>
+    <string name="dados_salvos">Dados salvos</string>
+
+    <!-- Termos e Condições (recursos/textos/termos_e_condicoes.md) -->
+    <string name="termos_titulo">Termos e Condições</string>
+    <string name="termos_s1_titulo">1. Objetivo do aplicativo</string>
+    <string name="termos_s1_texto">1.1 Este aplicativo tem como finalidade apresentar imóveis disponíveis para venda ou locação.\n\n1.2 Não são realizadas transações comerciais diretas por meio do aplicativo.\n\n1.3 Ao se interessar por um imóvel, o usuário será direcionado para atendimento com um de nossos corretores, que dará continuidade ao processo de negociação.</string>
+    <string name="termos_s2_titulo">2. Uso do aplicativo</string>
+    <string name="termos_s2_texto">2.1 O usuário concorda em utilizar este aplicativo de forma ética e respeitosa, comprometendo-se a não realizar qualquer ação que possa comprometer sua segurança, integridade ou funcionamento.\n\n2.2 As informações disponibilizadas no aplicativo são atualizadas periodicamente, mas podem sofrer alterações sem aviso prévio.\n\n2.3 A Talismã Imóveis não se responsabiliza por erros de digitação ou por eventuais indisponibilidades temporárias do sistema.</string>
+    <string name="termos_s3_titulo">3. Informações dos imóveis</string>
+    <string name="termos_s3_texto">3.1 As imagens, descrições e demais informações sobre os imóveis são meramente ilustrativas e podem ser alteradas sem aviso prévio.\n\n3.2 A disponibilidade e os valores dos imóveis devem ser confirmados diretamente com nossos corretores.</string>
+    <string name="termos_s4_titulo">4. Privacidade e proteção de dados</string>
+    <string name="termos_s4_texto">4.1 Ao preencher formulários no aplicativo, os dados fornecidos pelo usuário serão utilizados exclusivamente para fins de atendimento e relacionamento.\n\n4.2 A Talismã Imóveis compromete-se a proteger a privacidade dos usuários, não compartilhando dados pessoais com terceiros sem consentimento.</string>
+    <string name="termos_s5_titulo">5. Atendimento com corretores</string>
+    <string name="termos_s5_texto">5.1 Após manifestar interesse em um imóvel, o usuário será redirecionado para atendimento com um corretor credenciado.\n\n5.2 O atendimento pode ocorrer por meio de telefone, WhatsApp, e-mail ou outra plataforma de contato fornecida.\n\n5.3 Toda negociação será formalizada fora do ambiente do aplicativo, respeitando as normas vigentes do mercado imobiliário.</string>
+    <string name="termos_s6_titulo">6. Disposições gerais</string>
+    <string name="termos_s6_texto">6.1 Estes Termos e Condições podem ser atualizados a qualquer momento. Recomendamos sua leitura periódica.\n\n6.2 O uso continuado do aplicativo implica na aceitação total dos termos aqui descritos.</string>
 
     <!-- Formatos (6.6) -->
     <string name="formato_preco_mes">%1$s/mês</string>

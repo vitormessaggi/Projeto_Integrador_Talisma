@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Caixa de um dígito do código de verificação (6.5): superficie com borda e raio de campo -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/superficie" />
+    <stroke
+        android:width="@dimen/largura_borda"
+        android:color="@color/borda" />
+    <corners android:radius="@dimen/raio_campo" />
+</shape>

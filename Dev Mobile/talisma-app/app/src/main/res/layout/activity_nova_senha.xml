@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Nova senha (nova, D29, D34, 6.5): CartaoAuth, "Crie uma nova senha", Nova senha, Confirmar e Salvar →
+    volta ao Login com Snackbar "Senha alterada. Entre com a nova senha".
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/borgonha"
+    tools:context=".NovaSenhaActivity">
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAuth"
+                style="@style/CartaoAuth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/espaco_24">
+
+                    <include layout="@layout/cabecalho_auth" />
+
+                    <TextView
+                        android:id="@+id/txtTituloForm"
+                        style="@style/Texto.TituloSecao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espaco_16"
+                        android:layout_marginBottom="@dimen/espaco_24"
+                        android:gravity="center"
+                        android:text="@string/nova_senha_titulo" />
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtSenha"
+                        android:text="@string/campo_nova_senha" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilSenha"
+                        style="@style/Campo.SemRotulo"
+                        app:endIconMode="password_toggle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="newPassword"
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        style="@style/Texto.Rotulo.Campo"
+                        android:labelFor="@id/edtConfirmarSenha"
+                        android:text="@string/campo_confirmar_senha" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilConfirmarSenha"
+                        style="@style/Campo.SemRotulo"
+                        app:endIconMode="password_toggle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtConfirmarSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="newPassword"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnSalvar"
+                        style="@style/Botao.Primario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/espaco_8"
+                        android:text="@string/acao_salvar" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

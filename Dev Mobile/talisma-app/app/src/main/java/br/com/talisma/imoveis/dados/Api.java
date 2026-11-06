@@ -23,7 +23,8 @@ import java.nio.charset.StandardCharsets;
  * (via {@code Tarefas}). Rotas em {@link ApiRotas}; resposta crua em texto (vazia em 204),
  * convertida com {@link #objeto}/{@link #lista} e o {@code deJson} do modelo.
  * Erros: rede → {@link ApiException#semConexao}; status ≥ 400 → {@link ApiException} com a
- * {@code mensagem} do corpo padrão {@code { "status", "mensagem" }}.
+ * {@code mensagem} do corpo padrão {@code { "status", "mensagem" }}; 401 com token enviado limpa a
+ * {@link Sessao} e vira {@link ApiException#sessaoExpirada}.
  */
 public class Api {
 
@@ -101,6 +102,11 @@ public class Api {
             if (status >= 400) {
                 String erro = ler(conexao.getErrorStream());
                 Log.w(TAG, metodo + " " + rota + " → " + status);
+                if (status == ApiException.NAO_AUTORIZADO && token != null) {
+                    // 401 com token = sessão expirada (6.6, D35): limpa e avisa a tela.
+                    Sessao.limpar(context);
+                    throw ApiException.sessaoExpirada(mensagemDoErro(erro));
+                }
                 throw new ApiException(status, mensagemDoErro(erro));
             }
             return ler(conexao.getInputStream());

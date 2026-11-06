@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Conta e visitas — dados (T05). Mensagens do ServidorSimulado e da sessão (6.6). -->
+    <string name="sessao_expirada">Sua sessão expirou. Entre novamente.</string>
+
+    <string name="conta_erro_login_invalido">E-mail ou senha incorretos.</string>
+    <string name="conta_erro_bloqueada">Conta bloqueada após 3 tentativas. Procure a imobiliária.</string>
+    <string name="conta_erro_email_nao_verificado">Confirme seu e-mail para entrar.</string>
+    <string name="conta_erro_nao_corretor">Esta conta não é de corretor.</string>
+    <string name="conta_erro_nao_cliente">Esta conta não é de cliente.</string>
+    <string name="conta_erro_email_cadastrado">Este e-mail já está cadastrado.</string>
+    <string name="conta_erro_email_invalido">Informe um e-mail válido.</string>
+    <string name="conta_erro_nome_obrigatorio">Informe seu nome.</string>
+    <string name="conta_erro_senha_curta">A senha deve ter pelo menos 6 caracteres.</string>
+    <string name="conta_erro_senha_atual">Senha atual incorreta.</string>
+    <string name="conta_erro_codigo_invalido">Código inválido.</string>
+    <string name="conta_erro_cpf_invalido">CPF inválido.</string>
+    <string name="conta_erro_telefone_invalido">Informe um telefone válido com DDD.</string>
+
+    <string name="visita_erro_imovel_nao_encontrado">Imóvel não encontrado.</string>
+    <string name="visita_erro_data">Escolha uma data a partir de amanhã.</string>
+    <string name="visita_erro_periodo">Escolha o período: manhã, tarde ou noite.</string>
+    <string name="visita_erro_cpf_obrigatorio">Informe seu CPF para solicitar a visita.</string>
+    <string name="visita_erro_nao_encontrada">Visita não encontrada.</string>
+    <string name="visita_erro_nao_cancelavel">Esta visita não pode mais ser cancelada.</string>
+</resources>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Perfil (protótipo Perfil + D31, 6.5). T02: topo final (cabeçalho borgonha com avatar, nome e e-mail)
-    e itens de menu no padrão ItemMenu como conteúdo provisório; a T06 liga sessão, convite deslogado,
-    itens, Sair, versão e o diálogo Modo demonstração.
+    Perfil (protótipo Perfil + D31, 6.5). Logado: cabeçalho borgonha com avatar, nome e e-mail; itens Dados
+    pessoais, Meus favoritos, Meus contatos, Alterar senha, Fale com a imobiliária, Termos; Sair; versão.
+    Deslogado: ícone genérico + "Entre para salvar visitas e favoritos", botões Entrar e Cadastrar; itens só
+    Fale com a imobiliária e Termos. 5 toques na versão abrem o diálogo Modo demonstração (D26).
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,10 +18,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/borgonha"
+        app:layout_constraintBottom_toTopOf="@id/scrollConteudo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/scrollConteudo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgAvatar"
@@ -28,11 +29,9 @@
         android:layout_height="@dimen/tamanho_avatar"
         android:layout_marginStart="@dimen/margem_tela"
         android:layout_marginTop="@dimen/espaco_24"
-        android:layout_marginBottom="@dimen/espaco_24"
         android:background="@drawable/fundo_avatar"
         android:contentDescription="@string/desc_avatar"
         android:padding="@dimen/espaco_16"
-        app:layout_constraintBottom_toTopOf="@id/scrollConteudo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_perfil"
@@ -67,15 +66,48 @@
         app:layout_constraintTop_toBottomOf="@id/txtNome"
         tools:text="username@email.com" />
 
+    <Button
+        android:id="@+id/btnEntrar"
+        style="@style/Botao.Primario.Branco"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/espaco_8"
+        android:layout_marginBottom="@dimen/espaco_24"
+        android:text="@string/perfil_entrar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/scrollConteudo"
+        app:layout_constraintEnd_toStartOf="@id/btnCadastrar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnCadastrar"
+        style="@style/Botao.Contorno.Branco"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_8"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:text="@string/perfil_cadastrar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/btnEntrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnEntrar"
+        app:layout_constraintTop_toTopOf="@id/btnEntrar"
+        tools:visibility="visible" />
+
     <ScrollView
         android:id="@+id/scrollConteudo"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/espaco_24"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgAvatar">
+        app:layout_constraintTop_toBottomOf="@id/btnEntrar">
 
         <LinearLayout
             android:id="@+id/conteudoPerfil"
@@ -90,28 +122,36 @@
                 style="@style/ItemMenu"
                 android:text="@string/perfil_dados_pessoais" />
 
-            <View style="@style/Divisoria" />
+            <View
+                android:id="@+id/divDadosPessoais"
+                style="@style/Divisoria" />
 
             <TextView
                 android:id="@+id/itemMeusFavoritos"
                 style="@style/ItemMenu"
                 android:text="@string/perfil_meus_favoritos" />
 
-            <View style="@style/Divisoria" />
+            <View
+                android:id="@+id/divMeusFavoritos"
+                style="@style/Divisoria" />
 
             <TextView
                 android:id="@+id/itemMeusContatos"
                 style="@style/ItemMenu"
                 android:text="@string/perfil_meus_contatos" />
 
-            <View style="@style/Divisoria" />
+            <View
+                android:id="@+id/divMeusContatos"
+                style="@style/Divisoria" />
 
             <TextView
                 android:id="@+id/itemAlterarSenha"
                 style="@style/ItemMenu"
                 android:text="@string/perfil_alterar_senha" />
 
-            <View style="@style/Divisoria" />
+            <View
+                android:id="@+id/divAlterarSenha"
+                style="@style/Divisoria" />
 
             <TextView
                 android:id="@+id/itemFaleConosco"

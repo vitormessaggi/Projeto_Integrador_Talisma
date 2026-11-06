@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Toolbar branca das telas internas (6.5): voltar borgonha + título centralizado. Incluída com
+    <include android:id="@+id/barraTopo" layout="@layout/barra_topo" .../>; o título é definido em código
+    (findViewById(R.id.txtTituloTela)).
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/barraTopo"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/altura_barra_topo">
+
+    <ImageButton
+        android:id="@+id/btnVoltar"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/desc_voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_voltar"
+        app:tint="@color/borgonha" />
+
+    <TextView
+        android:id="@+id/txtTituloTela"
+        style="@style/Texto.TituloToolbar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:layout_marginEnd="@dimen/altura_barra_topo"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnVoltar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/dados_titulo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
