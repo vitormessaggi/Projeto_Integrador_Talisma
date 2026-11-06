@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "nome": "Cliente Teste",
+    "email": "cliente@teste.com",
+    "senha": "1234",
+    "cpf": null,
+    "telefone": "(11) 90000-0001",
+    "perfil": "CLIENTE",
+    "bloqueado": false,
+    "emailVerificado": true
+  },
+  {
+    "id": 2,
+    "nome": "Corretor Teste",
+    "email": "corretor@teste.com",
+    "senha": "1234",
+    "cpf": null,
+    "telefone": "(11) 90000-0002",
+    "perfil": "CORRETOR",
+    "bloqueado": false,
+    "emailVerificado": true
+  },
+  {
+    "id": 3,
+    "nome": "Conta Bloqueada",
+    "email": "bloqueada@teste.com",
+    "senha": "1234",
+    "cpf": null,
+    "telefone": null,
+    "perfil": "CLIENTE",
+    "bloqueado": true,
+    "emailVerificado": true
+  }
+]

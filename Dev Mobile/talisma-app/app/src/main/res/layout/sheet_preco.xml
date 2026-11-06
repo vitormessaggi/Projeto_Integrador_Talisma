@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sheet "Faixa de preço" (6.5, D32, RN-003): mín./máx. em R$, erro se mín. > máx., Limpar | Aplicar. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margem_tela">
+
+    <TextView
+        android:id="@+id/txtTituloSheet"
+        style="@style/Texto.TituloSecao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/filtro_preco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/campoPrecoMin"
+        style="@style/Campo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/espaco_8"
+        android:hint="@string/filtro_preco_minimo"
+        app:layout_constraintEnd_toStartOf="@id/campoPrecoMax"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloSheet">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtPrecoMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="10" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/campoPrecoMax"
+        style="@style/Campo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_8"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:hint="@string/filtro_preco_maximo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/campoPrecoMin"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloSheet">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtPrecoMax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="10" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/txtErroPreco"
+        style="@style/Texto.Legenda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_8"
+        android:text="@string/erro_preco_min_maior_max"
+        android:textColor="@color/erro"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/campoPrecoMin" />
+
+    <Button
+        android:id="@+id/btnLimpar"
+        style="@style/Botao.Contorno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:layout_marginEnd="@dimen/espaco_8"
+        android:text="@string/filtro_limpar"
+        app:layout_constraintEnd_toStartOf="@id/btnAplicar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtErroPreco" />
+
+    <Button
+        android:id="@+id/btnAplicar"
+        style="@style/Botao.Primario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_8"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:text="@string/filtro_aplicar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnLimpar"
+        app:layout_constraintTop_toBottomOf="@id/txtErroPreco" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

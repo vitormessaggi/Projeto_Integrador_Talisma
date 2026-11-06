@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Perfil (protótipo Perfil + D31, 6.5). T02: topo final (cabeçalho borgonha com avatar, nome e e-mail)
+    e itens de menu no padrão ItemMenu como conteúdo provisório; a T06 liga sessão, convite deslogado,
+    itens, Sair, versão e o diálogo Modo demonstração.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PerfilActivity">
+
+    <View
+        android:id="@+id/vwCabecalho"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/borgonha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scrollConteudo" />
+
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="@dimen/tamanho_avatar"
+        android:layout_height="@dimen/tamanho_avatar"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:layout_marginBottom="@dimen/espaco_24"
+        android:background="@drawable/fundo_avatar"
+        android:contentDescription="@string/desc_avatar"
+        android:padding="@dimen/espaco_16"
+        app:layout_constraintBottom_toTopOf="@id/scrollConteudo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_perfil"
+        app:tint="@color/borgonha" />
+
+    <TextView
+        android:id="@+id/txtNome"
+        style="@style/Texto.TituloToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:textColor="@color/branco"
+        app:layout_constraintBottom_toTopOf="@id/txtEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgAvatar"
+        app:layout_constraintTop_toTopOf="@id/imgAvatar"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Nome do cliente" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        style="@style/Texto.Corpo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:textColor="@color/branco"
+        app:layout_constraintBottom_toBottomOf="@id/imgAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgAvatar"
+        app:layout_constraintTop_toBottomOf="@id/txtNome"
+        tools:text="username@email.com" />
+
+    <ScrollView
+        android:id="@+id/scrollConteudo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgAvatar">
+
+        <LinearLayout
+            android:id="@+id/conteudoPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/espaco_8"
+            android:paddingBottom="@dimen/espaco_24">
+
+            <TextView
+                android:id="@+id/itemDadosPessoais"
+                style="@style/ItemMenu"
+                android:text="@string/perfil_dados_pessoais" />
+
+            <View style="@style/Divisoria" />
+
+            <TextView
+                android:id="@+id/itemMeusFavoritos"
+                style="@style/ItemMenu"
+                android:text="@string/perfil_meus_favoritos" />
+
+            <View style="@style/Divisoria" />
+
+            <TextView
+                android:id="@+id/itemMeusContatos"
+                style="@style/ItemMenu"
+                android:text="@string/perfil_meus_contatos" />
+
+            <View style="@style/Divisoria" />
+
+            <TextView
+                android:id="@+id/itemAlterarSenha"
+                style="@style/ItemMenu"
+                android:text="@string/perfil_alterar_senha" />
+
+            <View style="@style/Divisoria" />
+
+            <TextView
+                android:id="@+id/itemFaleConosco"
+                style="@style/ItemMenu"
+                android:text="@string/perfil_fale_conosco" />
+
+            <View style="@style/Divisoria" />
+
+            <TextView
+                android:id="@+id/itemTermos"
+                style="@style/ItemMenu"
+                android:text="@string/perfil_termos" />
+
+            <View style="@style/Divisoria" />
+
+            <Button
+                android:id="@+id/btnSair"
+                style="@style/Botao.Contorno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margem_tela"
+                android:layout_marginTop="@dimen/espaco_24"
+                android:layout_marginEnd="@dimen/margem_tela"
+                android:text="@string/perfil_sair" />
+
+            <TextView
+                android:id="@+id/txtVersao"
+                style="@style/Texto.Legenda"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/altura_minima_toque"
+                android:layout_marginTop="@dimen/espaco_16"
+                android:gravity="center"
+                tools:text="Versão 1.0" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/barra_navegacao" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

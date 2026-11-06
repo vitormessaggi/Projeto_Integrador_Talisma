@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Miniatura de 72dp do Detalhe (6.4); toque abre a Galeria na foto. -->
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/imgMiniatura"
+    android:layout_width="@dimen/tamanho_miniatura"
+    android:layout_height="@dimen/tamanho_miniatura"
+    android:layout_marginEnd="@dimen/espaco_8"
+    android:background="@color/placeholder_foto"
+    android:contentDescription="@string/desc_foto_imovel"
+    android:foreground="?attr/selectableItemBackground"
+    android:scaleType="centerCrop" />

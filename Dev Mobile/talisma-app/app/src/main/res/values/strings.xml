@@ -1,0 +1,145 @@
+<resources>
+    <!-- Marca (D21: translatable=false para marca, URL, telefone) -->
+    <string name="app_name" translatable="false">Talismã Imóveis</string>
+    <string name="marca_curta" translatable="false">Talismã</string>
+    <string name="versao_app">Versão %1$s</string>
+
+    <!-- Navegação inferior (6.4) -->
+    <string name="nav_inicio">Início</string>
+    <string name="nav_imoveis">Imóveis</string>
+    <string name="nav_favoritos">Favoritos</string>
+    <string name="nav_perfil">Perfil</string>
+
+    <!-- Acessibilidade de ícones -->
+    <string name="desc_logo">Logo Talismã Imóveis</string>
+    <string name="desc_voltar">Voltar</string>
+    <string name="desc_foto_imovel">Foto do imóvel</string>
+    <string name="desc_avatar">Foto do perfil</string>
+    <string name="desc_favoritar">Favoritar imóvel</string>
+    <string name="desc_compartilhar">Compartilhar imóvel</string>
+
+    <!-- Home (6.5) -->
+    <string name="home_destaque">O imóvel que você procura está aqui!</string>
+    <string name="home_comprar">Comprar</string>
+    <string name="home_alugar">Alugar</string>
+    <string name="home_tipo_imovel">Tipo de imóvel</string>
+    <string name="home_onde_morar">Onde deseja morar?</string>
+    <string name="home_buscar">Buscar</string>
+    <string name="home_imoveis_destaque">Imóveis em Destaque</string>
+    <string name="home_ver_todos">Ver todos</string>
+    <string name="opcao_selecione">Selecione</string>
+    <string-array name="opcoes_provisorias">
+        <item>@string/opcao_selecione</item>
+    </string-array>
+    <string name="tipo_casa">Casa</string>
+    <string name="tipo_apartamento">Apartamento</string>
+    <string name="tipo_terreno">Terreno</string>
+    <string-array name="opcoes_tipo">
+        <item>@string/opcao_selecione</item>
+        <item>@string/tipo_casa</item>
+        <item>@string/tipo_apartamento</item>
+        <item>@string/tipo_terreno</item>
+    </string-array>
+    <string name="home_destaques_vazio">Nenhum imóvel em destaque no momento</string>
+
+    <!-- Pedido de localização na 1ª abertura (D15, 2.1.3) -->
+    <string name="localizacao_titulo">Imóveis perto de você</string>
+    <string name="localizacao_explicacao">O Talismã Imóveis usa sua localização apenas para mostrar os imóveis mais próximos quando você escolher "Perto de mim". Você pode continuar usando o app normalmente se preferir não permitir.</string>
+    <string name="localizacao_continuar">Continuar</string>
+    <string name="localizacao_agora_nao">Agora não</string>
+    <string name="localizacao_negada">Sem permissão de localização. Permita nas configurações do aparelho para usar "Perto de mim".</string>
+    <string name="localizacao_configuracoes">Configurações</string>
+    <string name="localizacao_indisponivel">Não foi possível obter sua localização. Verifique se ela está ligada.</string>
+
+    <!-- Imóveis (6.5) -->
+    <string name="imoveis_titulo">Imóveis</string>
+    <string name="imoveis_a_venda">À venda</string>
+    <string name="imoveis_locacao">Locação</string>
+    <string name="filtro_preco">Faixa de preço</string>
+    <string name="filtro_tipo">Tipo</string>
+    <string name="filtro_quartos">Quartos</string>
+    <string name="filtro_cidade">Cidade</string>
+    <string name="filtro_perto_de_mim">Perto de mim</string>
+    <string name="imoveis_vazio">Nenhum imóvel encontrado com esses filtros</string>
+    <string name="imoveis_limpar_filtros">Limpar filtros</string>
+    <string name="filtro_limpar">Limpar</string>
+    <string name="filtro_aplicar">Aplicar</string>
+    <string name="filtro_preco_minimo">Preço mínimo (R$)</string>
+    <string name="filtro_preco_maximo">Preço máximo (R$)</string>
+    <string name="filtro_preco_faixa">%1$s – %2$s</string>
+    <string name="filtro_preco_a_partir">a partir de %1$s</string>
+    <string name="filtro_preco_ate">até %1$s</string>
+    <string name="filtro_quartos_valor">%1$d+ quartos</string>
+    <string name="filtro_quarto_1">1</string>
+    <string name="filtro_quarto_2">2</string>
+    <string name="filtro_quarto_3">3</string>
+    <string name="filtro_quarto_4">4+</string>
+    <string name="filtro_cidade_recentes">Buscas recentes</string>
+    <string name="filtro_cidade_todas">Todas as cidades</string>
+    <string name="formato_localizacao">%1$s, %2$s</string>
+    <string name="desc_carregando_mais">Carregando mais imóveis</string>
+    <string name="desc_remover_favorito">Remover dos favoritos</string>
+
+    <!-- Detalhe (6.5) -->
+    <string name="detalhe_titulo">Detalhes</string>
+    <string name="detalhe_quartos">%1$d\nQuartos</string>
+    <string name="detalhe_banheiros">%1$d\nBanheiros</string>
+    <string name="detalhe_vagas">%1$d\nVagas</string>
+    <string name="detalhe_area">%1$s\nÁrea</string>
+    <string name="detalhe_area_vazia">—\nÁrea</string>
+    <string name="detalhe_descricao">Descrição</string>
+    <string name="detalhe_ver_mais">Ver mais</string>
+    <string name="detalhe_ver_menos">Ver menos</string>
+    <string name="detalhe_localizacao">Localização</string>
+    <string name="detalhe_comprar_agora">Comprar agora</string>
+    <string name="detalhe_alugar_agora">Alugar agora</string>
+    <string name="detalhe_legenda_cta">Você será direcionado a um corretor</string>
+    <string name="detalhe_compartilhar_texto">%1$s — %2$s em %3$s. Veja no Talismã Imóveis.</string>
+    <string name="detalhe_compartilhar_titulo">Compartilhar imóvel</string>
+    <string name="desc_abrir_galeria">Abrir galeria de fotos</string>
+    <string name="desc_miniatura">Foto %1$d de %2$d</string>
+
+    <!-- Galeria (6.5) -->
+    <string name="galeria_contador">%1$d/%2$d</string>
+    <string name="desc_fechar">Fechar</string>
+
+    <!-- Solicitar visita (provisória até a T06, D30) -->
+    <string name="visita_titulo">Solicitar visita</string>
+    <string name="visita_em_breve">Em breve você poderá solicitar sua visita por aqui.</string>
+
+    <!-- Favoritos (6.5) -->
+    <string name="favoritos_titulo">Favoritos</string>
+    <string name="favoritos_subtitulo">Imóveis que você salvou</string>
+    <string name="favoritos_vazio">Você ainda não salvou imóveis</string>
+    <string name="favoritos_explorar">Explorar imóveis</string>
+    <string name="favoritos_removido">Removido</string>
+    <string name="favoritos_desfazer">Desfazer</string>
+    <string name="favoritos_adicionado">Salvo nos favoritos</string>
+
+    <!-- Perfil (6.5, D31) -->
+    <string name="perfil_titulo">Perfil</string>
+    <string name="perfil_convite">Entre para salvar visitas e favoritos</string>
+    <string name="perfil_entrar">Entrar</string>
+    <string name="perfil_cadastrar">Cadastrar</string>
+    <string name="perfil_dados_pessoais">Dados pessoais</string>
+    <string name="perfil_meus_favoritos">Meus favoritos</string>
+    <string name="perfil_meus_contatos">Meus contatos com corretores</string>
+    <string name="perfil_alterar_senha">Alterar senha</string>
+    <string name="perfil_fale_conosco">Fale com a imobiliária</string>
+    <string name="perfil_termos">Termos e Condições</string>
+    <string name="perfil_sair">Sair</string>
+
+    <!-- Formatos (6.6) -->
+    <string name="formato_preco_mes">%1$s/mês</string>
+    <string name="formato_area">%1$s m²</string>
+    <string name="formato_distancia">a %1$s km</string>
+
+    <!-- Mensagens de erro (6.6) -->
+    <string name="erro_sem_conexao">Sem conexão. Verifique sua internet.</string>
+    <string name="erro_servidor">Algo deu errado. Tente novamente.</string>
+    <string name="banner_offline">Você está offline — mostrando dados salvos</string>
+
+    <!-- Estado de tela (6.4) -->
+    <string name="estado_carregando">Carregando…</string>
+    <string name="estado_tentar_novamente">Tentar novamente</string>
+</resources>

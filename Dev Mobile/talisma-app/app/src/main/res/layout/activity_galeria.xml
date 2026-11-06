@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Galeria (6.5): fundo preto, foto em tela cheia com deslize horizontal (PagerSnapHelper), contador "2/4" e fechar. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".GaleriaActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFotos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnFechar"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/desc_fechar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_voltar"
+        app:tint="@color/branco" />
+
+    <TextView
+        android:id="@+id/txtContador"
+        style="@style/Texto.Rotulo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:gravity="center"
+        android:textColor="@color/branco"
+        app:layout_constraintEnd_toStartOf="@id/spcDireita"
+        app:layout_constraintStart_toEndOf="@id/btnFechar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2/4" />
+
+    <!-- Espelha o botão à direita para o contador ficar centralizado -->
+    <Space
+        android:id="@+id/spcDireita"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

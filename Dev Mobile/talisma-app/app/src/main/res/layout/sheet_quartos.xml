@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sheet "Quartos" (6.5, D32): chips 1, 2, 3, 4+ com seleção única, Limpar | Aplicar. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margem_tela">
+
+    <TextView
+        android:id="@+id/txtTituloSheet"
+        style="@style/Texto.TituloSecao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/filtro_quartos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/grupoQuartos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_16"
+        app:chipSpacingHorizontal="@dimen/espaco_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloSheet"
+        app:selectionRequired="false"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipQuarto1"
+            style="@style/Chip.Filtro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filtro_quarto_1" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipQuarto2"
+            style="@style/Chip.Filtro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filtro_quarto_2" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipQuarto3"
+            style="@style/Chip.Filtro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filtro_quarto_3" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipQuarto4"
+            style="@style/Chip.Filtro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filtro_quarto_4" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/btnLimpar"
+        style="@style/Botao.Contorno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:layout_marginEnd="@dimen/espaco_8"
+        android:text="@string/filtro_limpar"
+        app:layout_constraintEnd_toStartOf="@id/btnAplicar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/grupoQuartos" />
+
+    <Button
+        android:id="@+id/btnAplicar"
+        style="@style/Botao.Primario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espaco_8"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:text="@string/filtro_aplicar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnLimpar"
+        app:layout_constraintTop_toBottomOf="@id/grupoQuartos" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

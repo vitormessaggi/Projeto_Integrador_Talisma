@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Banner offline (6.4, D36): faixa alerta de 32dp no topo, "Você está offline — mostrando dados salvos".
+    Incluído com <include android:id="@+id/txtBannerOffline" layout="@layout/banner_offline" .../> e
+    mostrado quando o resultado vem do cache (Pagina.offline / Imovel.offline).
+-->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/txtBannerOffline"
+    style="@style/Texto.Legenda"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/altura_banner_offline"
+    android:background="@color/alerta"
+    android:drawablePadding="@dimen/espaco_8"
+    app:drawableStartCompat="@drawable/ic_nuvem_off"
+    app:drawableTint="@color/branco"
+    android:gravity="center"
+    android:paddingStart="@dimen/margem_tela"
+    android:paddingEnd="@dimen/margem_tela"
+    android:text="@string/banner_offline"
+    android:textColor="@color/branco"
+    android:visibility="gone"
+    tools:visibility="visible" />

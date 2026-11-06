@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Favoritos (protótipo Favoritos, 6.5, D10): título, subtítulo e rvFavoritos com CartaoImovel de coração
+    cheio (toque remove com Snackbar "Removido · Desfazer"); vazio em estado_tela com "Explorar imóveis".
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FavoritosActivity">
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        style="@style/Texto.TituloTela"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:text="@string/favoritos_titulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtSubtitulo"
+        style="@style/Texto.Legenda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:text="@string/favoritos_subtitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitulo" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFavoritos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/espaco_16"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margem_tela"
+        android:paddingEnd="@dimen/margem_tela"
+        android:paddingBottom="@dimen/espaco_16"
+        app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo" />
+
+    <include
+        android:id="@+id/estadoTela"
+        layout="@layout/estado_tela"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/vwBordaNavegacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo" />
+
+    <include layout="@layout/barra_navegacao" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

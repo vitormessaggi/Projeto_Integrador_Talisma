@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Solicitar visita — versão provisória da Fase 2.2 (só toolbar e título). A T06 (D30) completa com
+    resumo do imóvel, data, período, telefone, CPF, mensagem e envio.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SolicitarVisitaActivity">
+
+    <ImageButton
+        android:id="@+id/btnVoltar"
+        android:layout_width="@dimen/altura_barra_topo"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/desc_voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_voltar"
+        app:tint="@color/borgonha" />
+
+    <TextView
+        android:id="@+id/txtTituloTela"
+        style="@style/Texto.TituloToolbar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/altura_barra_topo"
+        android:layout_marginEnd="@dimen/altura_barra_topo"
+        android:gravity="center"
+        android:text="@string/visita_titulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnVoltar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtEmBreve"
+        style="@style/Texto.Corpo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margem_tela"
+        android:layout_marginTop="@dimen/espaco_24"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:gravity="center"
+        android:text="@string/visita_em_breve"
+        android:textColor="@color/texto_secundario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloTela" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

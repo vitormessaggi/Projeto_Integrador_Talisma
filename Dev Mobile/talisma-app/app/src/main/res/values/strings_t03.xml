@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dados da vitrine (T03) -->
+    <string name="erro_preco_min_maior_max">O preço mínimo não pode ser maior que o máximo.</string>
+</resources>

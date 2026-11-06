@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Campo (6.4) para Spinner: fundo superficie, borda borda, raio 8dp, seta à direita -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/superficie" />
+            <stroke
+                android:width="@dimen/largura_borda"
+                android:color="@color/borda" />
+            <corners android:radius="@dimen/raio_campo" />
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/tamanho_icone"
+        android:height="@dimen/tamanho_icone"
+        android:drawable="@drawable/ic_seta_baixo"
+        android:end="@dimen/espaco_12"
+        android:gravity="end|center_vertical" />
+</layer-list>
