@@ -1,28 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BedDouble, MapPin, House } from "lucide-react";
+import { BedDouble, Bath, CarFront, Maximize, MapPin, House, ArrowUpRight } from "lucide-react";
 import type { Imovel } from "@/lib/api";
+import { BotaoFavorito } from "./favoritos";
 
 export const dinheiro = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 export const caixa = "mx-auto max-w-7xl px-5 sm:px-10";
-export const campo = "min-h-11 w-full rounded-md border border-input bg-white px-3 py-2 text-sm text-foreground";
-export const primario = "inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#6b0014]";
+export const campo = "field";
+export const primario = "action-primary";
 export const rotulo = "grid content-start gap-1.5 text-sm font-semibold";
 
 export function CartaoImovel({ imovel, finalidade }: { imovel: Imovel; finalidade?: string }) {
   const oferta = imovel.ofertas.find((item) => item.finalidade === finalidade) ?? imovel.ofertas[0];
   return (
-    <article className="overflow-hidden rounded-xl bg-card shadow-md">
-      <Link className="block p-4 hover:underline" href={`/imoveis/${imovel.id}`}>
-        <div className="relative grid aspect-[5/4] place-items-center overflow-hidden rounded-md bg-muted text-primary">
-          {imovel.fotos[0] ? <Image src={imovel.fotos[0]} alt="" fill unoptimized sizes="(max-width: 640px) 90vw, 33vw" className="object-cover" /> : <House size={42} aria-hidden />}
+    <article className="property-card">
+      <div className="relative">
+        <Link href={`/imoveis/${imovel.id}${oferta?.finalidade ? `?finalidade=${oferta.finalidade}` : ""}`} aria-label={`Ver ${imovel.titulo}`} className="property-photo">
+          {imovel.fotos[0] ? <Image src={imovel.fotos[0]} alt={imovel.titulo} fill unoptimized sizes="(max-width: 640px) 90vw, 33vw" className="object-cover" /> : <House size={42} aria-hidden />}
+        </Link>
+        <span className="property-label">{oferta?.finalidade === "LOCACAO" ? "Para alugar" : "À venda"}</span>
+        <BotaoFavorito imovel={imovel}/>
+      </div>
+      <Link className="block p-5" href={`/imoveis/${imovel.id}${oferta?.finalidade ? `?finalidade=${oferta.finalidade}` : ""}`}>
+        <p className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin size={14} aria-hidden />{imovel.bairro}, {imovel.cidade}</p>
+        <h2 className="line-clamp-2 min-h-12 text-base font-semibold leading-6">{imovel.titulo}</h2>
+        <div className="my-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1"><BedDouble size={15} aria-hidden/>{imovel.quartos} quartos</span>
+          <span className="flex items-center gap-1"><Bath size={15} aria-hidden/>{imovel.banheiros}</span>
+          <span className="flex items-center gap-1"><CarFront size={15} aria-hidden/>{imovel.vagas}</span>
+          <span className="flex items-center gap-1"><Maximize size={15} aria-hidden/>{imovel.areaTotal} m²</span>
         </div>
-        <h2 className="mt-4 text-lg font-semibold">{imovel.titulo}</h2>
-        <p className="mt-2 flex items-center gap-2 text-sm"><MapPin size={16} aria-hidden />{imovel.bairro}, {imovel.cidade} · {imovel.uf}</p>
-        <p className="mt-2 flex flex-wrap items-center gap-3 text-sm">
-          <span className="flex items-center gap-2"><BedDouble size={16} aria-hidden />{imovel.quartos} quartos</span>
-          {oferta?.preco !== undefined && <strong>{dinheiro.format(oferta.preco)}{oferta.finalidade === "LOCACAO" ? "/mês" : ""}</strong>}
-        </p>
+        <div className="flex items-end justify-between border-t border-border pt-4">
+          <div>{oferta?.preco !== undefined && <p className="text-xl font-semibold tracking-tight text-primary">{dinheiro.format(oferta.preco)}{oferta.finalidade === "LOCACAO" && <span className="text-xs font-normal text-muted-foreground"> /mês</span>}</p>}
+          {imovel.distanciaKm != null && <p className="mt-1 text-xs text-muted-foreground">A {imovel.distanciaKm.toFixed(1)} km de você</p>}</div>
+          <ArrowUpRight size={20} className="text-primary" aria-hidden/>
+        </div>
       </Link>
     </article>
   );
@@ -40,5 +52,5 @@ export function Paginacao({ atual, total, href }: { atual: number; total: number
 }
 
 export function Vazio({ children }: { children: React.ReactNode }) {
-  return <p className="rounded-lg bg-muted p-6 text-muted-foreground">{children}</p>;
+  return <p className="rounded-2xl border border-dashed border-border bg-muted/50 p-8 text-muted-foreground">{children}</p>;
 }

@@ -74,8 +74,9 @@ public final class CarregadorImagem {
         }
         int largura = imageView.getWidth() > 0 ? imageView.getWidth() : LADO_PADRAO;
         int altura = imageView.getHeight() > 0 ? imageView.getHeight() : LADO_PADRAO;
+        boolean privada = foto.startsWith(br.com.talisma.imoveis.dados.ApiRotas.BASE + "/api/v1/gestao/");
         String chave = foto + "@" + largura + "x" + altura;
-        Bitmap emMemoria = MEMORIA.get(chave);
+        Bitmap emMemoria = privada ? null : MEMORIA.get(chave);
         if (emMemoria != null) {
             imageView.setImageBitmap(emMemoria);
             return;
@@ -84,7 +85,7 @@ public final class CarregadorImagem {
         Context context = imageView.getContext().getApplicationContext();
         Tarefas.emSegundoPlano(() -> {
             Bitmap bitmap = decodificar(context, foto, largura, altura);
-            if (bitmap != null) {
+            if (bitmap != null && !privada) {
                 MEMORIA.put(chave, bitmap);
             }
             Tarefas.naPrincipal(() -> {
@@ -99,6 +100,14 @@ public final class CarregadorImagem {
     @Nullable
     public static Bitmap decodificar(Context context, String foto, int largura, int altura) {
         try {
+            if (foto.startsWith(br.com.talisma.imoveis.dados.ApiRotas.BASE + "/api/v1/gestao/")) {
+                File temporario = File.createTempFile("foto-interna", ".jpg", context.getCacheDir());
+                try {
+                    new br.com.talisma.imoveis.dados.Api(context).baixarFoto(foto.substring(br.com.talisma.imoveis.dados.ApiRotas.BASE.length()), temporario);
+                    return decodificarArquivo(temporario, largura, altura);
+                } catch (br.com.talisma.imoveis.dados.ApiException erro) { return null; }
+                finally { if (!temporario.delete()) temporario.deleteOnExit(); }
+            }
             if (ehUrl(foto)) {
                 File arquivo = baixar(context, foto);
                 return arquivo != null ? decodificarArquivo(arquivo, largura, altura) : null;

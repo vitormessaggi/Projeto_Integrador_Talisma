@@ -120,6 +120,7 @@ public final class Formatos {
 
     /** CPF mascarado para exibição: "***.***.***-12" (D12). */
     public static String cpfOculto(@Nullable String cpf) {
+        if (cpf != null && cpf.contains("*")) return cpf;
         String d = digitos(cpf);
         if (d.length() != 11) {
             return "";

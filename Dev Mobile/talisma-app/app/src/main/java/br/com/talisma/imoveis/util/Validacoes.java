@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 public final class Validacoes {
 
     /** Senha: mínimo de 6 caracteres (D34). */
-    public static final int SENHA_MINIMA = 6;
+    public static final int SENHA_MINIMA = 8;
 
     private Validacoes() {
     }
@@ -24,7 +24,7 @@ public final class Validacoes {
 
     /** Senha com pelo menos {@link #SENHA_MINIMA} caracteres. */
     public static boolean senha(@Nullable String senha) {
-        return senha != null && senha.length() >= SENHA_MINIMA;
+        return senha != null && senha.length() >= SENHA_MINIMA && senha.length() <= 72;
     }
 
     /** Confirmação igual à senha. */
@@ -63,6 +63,6 @@ public final class Validacoes {
 
     /** Código de verificação de 4 dígitos. */
     public static boolean codigo(@Nullable String codigo) {
-        return codigo != null && codigo.matches("\\d{4}");
+        return codigo != null && codigo.matches("\\d{6}");
     }
 }

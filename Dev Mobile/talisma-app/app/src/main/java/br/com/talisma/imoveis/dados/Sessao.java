@@ -32,7 +32,8 @@ public final class Sessao {
         JSONObject json = usuario.paraJson();
         json.remove("cpf");
         prefs(context).edit()
-                .putString(CHAVE_TOKEN, token)
+                .putString(CHAVE_TOKEN, Cofre.cifrar(token))
+                .remove("refresh")
                 .putString(CHAVE_USUARIO, json.toString())
                 .apply();
     }
@@ -46,7 +47,7 @@ public final class Sessao {
 
     @Nullable
     public static String token(Context context) {
-        return prefs(context).getString(CHAVE_TOKEN, null);
+        return Cofre.ler(prefs(context).getString(CHAVE_TOKEN, null));
     }
 
     @Nullable
@@ -66,6 +67,12 @@ public final class Sessao {
 
     public static boolean logado(Context context) {
         return token(context) != null;
+    }
+
+    public static String refresh(Context context) { return Cofre.ler(prefs(context).getString("refresh", null)); }
+
+    public static void tokens(Context context, String acesso, String refresh) {
+        prefs(context).edit().putString(CHAVE_TOKEN, Cofre.cifrar(acesso)).putString("refresh", Cofre.cifrar(refresh)).commit();
     }
 
     public static void limpar(Context context) {

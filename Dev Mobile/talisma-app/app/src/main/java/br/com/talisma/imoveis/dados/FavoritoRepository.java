@@ -164,8 +164,23 @@ public class FavoritoRepository {
             if (!Sessao.logado(context)) {
                 return;
             }
-            enviarPendentes();
-            baixarRemotos();
+            Usuario usuario = Sessao.usuario(context);
+            if (usuario == null || !Usuario.CLIENTE.equals(usuario.perfil)) return;
+            SQLiteDatabase conta = banco();
+            bancoSincronizacao.set(conta); usuarioSincronizacao.set(usuario.id);
+            try {
+                SQLiteDatabase visitante = BancoLocal.favoritos(context, ambiente() + "visitante");
+                try (Cursor c = visitante.query(BancoLocal.FAVORITO, null, "removido=0", null, null, null, null)) {
+                    while (c.moveToNext()) {
+                        ContentValues valores = new ContentValues();
+                        android.database.DatabaseUtils.cursorRowToContentValues(c, valores);
+                        valores.put("sincronizado", 0);
+                        conta.insertWithOnConflict(BancoLocal.FAVORITO, null, valores, SQLiteDatabase.CONFLICT_IGNORE);
+                    }
+                }
+                visitante.delete(BancoLocal.FAVORITO, null, null);
+                enviarPendentes(); baixarRemotos();
+            } finally { bancoSincronizacao.remove(); usuarioSincronizacao.remove(); }
         }
     }
 
@@ -262,7 +277,7 @@ public class FavoritoRepository {
         if (simulado()) {
             return new ServidorSimulado(context).favoritos(Sessao.token(context));
         }
-        JSONArray lista = Api.lista(new Api(context).get(ApiRotas.FAVORITOS));
+        JSONArray lista = apiDaConta().todasPaginas(ApiRotas.FAVORITOS);
         List<Imovel> imoveis = new ArrayList<>();
         try {
             for (int k = 0; k < lista.length(); k++) {
@@ -278,7 +293,7 @@ public class FavoritoRepository {
         if (simulado()) {
             new ServidorSimulado(context).adicionarFavorito(Sessao.token(context), imovelId);
         } else {
-            new Api(context).put(ApiRotas.favorito(imovelId), null);
+            apiDaConta().put(ApiRotas.favorito(imovelId), null);
         }
     }
 
@@ -287,7 +302,7 @@ public class FavoritoRepository {
             if (simulado()) {
                 new ServidorSimulado(context).removerFavorito(Sessao.token(context), imovelId);
             } else {
-                new Api(context).delete(ApiRotas.favorito(imovelId));
+                apiDaConta().delete(ApiRotas.favorito(imovelId));
             }
         } catch (ApiException e) {
             if (e.getStatus() != 404) {
@@ -296,8 +311,23 @@ public class FavoritoRepository {
         }
     }
 
+    private final ThreadLocal<SQLiteDatabase> bancoSincronizacao = new ThreadLocal<>();
+    private final ThreadLocal<Long> usuarioSincronizacao = new ThreadLocal<>();
+
+    private String ambiente() {
+        return (simulado() ? "demo" : "api_" + Integer.toHexString(ApiRotas.BASE.hashCode())) + "_";
+    }
     private SQLiteDatabase banco() {
-        return BancoLocal.instancia(context).getWritableDatabase();
+        SQLiteDatabase capturado = bancoSincronizacao.get();
+        if (capturado != null) return capturado;
+        Usuario usuario = Sessao.usuario(context);
+        return BancoLocal.favoritos(context, ambiente() + (usuario == null ? "visitante" : usuario.id));
+    }
+    private Api apiDaConta() throws ApiException {
+        Usuario atual = Sessao.usuario(context);
+        Long esperado = usuarioSincronizacao.get();
+        if (atual == null || (esperado != null && atual.id != esperado)) throw ApiException.sessaoExpirada(null);
+        return new Api(context, atual.id);
     }
 
     private boolean favorito(long imovelId) {

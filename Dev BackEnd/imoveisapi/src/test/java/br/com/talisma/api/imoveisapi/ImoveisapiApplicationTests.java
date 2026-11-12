@@ -64,6 +64,36 @@ class ImoveisapiApplicationTests {
         assertThatThrownBy(() -> catalogo.detalhar(rascunho)).isInstanceOf(ResponseStatusException.class);
     }
 
+    @Test
+    void ordenaPorDistanciaAntesDePaginarERespeitaOfertas() {
+        jdbc.update("INSERT INTO usuario(nome,email,senha_hash,perfil) VALUES ('Corretor','perto@example.test','fixture','CORRETOR')");
+        long corretor = jdbc.queryForObject("SELECT id FROM usuario WHERE email='perto@example.test'", Long.class);
+        jdbc.update("INSERT INTO proprietario(corretor_id,nome,telefone) VALUES (?, 'Dono', '11900000000')", corretor);
+        long dono = jdbc.queryForObject("SELECT MAX(id) FROM proprietario WHERE corretor_id=?", Long.class, corretor);
+        long longe = criarImovel(dono, corretor, "PUBLICADO");
+        jdbc.update("UPDATE imovel SET latitude=-24,longitude=-47 WHERE id=?", longe);
+        for (int i = 0; i < 11; i++) {
+            long id = criarImovel(dono, corretor, "PUBLICADO");
+            jdbc.update("UPDATE imovel SET latitude=-23.55,longitude=-46.63 WHERE id=?", id);
+        }
+        criarImovel(dono, corretor, "PUBLICADO"); // no coordinates: excluded only from proximity
+        long rascunho = criarImovel(dono, corretor, "RASCUNHO");
+        jdbc.update("UPDATE imovel SET latitude=-23.55,longitude=-46.63 WHERE id=?", rascunho);
+        var primeira = catalogo.buscar("Cidade Teste", null, null, null, "LOCACAO", null, new BigDecimal("3000"), 0, 10, -23.55, -46.63, "distancia");
+        var segunda = catalogo.buscar("Cidade Teste", null, null, null, "LOCACAO", null, new BigDecimal("3000"), 1, 10, -23.55, -46.63, "distancia");
+        assertThat(primeira.totalElementos()).isEqualTo(12);
+        assertThat(primeira.totalPaginas()).isEqualTo(2);
+        assertThat(primeira.itens()).hasSize(10);
+        assertThat(primeira.itens()).extracting(CatalogoService.ImovelDto::id).isSorted().doesNotContain(longe, rascunho);
+        assertThat(segunda.itens()).hasSize(2);
+        assertThat(segunda.itens().getLast().id()).isEqualTo(longe);
+        assertThat(segunda.itens().getLast().distanciaKm()).isGreaterThan(0);
+        assertThat(catalogo.buscar("Cidade Teste", null, null, null, "VENDA", null, new BigDecimal("3000"), 0, 10, -23.55, -46.63, "distancia").itens()).isEmpty();
+        assertThatThrownBy(() -> catalogo.buscar(null,null,null,null,null,null,null,0,10,91.0,0.0,"distancia")).isInstanceOf(ResponseStatusException.class);
+        assertThatThrownBy(() -> catalogo.buscar(null,null,null,null,null,null,null,0,10,-23.55,null,"distancia")).isInstanceOf(ResponseStatusException.class);
+        assertThatThrownBy(() -> catalogo.buscar(null,null,null,null,null,null,null,0,10,null,null,"aleatoria")).isInstanceOf(ResponseStatusException.class);
+    }
+
     private long criarImovel(long proprietario, long corretor, String status) {
         jdbc.update("""
                 INSERT INTO imovel(proprietario_id,corretor_id,titulo,descricao,tipo,status,cidade,bairro,uf,

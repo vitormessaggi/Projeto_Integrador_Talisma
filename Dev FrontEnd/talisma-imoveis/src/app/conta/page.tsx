@@ -1,11 +1,11 @@
-import Link from "next/link";
+
 import { redirect } from "next/navigation";
-import { privada, type Imovel, type Pagina, type Perfil, type Schemas } from "@/lib/api";
+import { privada, type Pagina, type Perfil, type Schemas } from "@/lib/api";
 import { Bloco, Mutacao, Painel } from "@/components/painel-comum";
 import { Leads, Visitas } from "@/components/atendimentos";
-import { CartaoImovel, Paginacao, Vazio } from "@/components/vitrine";
 
-const links: [string, string][] = [["/conta", "Meu perfil"], ["/conta?aba=favoritos", "Favoritos"], ["/conta?aba=contatos", "Contatos"], ["/conta?aba=visitas", "Visitas"]];
+
+const links: [string, string][] = [["/conta", "Meu perfil"], ["/favoritos", "Favoritos"], ["/conta?aba=contatos", "Contatos"], ["/conta?aba=visitas", "Visitas"]];
 
 export default async function Conta({ searchParams }: { searchParams: Promise<{ aba?: string; page?: string }> }) {
   const { aba, page } = await searchParams;
@@ -16,14 +16,7 @@ export default async function Conta({ searchParams }: { searchParams: Promise<{ 
   let conteudo: React.ReactNode;
   switch (aba) {
     case "favoritos": {
-      const dados = await privada<Pagina<Imovel>>(`/usuarios/me/favoritos?page=${numero}`, retorno);
-      conteudo = <Bloco titulo="Favoritos">
-        {dados.itens.length ? <div className="grid gap-5 sm:grid-cols-2">{dados.itens.map(imovel => <div key={imovel.id} className="grid gap-3">
-          <CartaoImovel imovel={imovel} /><Mutacao operacao={{ caminho: `/usuarios/me/favoritos/${imovel.id}`, metodo: "DELETE", retorno }} botao="Remover favorito" />
-        </div>)}</div> : <Vazio>Você ainda não salvou imóveis. <Link href="/imoveis" className="text-primary underline">Explore o catálogo</Link>.</Vazio>}
-        <Paginacao atual={dados.pagina} total={dados.totalPaginas} href={p => `/conta?aba=favoritos&page=${p}`} />
-      </Bloco>;
-      break;
+      redirect("/favoritos");
     }
     case "contatos": conteudo = <Leads dados={await privada<Pagina<Schemas["Lead"]>>(`/leads?page=${numero}`, retorno)} papel={perfil.perfil} destino={retorno} />; break;
     case "visitas": conteudo = <Visitas dados={await privada<Pagina<Schemas["Visita"]>>(`/visitas?page=${numero}`, retorno)} papel={perfil.perfil} destino={retorno} />; break;

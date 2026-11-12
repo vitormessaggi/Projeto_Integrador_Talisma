@@ -60,7 +60,7 @@ public class ServidorSimulado {
     private static final long ATRASO_MS = 600;
 
     /** Código de verificação de e-mail e de redefinição de senha do modo simulado (6.7). */
-    public static final String CODIGO_VERIFICACAO = "1234";
+    public static final String CODIGO_VERIFICACAO = "123456";
     private static final String PREFIXO_TOKEN = "simulado-";
     /** RN-002: bloqueia na 3ª tentativa errada. */
     private static final int MAX_TENTATIVAS = 3;

@@ -50,15 +50,15 @@ public class Pagina<T> {
 
     public static <T> Pagina<T> deJson(JSONObject o, Conversor<T> conversor) throws JSONException {
         Pagina<T> p = new Pagina<>();
-        JSONArray content = o.optJSONArray("content");
+        JSONArray content = o.optJSONArray("itens");
         if (content != null) {
             for (int i = 0; i < content.length(); i++) {
                 p.itens.add(conversor.deJson(content.getJSONObject(i)));
             }
         }
-        p.pagina = o.optInt("number", 0);
-        p.tamanho = o.optInt("size", TAMANHO_PADRAO);
-        p.totalPaginas = o.optInt("totalPages", 0);
+        p.pagina = o.optInt("pagina", 0);
+        p.tamanho = o.optInt("tamanho", TAMANHO_PADRAO);
+        p.totalPaginas = o.optInt("totalPaginas", 0);
         return p;
     }
 
@@ -69,10 +69,10 @@ public class Pagina<T> {
             for (T item : itens) {
                 content.put(serializador.paraJson(item));
             }
-            o.put("content", content);
-            o.put("number", pagina);
-            o.put("size", tamanho);
-            o.put("totalPages", totalPaginas);
+            o.put("itens", content);
+            o.put("pagina", pagina);
+            o.put("tamanho", tamanho);
+            o.put("totalPaginas", totalPaginas);
         } catch (JSONException e) {
             throw new IllegalStateException(e);
         }

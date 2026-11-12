@@ -95,9 +95,7 @@ public class HomeActivity extends AppCompatActivity implements ImovelAdapter.Ouv
 
         pedidoLocalizacao = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(), this::aoResponderLocalizacao);
-        if (savedInstanceState == null && !Preferencias.localizacaoPedida(this)) {
-            explicarLocalizacao();
-        }
+        // Location permission is requested only when activating Perto de mim.
         carregar();
     }
 
@@ -210,7 +208,7 @@ public class HomeActivity extends AppCompatActivity implements ImovelAdapter.Ouv
 
     @Override
     public void aoTocar(Imovel imovel) {
-        startActivity(DetalheImovelActivity.intent(this, imovel.id));
+        startActivity(DetalheImovelActivity.intent(this, imovel.id).putExtra("finalidade", imovel.finalidade));
     }
 
     @Override

@@ -19,6 +19,8 @@ public class Imovel {
     public static final String TERRENO = "TERRENO";
 
     public long id;
+    public long ofertaId;
+    public JSONArray ofertas = new JSONArray();
     public String titulo;
     /** {@link #VENDA} | {@link #LOCACAO} */
     public String finalidade;
@@ -49,6 +51,18 @@ public class Imovel {
     /** {@code true} quando veio do cache porque a rede falhou (banner offline — D36); fora do JSON. */
     public boolean offline;
 
+    public void selecionarOferta(String preferida) {
+        JSONObject escolhida = ofertas.optJSONObject(0);
+        for (int n = 0; n < ofertas.length(); n++) {
+            JSONObject oferta = ofertas.optJSONObject(n);
+            if (oferta != null && oferta.optString("finalidade").equals(preferida)) escolhida = oferta;
+        }
+        if (escolhida != null) {
+            ofertaId = escolhida.optLong("id", 0);
+            finalidade = escolhida.optString("finalidade"); preco = escolhida.optDouble("preco");
+        }
+    }
+
     public boolean isLocacao() {
         return LOCACAO.equals(finalidade);
     }
@@ -59,6 +73,22 @@ public class Imovel {
     }
 
     public static Imovel deJson(JSONObject o) throws JSONException {
+        JSONObject detalhe = o;
+        if (o.has("imovel")) {
+            JSONObject resumo = o.getJSONObject("imovel");
+            JSONObject dados = o.optJSONObject("dados");
+            o = dados == null ? new JSONObject(resumo.toString()) : new JSONObject(dados.toString());
+            o.put("id", resumo.getLong("id"));
+            if (dados == null) {
+                o.put("descricao", detalhe.optString("descricao", ""));
+                o.put("latitude", detalhe.opt("latitude")); o.put("longitude", detalhe.opt("longitude"));
+            } else {
+                JSONArray fotosGestao = new JSONArray();
+                JSONArray ids = detalhe.optJSONArray("fotos");
+                for (int n = 0; ids != null && n < ids.length(); n++) fotosGestao.put(ApiRotas.BASE + ApiRotas.IMOVEIS_CORRETOR + "/" + resumo.getLong("id") + "/fotos/" + ids.getLong(n));
+                o.put("fotos", fotosGestao);
+            }
+        }
         Imovel i = new Imovel();
         i.id = o.getLong("id");
         i.titulo = texto(o, "titulo");
@@ -72,7 +102,7 @@ public class Imovel {
         i.quartos = o.optInt("quartos", 0);
         i.banheiros = o.optInt("banheiros", 0);
         i.vagas = o.optInt("vagas", 0);
-        i.area = numero(o, "area");
+        i.area = numero(o, o.has("areaTotal") ? "areaTotal" : "area");
         i.descricao = texto(o, "descricao");
         i.latitude = numero(o, "latitude");
         i.longitude = numero(o, "longitude");
@@ -81,9 +111,14 @@ public class Imovel {
         JSONArray fotos = o.optJSONArray("fotos");
         if (fotos != null) {
             for (int k = 0; k < fotos.length(); k++) {
-                i.fotos.add(fotos.getString(k));
+                String foto = fotos.getString(k);
+                i.fotos.add(foto.startsWith("/api/") ? ApiRotas.BASE + foto : foto);
             }
         }
+        i.ofertas = o.optJSONArray("ofertas") == null ? new JSONArray() : o.getJSONArray("ofertas");
+        i.ofertaId = o.optLong("ofertaId", 0);
+        i.selecionarOferta(i.finalidade);
+        if (!o.isNull("distanciaKm")) i.distanciaKm = (float) o.getDouble("distanciaKm");
         return i;
     }
 
@@ -91,6 +126,9 @@ public class Imovel {
         JSONObject o = new JSONObject();
         try {
             o.put("id", id);
+            o.put("ofertas", ofertas);
+            o.put("ofertaId", ofertaId);
+            o.put("distanciaKm", distanciaKm);
             o.put("titulo", titulo);
             o.put("finalidade", finalidade);
             o.put("tipo", tipo);

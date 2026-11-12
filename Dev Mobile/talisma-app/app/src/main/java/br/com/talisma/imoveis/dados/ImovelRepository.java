@@ -79,7 +79,7 @@ public class ImovelRepository {
                 if (simulado()) {
                     destaques = new ServidorSimulado(context).destaques();
                 } else {
-                    destaques = imoveisDeJson(Api.lista(new Api(context).get(ApiRotas.DESTAQUES)));
+                    destaques = imoveisDeJson(new Api(context).todasPaginas(ApiRotas.DESTAQUES));
                 }
                 salvarCacheLista(CHAVE_DESTAQUES, imoveisParaJson(destaques).toString());
                 return destaques;
@@ -216,6 +216,7 @@ public class ImovelRepository {
             } else {
                 resultado = paginaDeJson(Api.objeto(new Api(context).get(ApiRotas.imoveis(filtro, pagina))));
             }
+            for (Imovel item : resultado.itens) item.selecionarOferta(filtro.finalidade);
             salvarCacheLista(chave, resultado.paraJson(Imovel::paraJson).toString());
             return resultado;
         } catch (ApiException e) {
@@ -231,6 +232,24 @@ public class ImovelRepository {
     }
 
     private Pagina<Imovel> listarPorDistancia(Filtro filtro, int pagina, Location origem) throws ApiException {
+        if (!simulado()) {
+            String rota = ApiRotas.imoveis(filtro, pagina) + "&ordenacao=distancia&latitude=" + origem.getLatitude() + "&longitude=" + origem.getLongitude();
+            String chave = PREFIXO_LISTA + rota;
+            try {
+                Pagina<Imovel> real = paginaDeJson(Api.objeto(new Api(context).get(rota)));
+                for (Imovel item : real.itens) item.selecionarOferta(filtro.finalidade);
+                salvarCacheLista(chave, real.paraJson(Imovel::paraJson).toString());
+                return real;
+            } catch (ApiException erro) {
+                if (!erro.isSemConexao()) throw erro;
+                String cache = lerCacheLista(chave);
+                if (cache == null) throw erro;
+                Pagina<Imovel> offline = paginaDeJson(Api.objeto(cache));
+                offline.offline = true;
+                for (Imovel item : offline.itens) item.offline = true;
+                return offline;
+            }
+        }
         Pagina<Imovel> resultado = new Pagina<>();
         resultado.pagina = pagina;
         resultado.totalPaginas = 1;
@@ -383,7 +402,7 @@ public class ImovelRepository {
                     if (CHAVE_DESTAQUES.equals(chave)) {
                         itens = new JSONArray(c.getString(1));
                     } else if (chave.startsWith(PREFIXO_LISTA)) {
-                        itens = new JSONObject(c.getString(1)).optJSONArray("content");
+                        itens = new JSONObject(c.getString(1)).optJSONArray("itens");
                     } else {
                         continue;
                     }

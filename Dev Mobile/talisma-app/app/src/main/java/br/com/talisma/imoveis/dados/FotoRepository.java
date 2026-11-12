@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.File;
@@ -51,16 +52,25 @@ public class FotoRepository {
     }
 
     /** Imóveis do corretor logado (Selecionar imóvel); conta que não é de corretor → 403. */
+    public void detalhe(long id, Tarefas.Callback<Imovel> callback) {
+        Tarefas.executar(() -> {
+            if (simulado()) return new ServidorSimulado(context).imovel(id);
+            try { return Imovel.deJson(Api.objeto(new Api(context).get(ApiRotas.IMOVEIS_CORRETOR + "/" + id))); }
+            catch (JSONException erro) { throw new ApiException(500, null, erro); }
+        }, callback);
+    }
+
     public void imoveisDoCorretor(Tarefas.Callback<List<Imovel>> callback) {
         Tarefas.executar(() -> {
             if (simulado()) {
                 return new ServidorSimulado(context).imoveisDoCorretor(Sessao.token(context));
             }
-            JSONArray lista = Api.lista(new Api(context).get(ApiRotas.IMOVEIS_CORRETOR));
+            JSONArray lista = new Api(context).todasPaginas(ApiRotas.IMOVEIS_CORRETOR);
             List<Imovel> imoveis = new ArrayList<>();
             try {
                 for (int k = 0; k < lista.length(); k++) {
-                    imoveis.add(Imovel.deJson(lista.getJSONObject(k)));
+                    JSONObject resumo = lista.getJSONObject(k);
+                    if (!"ARQUIVADO".equals(resumo.optString("status"))) imoveis.add(Imovel.deJson(Api.objeto(new Api(context).get(ApiRotas.IMOVEIS_CORRETOR + "/" + resumo.getLong("id")))));
                 }
             } catch (JSONException e) {
                 throw new ApiException(500, null, e);
@@ -113,7 +123,10 @@ public class FotoRepository {
                 }
                 String resposta = new Api(context).postMultipart(ApiRotas.fotosImovel(imovelId),
                         ApiRotas.CAMPO_FOTO, jpeg, ApiRotas.TIPO_FOTO, progresso);
-                return Api.objeto(resposta).optString("url", null);
+                try {
+                    long id = Api.lista(resposta).getLong(0);
+                    return ApiRotas.BASE + ApiRotas.IMOVEIS_CORRETOR + "/" + imovelId + "/fotos/" + id;
+                } catch (JSONException erro) { throw new ApiException(500, null, erro); }
             } finally {
                 if (jpeg.exists() && !jpeg.delete()) {
                     Log.d(TAG, "JPEG temporário não removido");

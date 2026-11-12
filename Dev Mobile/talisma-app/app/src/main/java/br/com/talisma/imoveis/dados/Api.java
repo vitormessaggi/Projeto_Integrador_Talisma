@@ -35,6 +35,7 @@ import java.util.UUID;
 public class Api {
 
     private static final String TAG = "Api";
+    private static final Object RENOVACAO = new Object();
     private static final int TIMEOUT_MS = 15_000;
     private static final String FIM_LINHA = "\r\n";
 
@@ -44,9 +45,15 @@ public class Api {
     }
 
     private final Context context;
+    private final Long usuarioEsperado;
 
     public Api(Context context) {
+        this(context, null);
+    }
+
+    public Api(Context context, Long usuarioEsperado) {
         this.context = context.getApplicationContext();
+        this.usuarioEsperado = usuarioEsperado;
     }
 
     public String get(String rota) throws ApiException {
@@ -75,6 +82,17 @@ public class Api {
      */
     public String postMultipart(String rota, String campo, File arquivo, String tipoConteudo,
                                 @Nullable Progresso progresso) throws ApiException {
+        String tokenAnterior = Sessao.token(context);
+        try { return multipartUmaVez(rota, campo, arquivo, tipoConteudo, progresso); }
+        catch (ApiException e) {
+            if (e.getStatus() != 401 || tokenAnterior == null) throw e;
+            renovar(tokenAnterior);
+            try { return multipartUmaVez(rota, campo, arquivo, tipoConteudo, progresso); }
+            catch (ApiException repetido) { if (repetido.getStatus() == 401) Sessao.limpar(context); throw repetido; }
+        }
+    }
+
+    private String multipartUmaVez(String rota, String campo, File arquivo, String tipoConteudo, @Nullable Progresso progresso) throws ApiException {
         String limite = "----Talisma" + UUID.randomUUID().toString().replace("-", "");
         byte[] inicio = ("--" + limite + FIM_LINHA
                 + "Content-Disposition: form-data; name=\"" + campo + "\"; filename=\"" + arquivo.getName() + "\""
@@ -85,6 +103,7 @@ public class Api {
         long total = inicio.length + tamanhoArquivo + fim.length;
 
         HttpURLConnection conexao = null;
+        verificarConta();
         String token = Sessao.token(context);
         try {
             conexao = abrir("POST", rota, token);
@@ -143,6 +162,71 @@ public class Api {
     }
 
     private String requisitar(String metodo, String rota, @Nullable JSONObject corpo) throws ApiException {
+        String anterior = Sessao.token(context);
+        try { return umaVez(metodo, rota, corpo); }
+        catch (ApiException e) {
+            if (e.getStatus() != 401 || anterior == null || rota.startsWith("/api/v1/auth/")) throw e;
+            renovar(anterior);
+            try { return umaVez(metodo, rota, corpo); }
+            catch (ApiException repetido) { if (repetido.getStatus() == 401) Sessao.limpar(context); throw repetido; }
+        }
+    }
+
+    private void renovar(String anterior) throws ApiException {
+        synchronized (RENOVACAO) {
+            String atual = Sessao.token(context);
+            if (atual != null && !atual.equals(anterior)) return;
+            String refresh = Sessao.refresh(context);
+            if (refresh == null) { Sessao.limpar(context); throw ApiException.sessaoExpirada(null); }
+            try {
+                JSONObject body = new JSONObject(); body.put("refreshToken", refresh);
+                JSONObject tokens = objeto(umaVez("POST", "/api/v1/auth/renovar", body));
+                // Logout or account switch must not resurrect the old session.
+                if (!refresh.equals(Sessao.refresh(context))) throw ApiException.sessaoExpirada(null);
+                Sessao.tokens(context, tokens.getString("accessToken"), tokens.getString("refreshToken"));
+            } catch (JSONException e) { Sessao.limpar(context); throw ApiException.sessaoExpirada(null); }
+            catch (ApiException e) { if ((e.getStatus() == 401 || e.getStatus() == 403) && refresh.equals(Sessao.refresh(context))) Sessao.limpar(context); throw e; }
+        }
+    }
+
+    public void baixarFoto(String rota, File destino) throws ApiException {
+        String anterior = Sessao.token(context);
+        for (int tentativa = 0; tentativa < 2; tentativa++) {
+            verificarConta(); HttpURLConnection conexao = null;
+            try {
+                conexao = abrir("GET", rota, Sessao.token(context));
+                if (conexao.getResponseCode() == 401 && tentativa == 0 && anterior != null) { renovar(anterior); continue; }
+                if (conexao.getResponseCode() >= 400) { responder(conexao, "GET", rota, Sessao.token(context)); return; }
+                try (InputStream entrada = conexao.getInputStream(); OutputStream saida = new java.io.FileOutputStream(destino)) {
+                    byte[] buffer = new byte[8192]; int lidos;
+                    while ((lidos = entrada.read(buffer)) != -1) saida.write(buffer, 0, lidos);
+                }
+                return;
+            } catch (IOException erro) { throw ApiException.semConexao(erro); }
+            finally { if (conexao != null) conexao.disconnect(); }
+        }
+    }
+
+    public JSONArray todasPaginas(String rota) throws ApiException {
+        JSONArray itens = new JSONArray();
+        int pagina = 0;
+        while (true) {
+            JSONObject resposta = objeto(get(rota + (rota.contains("?") ? "&" : "?") + "page=" + pagina + "&size=100"));
+            try {
+                JSONArray lote = resposta.getJSONArray("itens");
+                for (int i = 0; i < lote.length(); i++) itens.put(lote.get(i));
+                if (++pagina >= resposta.getInt("totalPaginas")) return itens;
+            } catch (JSONException e) { throw new ApiException(500, null, e); }
+        }
+    }
+
+    private void verificarConta() throws ApiException {
+        Usuario atual = Sessao.usuario(context);
+        if (usuarioEsperado != null && (atual == null || atual.id != usuarioEsperado)) throw ApiException.sessaoExpirada(null);
+    }
+
+    private String umaVez(String metodo, String rota, @Nullable JSONObject corpo) throws ApiException {
+        verificarConta();
         HttpURLConnection conexao = null;
         String token = Sessao.token(context);
         try {
@@ -190,7 +274,7 @@ public class Api {
             Log.w(TAG, metodo + " " + rota + " → " + status);
             if (status == ApiException.NAO_AUTORIZADO && token != null) {
                 // 401 com token = sessão expirada (6.6, D35): limpa e avisa a tela.
-                Sessao.limpar(context);
+                // Renewal is coordinated by the caller.
                 throw ApiException.sessaoExpirada(mensagemDoErro(erro));
             }
             throw new ApiException(status, mensagemDoErro(erro));
@@ -225,7 +309,7 @@ public class Api {
         }
         try {
             JSONObject o = new JSONObject(corpo);
-            return o.isNull("mensagem") ? null : o.optString("mensagem", null);
+            return o.optString("detail", o.optString("mensagem", null));
         } catch (JSONException e) {
             return null;
         }

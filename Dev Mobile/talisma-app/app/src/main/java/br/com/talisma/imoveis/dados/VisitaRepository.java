@@ -37,7 +37,7 @@ public class VisitaRepository {
      * a conta não tiver, mensagem opcional. O telefone fica salvo no perfil (D30). Entrega a visita
      * criada (PENDENTE).
      */
-    public void solicitar(long imovelId, String data, String periodo, String telefone, @Nullable String cpf,
+    public void solicitar(long imovelId, long ofertaId, String data, String periodo, String telefone, @Nullable String cpf,
                           @Nullable String mensagem, Tarefas.Callback<Visita> callback) {
         String cpfDigitos = Validacoes.vazio(cpf) ? null : Formatos.digitos(cpf);
         String texto = Validacoes.vazio(mensagem) ? null : mensagem.trim();
@@ -50,6 +50,7 @@ public class VisitaRepository {
                 JSONObject corpo = new JSONObject();
                 try {
                     corpo.put("imovelId", imovelId);
+                    if (ofertaId > 0) corpo.put("ofertaId", ofertaId);
                     corpo.put("data", data);
                     corpo.put("periodo", periodo);
                     corpo.put("telefone", telefone);
@@ -71,7 +72,7 @@ public class VisitaRepository {
             if (simulado()) {
                 return new ServidorSimulado(context).minhasVisitas(Sessao.token(context));
             }
-            JSONArray lista = Api.lista(new Api(context).get(ApiRotas.MINHAS_VISITAS));
+            JSONArray lista = new Api(context).todasPaginas(ApiRotas.MINHAS_VISITAS);
             List<Visita> visitas = new ArrayList<>();
             try {
                 for (int k = 0; k < lista.length(); k++) {
@@ -90,7 +91,18 @@ public class VisitaRepository {
             if (simulado()) {
                 return new ServidorSimulado(context).cancelarVisita(Sessao.token(context), visitaId);
             }
-            return visitaDeJson(Api.objeto(new Api(context).patch(ApiRotas.cancelarVisita(visitaId), null)));
+            JSONObject corpo = new JSONObject();
+            try { corpo.put("status", "CANCELADA"); } catch (JSONException e) { throw new ApiException(500, null, e); }
+            Api api = new Api(context);
+            api.patch(ApiRotas.cancelarVisita(visitaId), corpo);
+            JSONArray visitas = api.todasPaginas(ApiRotas.MINHAS_VISITAS);
+            try {
+                for (int n = 0; n < visitas.length(); n++) {
+                    JSONObject item = visitas.getJSONObject(n);
+                    if (item.getLong("id") == visitaId) return Visita.deJson(item);
+                }
+            } catch (JSONException e) { throw new ApiException(500, null, e); }
+            throw new ApiException(404, "Visita não encontrada");
         }, callback);
     }
 

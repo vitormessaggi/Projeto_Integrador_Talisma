@@ -211,7 +211,7 @@ public class FotosImovelActivity extends AppCompatActivity implements FotoNovaAd
         if (imovel == null) {
             EstadoTela.mostrar(estado, EstadoTela.Tipo.CARREGANDO, null);
         }
-        imovelRepository.detalhe(imovelId, new Tarefas.Callback<Imovel>() {
+        fotoRepository.detalhe(imovelId, new Tarefas.Callback<Imovel>() {
             @Override
             public void sucesso(Imovel dado) {
                 imovel = dado;

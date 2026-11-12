@@ -26,8 +26,9 @@ export function TelaAcesso({ modo, retorno }: { modo: keyof typeof modos; retorn
   const dados = modos[modo];
   const destino = retornoSeguro(retorno);
   const query = `?retorno=${encodeURIComponent(destino)}`;
-  return <section className={`${caixa} py-12 md:py-20`}>
-    <div className="mx-auto max-w-lg rounded-2xl bg-card p-5 shadow-md sm:p-9">
+  return <section className="auth-background py-12 md:py-20"><div className={caixa}>
+    <div className="mx-auto max-w-xl rounded-3xl border border-white/30 bg-white p-6 shadow-2xl sm:p-10">
+      <p className="eyebrow mb-3">BEM-VINDO À TALISMÃ</p>
       <h1 className="mb-6 text-3xl font-bold text-primary">{dados.titulo}</h1>
       <Formulario acao={autenticar.bind(null, modo, destino)} campos={dados.campos} botao={dados.botao} colunas={modo === "cadastro"} />
       {modo === "entrar" && <nav aria-label="Ajuda com acesso" className="mt-6 flex flex-wrap gap-4 text-sm text-primary underline">
@@ -37,5 +38,5 @@ export function TelaAcesso({ modo, retorno }: { modo: keyof typeof modos; retorn
         <Formulario acao={autenticar.bind(null, "reenviar", destino)} campos={[email]} botao="Reenviar código" /></details>}
       {modo === "sessao" && <Link href={"/entrar" + query} className={`${primario} mt-5 bg-secondary text-primary hover:text-white`}>Entrar novamente</Link>}
     </div>
-  </section>;
+  </div></section>;
 }

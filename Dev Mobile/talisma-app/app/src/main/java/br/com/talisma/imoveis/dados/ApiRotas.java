@@ -14,38 +14,38 @@ public final class ApiRotas {
     public static final String BASE = BuildConfig.API_URL;
 
     // Imóveis
-    public static final String DESTAQUES = "/api/imoveis/destaques";
-    public static final String OPCOES_FILTRO = "/api/imoveis/filtros";
+    public static final String DESTAQUES = "/api/v1/imoveis?destaque=true";
+    public static final String OPCOES_FILTRO = "/api/v1/imoveis/filtros";
 
     // Autenticação
-    public static final String CADASTRO = "/api/auth/cadastro";
-    public static final String VERIFICAR_EMAIL = "/api/auth/verificar-email";
-    public static final String REENVIAR_CODIGO = "/api/auth/reenviar-codigo";
-    public static final String LOGIN = "/api/auth/login";
-    public static final String ESQUECI_SENHA = "/api/auth/esqueci-senha";
-    public static final String REDEFINIR_SENHA = "/api/auth/redefinir-senha";
+    public static final String CADASTRO = "/api/v1/auth/cadastro";
+    public static final String VERIFICAR_EMAIL = "/api/v1/auth/verificar-email";
+    public static final String REENVIAR_CODIGO = "/api/v1/auth/reenviar-codigo";
+    public static final String LOGIN = "/api/v1/auth/login";
+    public static final String ESQUECI_SENHA = "/api/v1/auth/esqueci-senha";
+    public static final String REDEFINIR_SENHA = "/api/v1/auth/redefinir-senha";
 
     // Usuário logado
-    public static final String PERFIL = "/api/usuarios/me";
-    public static final String ALTERAR_SENHA = "/api/usuarios/me/senha";
-    public static final String FAVORITOS = "/api/usuarios/me/favoritos";
+    public static final String PERFIL = "/api/v1/usuarios/me";
+    public static final String ALTERAR_SENHA = "/api/v1/usuarios/me/senha";
+    public static final String FAVORITOS = "/api/v1/usuarios/me/favoritos";
 
     // Visitas
-    public static final String VISITAS = "/api/visitas";
-    public static final String MINHAS_VISITAS = "/api/visitas/minhas";
+    public static final String VISITAS = "/api/v1/visitas";
+    public static final String MINHAS_VISITAS = "/api/v1/visitas";
 
     // Corretor
-    public static final String IMOVEIS_CORRETOR = "/api/corretor/imoveis";
+    public static final String IMOVEIS_CORRETOR = "/api/v1/gestao/imoveis";
     /** Campo do arquivo no multipart de {@link #fotosImovel} e seu tipo (JPEG). */
-    public static final String CAMPO_FOTO = "arquivo";
+    public static final String CAMPO_FOTO = "arquivos";
     public static final String TIPO_FOTO = "image/jpeg";
 
     private ApiRotas() {
     }
 
-    /** {@code GET /api/imoveis?finalidade&tipo&cidade&precoMin&precoMax&quartosMin&page&size=10} */
+    /** {@code GET /api/v1/imoveis?finalidade&tipo&cidade&precoMin&precoMax&quartosMin&page&size=10} */
     public static String imoveis(Filtro filtro, int pagina) {
-        StringBuilder sb = new StringBuilder("/api/imoveis?page=").append(pagina)
+        StringBuilder sb = new StringBuilder("/api/v1/imoveis?page=").append(pagina)
                 .append("&size=").append(Pagina.TAMANHO_PADRAO);
         if (filtro != null) {
             parametro(sb, "finalidade", filtro.finalidade);
@@ -58,24 +58,24 @@ public final class ApiRotas {
         return sb.toString();
     }
 
-    /** {@code GET /api/imoveis/{id}} */
+    /** {@code GET /api/v1/imoveis/{id}} */
     public static String imovel(long id) {
-        return "/api/imoveis/" + id;
+        return "/api/v1/imoveis/" + id;
     }
 
-    /** {@code PUT|DELETE /api/usuarios/me/favoritos/{imovelId}} */
+    /** {@code PUT|DELETE /api/v1/usuarios/me/favoritos/{imovelId}} */
     public static String favorito(long imovelId) {
         return FAVORITOS + "/" + imovelId;
     }
 
-    /** {@code PATCH /api/visitas/{id}/cancelar} */
+    /** {@code PATCH /api/v1/visitas/{id}/cancelar} */
     public static String cancelarVisita(long id) {
-        return VISITAS + "/" + id + "/cancelar";
+        return VISITAS + "/" + id + "/status";
     }
 
-    /** {@code POST /api/imoveis/{id}/fotos} (multipart, campo {@code arquivo}) */
+    /** {@code POST /api/v1/imoveis/{id}/fotos} (multipart, campo {@code arquivo}) */
     public static String fotosImovel(long imovelId) {
-        return "/api/imoveis/" + imovelId + "/fotos";
+        return "/api/v1/gestao/imoveis/" + imovelId + "/fotos";
     }
 
     private static void parametro(StringBuilder sb, String nome, String valor) {

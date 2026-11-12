@@ -44,7 +44,8 @@ public class Visita {
         v.imovelId = o.getLong("imovelId");
         v.imovelTitulo = texto(o, "imovelTitulo");
         v.imovelFoto = texto(o, "imovelFoto");
-        v.data = texto(o, "data");
+        v.data = o.has("dataPreferida") ? texto(o, "dataPreferida") : texto(o, "data");
+        if (v.imovelTitulo == null) v.imovelTitulo = "Imóvel #" + v.imovelId;
         v.periodo = texto(o, "periodo");
         v.telefone = texto(o, "telefone");
         v.mensagem = texto(o, "mensagem");

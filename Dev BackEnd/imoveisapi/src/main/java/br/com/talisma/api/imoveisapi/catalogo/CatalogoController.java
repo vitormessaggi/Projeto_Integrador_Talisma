@@ -20,9 +20,12 @@ public class CatalogoController {
                                          @RequestParam(required = false) String finalidade,
                                          @RequestParam(required = false) BigDecimal precoMin,
                                          @RequestParam(required = false) BigDecimal precoMax,
+                                         @RequestParam(required = false) Double latitude,
+                                         @RequestParam(required = false) Double longitude,
+                                         @RequestParam(required = false) String ordenacao,
                                          @RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "10") int size) {
-        return service.buscar(cidade, tipo, quartosMin, destaque, finalidade, precoMin, precoMax, page, size);
+        return service.buscar(cidade, tipo, quartosMin, destaque, finalidade, precoMin, precoMax, page, size, latitude, longitude, ordenacao);
     }
 
     @GetMapping("/{id}")

@@ -725,6 +725,8 @@ export interface components {
             areaTotal?: number;
             ofertas?: components["schemas"]["OfertaDto"][];
             fotos?: string[];
+            /** Format: double */
+            distanciaKm?: number;
         };
         OfertaDto: {
             /** Format: int64 */
@@ -1552,6 +1554,9 @@ export interface operations {
                 finalidade?: string;
                 precoMin?: number;
                 precoMax?: number;
+                latitude?: number;
+                longitude?: number;
+                ordenacao?: string;
                 page?: number;
                 size?: number;
             };

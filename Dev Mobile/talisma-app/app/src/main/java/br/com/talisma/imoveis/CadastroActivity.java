@@ -113,7 +113,7 @@ public class CadastroActivity extends AppCompatActivity {
             tilNome.setError(getString(R.string.conta_erro_nome_obrigatorio));
             valido = false;
         }
-        if (!Validacoes.vazio(cpf) && !Validacoes.cpf(cpf)) {
+        if (!Validacoes.cpf(cpf)) {
             tilCpf.setError(getString(R.string.conta_erro_cpf_invalido));
             valido = false;
         }
@@ -133,12 +133,19 @@ public class CadastroActivity extends AppCompatActivity {
             txtErroTermos.setVisibility(View.VISIBLE);
             valido = false;
         }
+        String rg = texto(findViewById(R.id.edtRg));
+        String orgao = texto(findViewById(R.id.edtOrgaoEmissor));
+        String uf = texto(findViewById(R.id.edtUf)).toUpperCase(java.util.Locale.ROOT);
+        if (rg.isEmpty() || orgao.isEmpty() || !uf.matches("[A-Z]{2}")) {
+            Snackbar.make(findViewById(R.id.main), R.string.documentos_obrigatorios, Snackbar.LENGTH_LONG).show();
+            valido = false;
+        }
         if (!valido) {
             return;
         }
 
         btnCadastrar.setEnabled(false);
-        contaRepository.cadastrar(nome, Validacoes.vazio(cpf) ? null : cpf, email, senha, new Tarefas.Callback<Void>() {
+        contaRepository.cadastrar(nome, Validacoes.vazio(cpf) ? null : cpf, email, senha, rg, orgao, uf, new Tarefas.Callback<Void>() {
             @Override
             public void sucesso(Void dado) {
                 btnCadastrar.setEnabled(true);

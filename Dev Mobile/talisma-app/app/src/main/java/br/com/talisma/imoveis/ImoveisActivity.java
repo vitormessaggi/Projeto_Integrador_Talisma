@@ -683,7 +683,7 @@ public class ImoveisActivity extends AppCompatActivity implements ImovelAdapter.
 
     @Override
     public void aoTocar(Imovel imovel) {
-        startActivity(DetalheImovelActivity.intent(this, imovel.id));
+        startActivity(DetalheImovelActivity.intent(this, imovel.id).putExtra("finalidade", imovel.finalidade));
     }
 
     @Override

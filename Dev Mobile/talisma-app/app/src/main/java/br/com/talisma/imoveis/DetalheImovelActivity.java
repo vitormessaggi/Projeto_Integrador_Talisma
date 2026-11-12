@@ -117,7 +117,7 @@ public class DetalheImovelActivity extends AppCompatActivity {
             atualizarDescricao();
         });
         findViewById(R.id.btnInteresse).setOnClickListener(v -> startActivity(
-                new Intent(this, SolicitarVisitaActivity.class).putExtra(EXTRA_IMOVEL_ID, imovelId)));
+                new Intent(this, SolicitarVisitaActivity.class).putExtra(EXTRA_IMOVEL_ID, imovelId).putExtra("finalidade", imovel == null ? null : imovel.finalidade)));
         EstadoTela.aoTentarNovamente(estado, this::carregar);
 
         carregar();
@@ -207,6 +207,7 @@ public class DetalheImovelActivity extends AppCompatActivity {
             @Override
             public void sucesso(Imovel dado) {
                 imovel = dado;
+                imovel.selecionarOferta(getIntent().getStringExtra("finalidade"));
                 mostrar();
             }
 

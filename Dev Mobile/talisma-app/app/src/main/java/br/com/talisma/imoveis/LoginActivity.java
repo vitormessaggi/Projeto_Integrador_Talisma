@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private final ActivityResultLauncher<Intent> fluxoQueLoga = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), resultado -> {
-                if (resultado.getResultCode() == RESULT_OK) {
+                if (resultado.getResultCode() == RESULT_OK && br.com.talisma.imoveis.dados.Sessao.logado(this)) {
                     setResult(RESULT_OK);
                     finish();
                 }

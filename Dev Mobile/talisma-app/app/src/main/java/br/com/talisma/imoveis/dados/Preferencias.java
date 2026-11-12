@@ -23,7 +23,7 @@ public final class Preferencias {
 
     /** {@code true} = Repositories usam o {@link ServidorSimulado}; {@code false} = {@link Api} real. */
     public static boolean modoDemonstracao(Context context) {
-        return prefs(context).getBoolean(CHAVE_MODO_DEMONSTRACAO, true);
+        return prefs(context).getBoolean(CHAVE_MODO_DEMONSTRACAO, false);
     }
 
     public static void setModoDemonstracao(Context context, boolean ligado) {

@@ -1,61 +1,46 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, Search, MapPin, ShieldCheck, MessagesSquare, KeyRound } from "lucide-react";
 import { chamada, type Imovel, type Pagina, type Schemas } from "@/lib/api";
 import { caixa, campo, CartaoImovel, primario, rotulo, Vazio } from "@/components/vitrine";
-import intro from "@/assets/figma/home-intro.png";
-import mapa from "@/assets/figma/home-mapa.png";
-import familia from "@/assets/figma/home-familia.png";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [filtros, destaques] = await Promise.all([
+  const [filtros, destaques] = await Promise.allSettled([
     chamada<Schemas["Filtros"]>("/imoveis/filtros"),
     chamada<Pagina<Imovel>>("/imoveis?destaque=true&size=6"),
   ]);
-
-  return (
-    <>
-      <section className="relative isolate bg-primary md:bg-transparent">
-        <div className="absolute inset-x-0 top-0 -z-10 hidden h-[86%] bg-primary md:block" />
-        <div className="mx-auto grid max-w-[1600px] items-center gap-5 px-5 pb-8 pt-5 md:grid-cols-[42%_58%] md:gap-0 md:pt-0">
-          <Image src={intro} alt="" priority sizes="(max-width: 767px) 80vw, 42vw" className="mx-auto h-auto w-full max-w-72 md:max-w-none" />
-          <div className="z-10 rounded-3xl bg-[#f2f2f2] px-5 py-7 shadow-xl sm:px-8 md:-ml-5 md:mr-6 md:-translate-y-7 lg:p-10">
-            <h1 className="text-balance text-2xl font-semibold leading-tight text-black lg:text-4xl">O imóvel que você procura está aqui!</h1>
-            <form action="/imoveis" className="mt-6 grid gap-4 lg:mt-12 lg:grid-cols-[1fr_1.6fr_auto] lg:items-end">
-              <fieldset className="flex flex-wrap gap-2 border-b border-input pb-3 lg:col-span-3">
-                <legend className="sr-only">Finalidade</legend>
-                {[["VENDA", "Comprar"], ["LOCACAO", "Alugar"]].map(([valor, nome]) =>
-                  <label key={valor} className="cursor-pointer">
-                    <input className="peer sr-only" type="radio" name="finalidade" value={valor} defaultChecked={valor === "VENDA"} />
-                    <span className="block rounded-lg px-4 py-2 text-sm font-semibold uppercase peer-checked:bg-[#6b0014] peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary">{nome}</span>
-                  </label>)}
-              </fieldset>
-              <label className={rotulo}>Tipo de imóvel<select name="tipo" className={campo}><option value="">Todos os tipos</option>{filtros.tipos?.map(tipo => <option key={tipo}>{tipo}</option>)}</select></label>
-              <label className={rotulo}>Onde deseja morar?<select name="cidade" className={campo}><option value="">Todas as cidades</option>{filtros.cidades?.map(cidade => <option key={cidade}>{cidade}</option>)}</select></label>
-              <button className={primario}>Buscar</button>
-            </form>
-          </div>
+  const opcoes = filtros.status === "fulfilled" ? filtros.value : null;
+  const lista = destaques.status === "fulfilled" ? destaques.value.itens : [];
+  return <>
+    <section className={`${caixa} pb-12 pt-3 md:pb-20 md:pt-6`}>
+      <div className="relative overflow-hidden rounded-[2rem] bg-[#650014]">
+        <div className="absolute inset-y-0 right-0 hidden w-[48%] md:block"><Image src="/images/lar.jpg" alt="Ambiente residencial ilustrativo" fill priority sizes="50vw" className="object-cover"/><div className="absolute inset-0 bg-gradient-to-r from-[#650014] via-[#650014]/10 to-transparent"/></div>
+        <div className="relative px-6 pb-28 pt-12 sm:px-10 md:pb-36 md:pt-16 lg:px-14">
+          <p className="mb-5 text-[10px] font-semibold uppercase tracking-[.23em] text-rose-200">NOVOS COMEÇOS, NOVOS ENDEREÇOS</p>
+          <h1 className="max-w-xl text-balance text-4xl font-semibold leading-[1.12] tracking-[-.045em] text-white md:max-w-[55%] lg:text-6xl">Seu próximo capítulo começa em casa.</h1>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-rose-100/80">Encontre o imóvel que combina com a sua vida. A Talismã acompanha você em cada escolha.</p>
+          <div className="mt-7 flex items-center gap-2 text-xs text-rose-100/80"><MapPin size={15}/>Encontre seu lugar em São Paulo e região</div>
         </div>
-      </section>
-      <section className={`${caixa} py-12 md:py-20`} aria-labelledby="destaques">
-        <h2 id="destaques" className="mb-8 text-center text-3xl font-bold text-primary">Imóveis em destaque</h2>
-        {destaques.itens.length ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{destaques.itens.map(imovel => <CartaoImovel key={imovel.id} imovel={imovel} />)}</div> :
-          <Vazio>Ainda não há imóveis em destaque. <Link className="text-primary underline" href="/imoveis">Consulte o catálogo</Link>.</Vazio>}
-      </section>
-      <section className={`${caixa} grid items-center gap-9 py-10 md:grid-cols-2 md:py-20`}>
-        <div className="max-w-xl">
-          <p className="text-sm text-muted-foreground">Sobre a empresa</p>
-          <h2 className="my-3 text-balance text-3xl font-bold">Realizando seu sonho de forma sólida, confiável e duradoura</h2>
-          <p className="leading-relaxed">A Talismã Imóveis ajuda você a encontrar seu próximo imóvel com atendimento personalizado e transparência durante a compra ou locação.</p>
-          <Link className="mt-5 inline-block font-semibold text-primary underline" href="/sobre">Conheça a imobiliária</Link>
+      </div>
+      <form action="/imoveis" className="relative z-10 mx-4 -mt-16 rounded-2xl border border-border bg-white p-5 shadow-[0_16px_50px_#35000b0b] sm:mx-8 sm:p-7 md:mx-12">
+        <fieldset className="mb-5 flex gap-2 border-b border-border pb-4"><legend className="sr-only">Finalidade</legend>
+          {[["VENDA","Comprar"],["LOCACAO","Alugar"]].map(([valor,nome])=><label key={valor} className="cursor-pointer"><input className="peer sr-only" type="radio" name="finalidade" value={valor} defaultChecked={valor==="VENDA"}/><span className="block rounded-lg px-6 py-2.5 text-sm font-semibold text-muted-foreground peer-checked:bg-primary peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-primary">{nome}</span></label>)}
+        </fieldset>
+        <div className="grid items-end gap-4 md:grid-cols-[1fr_1.4fr_auto]">
+          <label className={rotulo}>Tipo de imóvel<select name="tipo" className={campo}><option value="">Todos os tipos</option>{opcoes?.tipos?.map(tipo=><option key={tipo}>{tipo}</option>)}</select></label>
+          <label className={rotulo}>Onde deseja morar?<select name="cidade" className={campo}><option value="">Todas as cidades</option>{opcoes?.cidades?.map(cidade=><option key={cidade}>{cidade}</option>)}</select></label>
+          <button className={`${primario} md:px-8`}><Search size={18}/>Buscar imóveis</button>
         </div>
-        <Image src={mapa} alt="Mapa de São Paulo, região de atendimento da Talismã Imóveis" sizes="(max-width: 767px) 90vw, 45vw" className="mx-auto h-auto w-full max-w-sm" />
-      </section>
-      <section className={`${caixa} flex flex-col items-center gap-8 py-12 md:flex-row md:py-20`}>
-        <Image src={familia} alt="" sizes="220px" className="size-52 rounded-full border-4 border-primary object-cover" />
-        <div><h2 className="text-2xl font-semibold">Encontre seu próximo lar</h2><p className="mt-3">Conte com nossa equipe para tirar dúvidas e agendar sua visita.</p><Link href="/contato" className="mt-4 inline-block text-primary underline">Fale conosco</Link></div>
-      </section>
-    </>
-  );
+        {filtros.status === "rejected" && <p role="status" className="mt-4 text-sm text-muted-foreground">O catálogo está temporariamente indisponível. Tente novamente em instantes.</p>}
+      </form>
+    </section>
+    <section className={`${caixa} pb-16 md:pb-24`} aria-labelledby="destaques">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">UMA SELEÇÃO PARA VOCÊ</p><h2 id="destaques" className="mt-3 text-3xl font-semibold tracking-tight">Imóveis em destaque</h2></div><Link href="/imoveis" className="flex items-center gap-2 text-xs font-semibold text-primary">Explorar todos<ArrowRight size={17}/></Link></div>
+      {lista.length ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{lista.map(imovel=><CartaoImovel key={imovel.id} imovel={imovel}/>)}</div> : <Vazio>{destaques.status === "rejected" ? "Não foi possível carregar os destaques. Tente novamente em instantes." : "Novas oportunidades em breve. Explore o catálogo para encontrar imóveis disponíveis."}</Vazio>}
+    </section>
+    <section className="border-y border-border bg-[#f5f1ef]"><div className={`${caixa} py-14 md:py-20`}><p className="eyebrow">MAIS DO QUE ENCONTRAR UM IMÓVEL</p><div className="mt-4 grid gap-10 lg:grid-cols-[1fr_1.6fr]"><div><h2 className="max-w-sm text-3xl font-semibold leading-tight tracking-tight">Um novo lar.<br/>Com toda a confiança.</h2><Link href="/sobre" className="mt-6 inline-flex items-center gap-2 text-xs font-semibold text-primary">Conheça a Talismã<ArrowRight size={16}/></Link></div><div className="grid gap-8 sm:grid-cols-3">{[[ShieldCheck,"Escolhas seguras","Informações claras para encontrar o imóvel certo para você."],[MessagesSquare,"Atendimento próximo","Converse com nossos corretores e tire suas dúvidas."],[KeyRound,"Do seu jeito","Compra ou locação, com acompanhamento em cada etapa."]].map(([Icon,titulo,texto])=>{const I=Icon as typeof ShieldCheck;return <div key={titulo as string}><I className="mb-4 text-primary" size={25}/><h3 className="text-sm font-semibold">{titulo as string}</h3><p className="mt-2 text-xs leading-6 text-muted-foreground">{texto as string}</p></div>;})}</div></div></div></section>
+    <section className={`${caixa} py-14 md:py-20`}><div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-border bg-white p-8 sm:flex-row sm:items-center sm:p-12"><div><p className="eyebrow">VAMOS CONVERSAR?</p><h2 className="mt-3 text-2xl font-semibold tracking-tight">O próximo passo pode ser mais simples.</h2><p className="mt-3 text-sm text-muted-foreground">Conte o que você procura. Nossa equipe ajuda a encontrar.</p></div><Link href="/contato" className={`${primario} shrink-0`}>Fale com a Talismã<ArrowRight size={16}/></Link></div></section>
+  </>;
 }

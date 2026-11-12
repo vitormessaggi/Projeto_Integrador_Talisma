@@ -85,32 +85,34 @@
 
                         <EditText
                             android:id="@+id/edtDigito1"
-                            style="@style/CampoDigito"
+                            style="@style/CampoDigito" android:layout_width="0dp" android:layout_weight="1"
                             android:hint="@string/verificar_digito_dica"
                             android:importantForAutofill="no" />
 
                         <EditText
                             android:id="@+id/edtDigito2"
-                            style="@style/CampoDigito"
-                            android:layout_marginStart="@dimen/espaco_12"
+                            style="@style/CampoDigito" android:layout_width="0dp" android:layout_weight="1"
+                            android:layout_marginStart="4dp"
                             android:hint="@string/verificar_digito_dica"
                             android:importantForAutofill="no" />
 
                         <EditText
                             android:id="@+id/edtDigito3"
-                            style="@style/CampoDigito"
-                            android:layout_marginStart="@dimen/espaco_12"
+                            style="@style/CampoDigito" android:layout_width="0dp" android:layout_weight="1"
+                            android:layout_marginStart="4dp"
                             android:hint="@string/verificar_digito_dica"
                             android:importantForAutofill="no" />
 
                         <EditText
                             android:id="@+id/edtDigito4"
-                            style="@style/CampoDigito"
-                            android:layout_marginStart="@dimen/espaco_12"
+                            style="@style/CampoDigito" android:layout_width="0dp" android:layout_weight="1"
+                            android:layout_marginStart="4dp"
                             android:hint="@string/verificar_digito_dica"
                             android:importantForAutofill="no"
                             android:imeOptions="actionDone" />
-                    </LinearLayout>
+                    <EditText android:id="@+id/edtDigito5" style="@style/CampoDigito" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="4dp" android:hint="@string/verificar_digito_dica" android:importantForAutofill="no" />
+<EditText android:id="@+id/edtDigito6" style="@style/CampoDigito" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="4dp" android:hint="@string/verificar_digito_dica" android:importantForAutofill="no" />
+</LinearLayout>
 
                     <TextView
                         android:id="@+id/txtErroCodigo"

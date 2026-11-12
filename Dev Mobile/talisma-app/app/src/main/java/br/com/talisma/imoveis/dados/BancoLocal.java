@@ -36,7 +36,16 @@ public class BancoLocal extends SQLiteOpenHelper {
     }
 
     private BancoLocal(Context context) {
-        super(context, NOME, null, VERSAO);
+        this(context, NOME);
+    }
+
+    private BancoLocal(Context context, String nome) { super(context, nome, null, VERSAO); }
+
+    private static final java.util.Map<String, BancoLocal> FAVORITOS_POR_ESCOPO = new java.util.HashMap<>();
+    public static synchronized SQLiteDatabase favoritos(Context context, String escopo) {
+        BancoLocal helper = FAVORITOS_POR_ESCOPO.get(escopo);
+        if (helper == null) { helper = new BancoLocal(context.getApplicationContext(), "favoritos_" + escopo + ".db"); FAVORITOS_POR_ESCOPO.put(escopo, helper); }
+        return helper.getWritableDatabase();
     }
 
     @Override

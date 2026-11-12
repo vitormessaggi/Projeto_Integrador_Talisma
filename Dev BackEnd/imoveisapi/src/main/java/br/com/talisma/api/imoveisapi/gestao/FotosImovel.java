@@ -112,6 +112,17 @@ class FotosImovel {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore()).contentType(tipo).body(new FileSystemResource(local));
     }
 
+    @GetMapping("/gestao/imoveis/{id}/fotos/{foto}")
+    ResponseEntity<FileSystemResource> lerInterna(@AuthenticationPrincipal Jwt jwt, @PathVariable long id, @PathVariable long foto) {
+        gestao.carregar(identidade.usuarioAtual(jwt), id);
+        String nome = banco.sql("SELECT arquivo FROM foto WHERE id=? AND imovel_id=?").params(foto, id)
+                .query(String.class).optional().orElseThrow(() -> erro(NOT_FOUND, "Foto não encontrada"));
+        Path local = caminho(nome);
+        if (!Files.isRegularFile(local, LinkOption.NOFOLLOW_LINKS)) throw erro(NOT_FOUND, "Foto não encontrada");
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore()).contentType(nome.endsWith(".png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
+                .body(new FileSystemResource(local));
+    }
+
     private GestaoImoveis.Resumo editavel(IdentidadeService.UsuarioDto ator, long id) {
         var imovel = gestao.carregar(ator, id);
         if (imovel.status().equals("ARQUIVADO")) {

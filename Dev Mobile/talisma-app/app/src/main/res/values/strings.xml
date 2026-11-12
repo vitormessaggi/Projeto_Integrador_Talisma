@@ -188,7 +188,7 @@
     <string name="campo_senha">Senha</string>
     <string name="campo_nome">Nome</string>
     <string name="campo_cpf">CPF</string>
-    <string name="campo_cpf_opcional">CPF (opcional)</string>
+    <string name="campo_cpf_opcional">CPF</string>
     <string name="campo_confirmar_senha">Confirmar senha</string>
     <string name="campo_senha_atual">Senha atual</string>
     <string name="campo_nova_senha">Nova senha</string>
@@ -212,14 +212,14 @@
     <string name="cadastro_botao">Cadastrar</string>
 
     <string name="verificar_titulo">Verifique seu e-mail</string>
-    <string name="verificar_texto">Digite o código de 4 dígitos enviado para</string>
+    <string name="verificar_texto">Digite o código de 6 dígitos enviado para</string>
     <string name="verificar_enviar">Enviar</string>
     <string name="verificar_nao_recebeu">Não recebeu?</string>
     <string name="verificar_reenviar">Reenviar código</string>
     <string name="verificar_reenviar_em">Reenviar em %1$d s</string>
     <string name="verificar_reenviado">Código reenviado.</string>
     <string name="verificar_cancelar">Cancelar</string>
-    <string name="verificar_codigo_incompleto">Digite os 4 dígitos do código.</string>
+    <string name="verificar_codigo_incompleto">Digite os 6 dígitos do código.</string>
     <string name="verificar_digito_dica" translatable="false">0</string>
 
     <string name="esqueci_titulo">Esqueceu sua senha?</string>

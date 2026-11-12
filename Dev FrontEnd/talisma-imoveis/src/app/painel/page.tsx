@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { privada, type Pagina, type Perfil, type Schemas } from "@/lib/api";
 import { Bloco, Mutacao, Painel, Status, nomesStatus } from "@/components/painel-comum";
@@ -44,8 +45,8 @@ export default async function Gestao({ searchParams }: { searchParams: Promise<{
           <p className="mb-4 text-sm">Envie até dez fotos em JPEG ou PNG, com até 5 MB por arquivo.</p>
           <Mutacao operacao={{ caminho: `/gestao/imoveis/${id}/fotos`, metodo: "POST", retorno: destino, fotos: true }}
             campos={[{ nome: "arquivos", rotulo: "Selecione as fotos", tipo: "file" }]} botao="Enviar fotos" />
-          <ul className="mt-5 grid gap-3">{existente.fotos?.map((foto, index) => <li key={foto} className="flex flex-wrap items-center gap-4 border-t pt-3">
-            <span>Foto {index + 1}</span><Mutacao operacao={{ caminho: `/gestao/imoveis/${id}/fotos/${foto}`, metodo: "DELETE", retorno: destino }} botao="Remover foto" />
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">{existente.fotos?.map((foto, index) => <li key={foto} className="flex flex-wrap items-center gap-4 rounded-xl border border-border p-3">
+            <Image src={`/api/v1/gestao/imoveis/${id}/fotos/${foto}`} alt={`Foto ${index+1} do imóvel`} width={100} height={80} unoptimized className="h-20 w-24 rounded-lg object-cover"/><span className="text-xs">Foto {index + 1}</span><Mutacao operacao={{ caminho: `/gestao/imoveis/${id}/fotos/${foto}`, metodo: "DELETE", retorno: destino }} botao="Remover foto" />
           </li>)}</ul>
         </Bloco>}
       </div>;

@@ -62,7 +62,7 @@ public class ContaRepository {
     }
 
     /** Cadastro de cliente (CPF opcional — D12); depois, VerificarEmail(CADASTRO). 409 = e-mail existente. */
-    public void cadastrar(String nome, @Nullable String cpf, String email, String senha,
+    public void cadastrar(String nome, @Nullable String cpf, String email, String senha, String rg, String orgaoEmissor, String uf,
                           Tarefas.Callback<Void> callback) {
         String cpfDigitos = Validacoes.vazio(cpf) ? null : Formatos.digitos(cpf);
         Tarefas.executar(() -> {
@@ -72,6 +72,9 @@ public class ContaRepository {
                 JSONObject corpo = new JSONObject();
                 colocar(corpo, "nome", nome.trim());
                 colocar(corpo, "cpf", cpfDigitos);
+                colocar(corpo, "rg", rg);
+                colocar(corpo, "orgaoEmissor", orgaoEmissor);
+                colocar(corpo, "uf", uf);
                 colocar(corpo, "email", email.trim());
                 colocar(corpo, "senha", senha);
                 new Api(context).post(ApiRotas.CADASTRO, corpo);
@@ -90,9 +93,11 @@ public class ContaRepository {
                 JSONObject corpo = new JSONObject();
                 colocar(corpo, "email", email.trim());
                 colocar(corpo, "codigo", codigo);
-                resposta = Api.objeto(new Api(context).post(ApiRotas.VERIFICAR_EMAIL, corpo));
+                new Api(context).post(ApiRotas.VERIFICAR_EMAIL, corpo);
+                return null;
             }
-            return iniciarSessao(resposta, null);
+            Sessao.limpar(context);
+            return null;
         }, callback);
     }
 
@@ -194,7 +199,14 @@ public class ContaRepository {
 
     /** Sair (D35): limpa a sessão. Os favoritos locais ficam (D10). */
     public void sair() {
+        String refresh = Sessao.refresh(context);
         Sessao.limpar(context);
+        if (!simulado() && refresh != null) Tarefas.emSegundoPlano(() -> {
+            try {
+                JSONObject corpo = new JSONObject(); corpo.put("refreshToken", refresh);
+                new Api(context).post("/api/v1/auth/logout", corpo);
+            } catch (Exception ignored) { /* Local logout succeeds even without network. */ }
+        });
     }
 
     // ---------------------------------------------------------------- modo demonstração (D26)
@@ -226,7 +238,7 @@ public class ContaRepository {
         String token;
         Usuario usuario;
         try {
-            token = resposta.getString("token");
+            token = resposta.getString(simulado() ? "token" : "accessToken");
             usuario = Usuario.deJson(resposta.getJSONObject("usuario"));
         } catch (JSONException e) {
             throw new ApiException(500, null, e);
@@ -236,6 +248,7 @@ public class ContaRepository {
                     Usuario.CORRETOR.equals(perfil) ? R.string.conta_erro_nao_corretor : R.string.conta_erro_nao_cliente));
         }
         Sessao.salvar(context, token, usuario);
+        if (!simulado()) Sessao.tokens(context, token, resposta.optString("refreshToken", null));
         new FavoritoRepository(context).sincronizarEmSegundoPlano();
         return usuario;
     }

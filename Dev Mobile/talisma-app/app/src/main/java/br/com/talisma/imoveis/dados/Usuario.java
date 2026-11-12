@@ -30,7 +30,7 @@ public class Usuario {
         u.id = o.getLong("id");
         u.nome = texto(o, "nome");
         u.email = texto(o, "email");
-        u.cpf = texto(o, "cpf");
+        u.cpf = o.has("cpfMascarado") ? texto(o, "cpfMascarado") : texto(o, "cpf");
         u.telefone = texto(o, "telefone");
         u.perfil = texto(o, "perfil");
         return u;

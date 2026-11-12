@@ -155,7 +155,10 @@
                                 android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <TextView
+    <com.google.android.material.textfield.TextInputLayout style="@style/Campo.SemRotulo" android:hint="@string/campo_rg"><com.google.android.material.textfield.TextInputEditText android:id="@+id/edtRg" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textCapCharacters" android:maxLength="30" android:maxLines="1" /></com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout style="@style/Campo.SemRotulo" android:hint="@string/campo_orgao_emissor"><com.google.android.material.textfield.TextInputEditText android:id="@+id/edtOrgaoEmissor" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textCapCharacters" android:maxLength="20" android:maxLines="1" /></com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout style="@style/Campo.SemRotulo" android:hint="@string/campo_uf"><com.google.android.material.textfield.TextInputEditText android:id="@+id/edtUf" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textCapCharacters" android:maxLength="2" android:maxLines="1" /></com.google.android.material.textfield.TextInputLayout>
+                    <TextView
                             style="@style/Texto.Rotulo.Campo"
                             android:labelFor="@id/edtEmail"
                             android:text="@string/campo_email" />

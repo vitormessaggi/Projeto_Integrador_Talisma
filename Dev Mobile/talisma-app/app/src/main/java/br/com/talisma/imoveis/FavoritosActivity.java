@@ -109,7 +109,7 @@ public class FavoritosActivity extends AppCompatActivity implements ImovelAdapte
 
     @Override
     public void aoTocar(Imovel imovel) {
-        startActivity(DetalheImovelActivity.intent(this, imovel.id));
+        startActivity(DetalheImovelActivity.intent(this, imovel.id).putExtra("finalidade", imovel.finalidade));
     }
 
     @Override

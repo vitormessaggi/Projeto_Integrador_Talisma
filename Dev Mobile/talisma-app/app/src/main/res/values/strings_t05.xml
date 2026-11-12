@@ -11,7 +11,7 @@
     <string name="conta_erro_email_cadastrado">Este e-mail já está cadastrado.</string>
     <string name="conta_erro_email_invalido">Informe um e-mail válido.</string>
     <string name="conta_erro_nome_obrigatorio">Informe seu nome.</string>
-    <string name="conta_erro_senha_curta">A senha deve ter pelo menos 6 caracteres.</string>
+    <string name="conta_erro_senha_curta">A senha deve ter pelo menos 8 caracteres.</string>
     <string name="conta_erro_senha_atual">Senha atual incorreta.</string>
     <string name="conta_erro_codigo_invalido">Código inválido.</string>
     <string name="conta_erro_cpf_invalido">CPF inválido.</string>
@@ -23,4 +23,8 @@
     <string name="visita_erro_cpf_obrigatorio">Informe seu CPF para solicitar a visita.</string>
     <string name="visita_erro_nao_encontrada">Visita não encontrada.</string>
     <string name="visita_erro_nao_cancelavel">Esta visita não pode mais ser cancelada.</string>
+    <string name="campo_rg">RG</string>
+    <string name="campo_orgao_emissor">Órgão emissor</string>
+    <string name="campo_uf">UF do documento</string>
+    <string name="documentos_obrigatorios">Informe RG, órgão emissor e UF com duas letras.</string>
 </resources>

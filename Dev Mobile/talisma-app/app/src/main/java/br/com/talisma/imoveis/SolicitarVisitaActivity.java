@@ -161,6 +161,7 @@ public class SolicitarVisitaActivity extends AppCompatActivity {
             @Override
             public void sucesso(Imovel dado) {
                 imovel = dado;
+                imovel.selecionarOferta(getIntent().getStringExtra("finalidade"));
                 mostrarImovel();
                 carregarPerfil();
             }
@@ -315,7 +316,7 @@ public class SolicitarVisitaActivity extends AppCompatActivity {
         }
 
         btnEnviar.setEnabled(false);
-        visitaRepository.solicitar(imovelId, dataIso(), periodo, Formatos.digitos(telefone), cpf, mensagem,
+        visitaRepository.solicitar(imovelId, imovel == null ? 0 : imovel.ofertaId, dataIso(), periodo, Formatos.digitos(telefone), cpf, mensagem,
                 new Tarefas.Callback<Visita>() {
                     @Override
                     public void sucesso(Visita visita) {

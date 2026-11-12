@@ -97,7 +97,7 @@ public class VerificarEmailActivity extends AppCompatActivity {
         txtReenviar = findViewById(R.id.txtReenviar);
         btnEnviar = findViewById(R.id.btnEnviar);
         digitos = new EditText[]{findViewById(R.id.edtDigito1), findViewById(R.id.edtDigito2),
-                findViewById(R.id.edtDigito3), findViewById(R.id.edtDigito4)};
+                findViewById(R.id.edtDigito3), findViewById(R.id.edtDigito4), findViewById(R.id.edtDigito5), findViewById(R.id.edtDigito6)};
         for (int i = 0; i < digitos.length; i++) {
             configurarDigito(i);
         }
@@ -204,6 +204,7 @@ public class VerificarEmailActivity extends AppCompatActivity {
         contaRepository.verificarEmail(email, codigo, new Tarefas.Callback<Usuario>() {
             @Override
             public void sucesso(Usuario usuario) {
+                android.widget.Toast.makeText(VerificarEmailActivity.this, "E-mail verificado. Entre com sua senha.", android.widget.Toast.LENGTH_LONG).show();
                 setResult(RESULT_OK);
                 finish();
             }
