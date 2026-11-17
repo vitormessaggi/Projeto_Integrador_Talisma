@@ -13,3 +13,11 @@ Execute `npm run typecheck`, `npm run lint` e `npm run build`. Para testes em na
 Para atualizar os tipos após uma mudança de contrato, execute `npm run gerar:api` no repositório integrado. O arquivo de entrada é o OpenAPI do backend.
 
 No formulário de contato, configure as informações reais da imobiliária com TALISMA_TELEFONE, TALISMA_EMAIL, TALISMA_ENDERECO e TALISMA_HORARIO.
+
+## Teste da integração com a Groq
+
+Copie as entradas `GROQ_API_KEY` e `GROQ_MODEL` do `.env.example` da raiz para um arquivo `.env.local` nesta pasta. Preencha a chave da sua conta Groq e reinicie o Next.js. `GROQ_MODEL` é opcional e o padrão é `openai/gpt-oss-120b`.
+
+Com o Next.js em execução, rode `node scripts/testar-chat.mjs` nesta pasta. O script envia uma chamada real à Groq por meio de `POST /api/chat`. Para usar outra porta, passe a URL como argumento, por exemplo `node scripts/testar-chat.mjs http://localhost:3011`. Esse teste usa apenas o Next.js e a Groq.
+
+A rota aceita JSON no formato `{ "mensagem": "Olá!" }` e responde com `{ "resposta": "..." }` quando o modelo retorna texto.
