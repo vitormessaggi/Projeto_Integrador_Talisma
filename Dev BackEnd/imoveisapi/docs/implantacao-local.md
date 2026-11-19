@@ -73,3 +73,11 @@ Configure `TEST_DB_URL`, `TEST_DB_USER` e `TEST_DB_PASSWORD` para o esquema excl
 No frontend, execute `npm run typecheck`, `npm run lint` e `npm run build`. Para Playwright, instale Chromium com `npx playwright install chromium`, mantenha API e site rodando e execute `npm run e2e`.
 
 Em CI com Docker ativo, execute `./mvnw.cmd -Ptestcontainers test` para rodar os mesmos cenários em um MySQL 8.4 descartável.
+
+## Privacidade e ambiente remoto
+
+O cadastro agora usa nome, e-mail e senha, com aceite versionado obrigatório. Não há CPF/RG no cadastro inicial. A página `/conta/privacidade` permite registrar aceite de conta anterior, solicitar acesso, baixar dados e confirmar exclusão mediante senha. A exclusão do cliente é efetiva: use apenas dados de demonstração.
+
+O Compose local existente continua aceitando `MYSQL_ROOT_PASSWORD`, `DB_USER`, `DB_PASSWORD`, `TEST_DB_USER` e `TEST_DB_PASSWORD` via ambiente do shell ou `.env` privado ignorado. Informe senhas próprias; o projeto não distribui credenciais padrão nem `.env.example`.
+
+Para backend remoto configure [AWS Academy](../../../docs/aws-academy.md). Não aponte os testes para RDS de demonstração. No frontend local, use `API_URL=https://IP_PUBLICO`; no Android, execute Gradle com JDK 21 e `-PapiUrl=https://IP_PUBLICO`.

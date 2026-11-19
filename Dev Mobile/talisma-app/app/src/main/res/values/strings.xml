@@ -239,18 +239,6 @@
 
     <!-- Termos e Condições (recursos/textos/termos_e_condicoes.md) -->
     <string name="termos_titulo">Termos e Condições</string>
-    <string name="termos_s1_titulo">1. Objetivo do aplicativo</string>
-    <string name="termos_s1_texto">1.1 Este aplicativo tem como finalidade apresentar imóveis disponíveis para venda ou locação.\n\n1.2 Não são realizadas transações comerciais diretas por meio do aplicativo.\n\n1.3 Ao se interessar por um imóvel, o usuário será direcionado para atendimento com um de nossos corretores, que dará continuidade ao processo de negociação.</string>
-    <string name="termos_s2_titulo">2. Uso do aplicativo</string>
-    <string name="termos_s2_texto">2.1 O usuário concorda em utilizar este aplicativo de forma ética e respeitosa, comprometendo-se a não realizar qualquer ação que possa comprometer sua segurança, integridade ou funcionamento.\n\n2.2 As informações disponibilizadas no aplicativo são atualizadas periodicamente, mas podem sofrer alterações sem aviso prévio.\n\n2.3 A Talismã Imóveis não se responsabiliza por erros de digitação ou por eventuais indisponibilidades temporárias do sistema.</string>
-    <string name="termos_s3_titulo">3. Informações dos imóveis</string>
-    <string name="termos_s3_texto">3.1 As imagens, descrições e demais informações sobre os imóveis são meramente ilustrativas e podem ser alteradas sem aviso prévio.\n\n3.2 A disponibilidade e os valores dos imóveis devem ser confirmados diretamente com nossos corretores.</string>
-    <string name="termos_s4_titulo">4. Privacidade e proteção de dados</string>
-    <string name="termos_s4_texto">4.1 Ao preencher formulários no aplicativo, os dados fornecidos pelo usuário serão utilizados exclusivamente para fins de atendimento e relacionamento.\n\n4.2 A Talismã Imóveis compromete-se a proteger a privacidade dos usuários, não compartilhando dados pessoais com terceiros sem consentimento.</string>
-    <string name="termos_s5_titulo">5. Atendimento com corretores</string>
-    <string name="termos_s5_texto">5.1 Após manifestar interesse em um imóvel, o usuário será redirecionado para atendimento com um corretor credenciado.\n\n5.2 O atendimento pode ocorrer por meio de telefone, WhatsApp, e-mail ou outra plataforma de contato fornecida.\n\n5.3 Toda negociação será formalizada fora do ambiente do aplicativo, respeitando as normas vigentes do mercado imobiliário.</string>
-    <string name="termos_s6_titulo">6. Disposições gerais</string>
-    <string name="termos_s6_texto">6.1 Estes Termos e Condições podem ser atualizados a qualquer momento. Recomendamos sua leitura periódica.\n\n6.2 O uso continuado do aplicativo implica na aceitação total dos termos aqui descritos.</string>
 
     <!-- Formatos (6.6) -->
     <string name="formato_preco_mes">%1$s/mês</string>

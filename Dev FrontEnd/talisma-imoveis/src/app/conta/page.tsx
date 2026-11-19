@@ -5,7 +5,7 @@ import { Bloco, Mutacao, Painel } from "@/components/painel-comum";
 import { Leads, Visitas } from "@/components/atendimentos";
 
 
-const links: [string, string][] = [["/conta", "Meu perfil"], ["/favoritos", "Favoritos"], ["/conta?aba=contatos", "Contatos"], ["/conta?aba=visitas", "Visitas"]];
+const links: [string, string][] = [["/conta/privacidade", "Privacidade"], ["/conta", "Meu perfil"], ["/favoritos", "Favoritos"], ["/conta?aba=contatos", "Contatos"], ["/conta?aba=visitas", "Visitas"]];
 
 export default async function Conta({ searchParams }: { searchParams: Promise<{ aba?: string; page?: string }> }) {
   const { aba, page } = await searchParams;

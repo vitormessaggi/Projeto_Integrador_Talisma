@@ -10,7 +10,7 @@ export type Campo = { nome: string; rotulo: string; tipo?: string; inicial?: str
   obrigatorio?: boolean; opcoes?: { valor: string; texto: string }[]; min?: number | string; step?: string; autocomplete?: string };
 
 function Entrada({ item, id, valor, alterar }: { item: Campo; id: string; valor: string | boolean; alterar: (valor: string | boolean) => void }) {
-  if (item.tipo === "checkbox") return <input id={id} name={item.nome} type="checkbox" checked={Boolean(valor)} onChange={e => alterar(e.target.checked)} />;
+  if (item.tipo === "checkbox") return <input id={id} name={item.nome} type="checkbox" required={item.obrigatorio === true} checked={Boolean(valor)} onChange={e => alterar(e.target.checked)} />;
   const comum = { id, name: item.nome, required: item.obrigatorio ?? true, value: String(valor), onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => alterar(e.target.value) };
   if (item.opcoes) return <select className={campo} {...comum}><option value="">Selecione</option>{item.opcoes.map(opcao => <option value={opcao.valor} key={opcao.valor}>{opcao.texto}</option>)}</select>;
   if (item.tipo === "textarea") return <textarea className={campo} {...comum} rows={4} />;

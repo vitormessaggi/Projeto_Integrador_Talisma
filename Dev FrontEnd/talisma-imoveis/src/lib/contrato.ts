@@ -100,6 +100,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/usuarios/me/privacidade/solicitacoes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["solicitar"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/usuarios/me/privacidade/exportacao": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["exportar"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/usuarios/me/aceites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["aceitar"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/leads": {
         parameters: {
             query?: never;
@@ -388,6 +436,38 @@ export interface paths {
         patch: operations["desbloquear"];
         trace?: never;
     };
+    "/api/v1/admin/privacidade/solicitacoes/{protocolo}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["responder"];
+        trace?: never;
+    };
+    "/api/v1/usuarios/me/privacidade": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listar"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/usuarios/me/favoritos": {
         parameters: {
             query?: never;
@@ -404,6 +484,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/legal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["documentos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/imoveis": {
         parameters: {
             query?: never;
@@ -411,7 +507,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["listar"];
+        get: operations["listar_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -452,6 +548,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/gestao/imoveis/{id}/fotos/{foto}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["lerInterna"];
+        put?: never;
+        post?: never;
+        delete: operations["remover"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/fotos/{id}": {
         parameters: {
             query?: never;
@@ -484,17 +596,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/gestao/imoveis/{id}/fotos/{foto}": {
+    "/api/v1/admin/privacidade/solicitacoes": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["fila"];
         put?: never;
         post?: never;
-        delete: operations["remover"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/privacidade/exclusoes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exclusoes"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -600,6 +728,19 @@ export interface components {
             periodo?: string;
             status?: string;
         };
+        Pedido: {
+            tipo: string;
+            senha: string;
+        };
+        Senha: {
+            senha: string;
+        };
+        Aceite: {
+            aceiteTermos: boolean;
+            versaoTermos: string;
+            versaoPrivacidade: string;
+            origem: string;
+        };
         Contato: {
             /** Format: int64 */
             imovelId?: number;
@@ -666,11 +807,11 @@ export interface components {
             nome: string;
             /** Format: email */
             email: string;
-            cpf: string;
-            rg: string;
-            orgaoEmissor: string;
-            uf: string;
             senha: string;
+            aceiteTermos: boolean;
+            versaoTermos: string;
+            versaoPrivacidade: string;
+            origem: string;
         };
         Corretor: {
             nome: string;
@@ -696,6 +837,10 @@ export interface components {
         StatusImovel: {
             status: string;
             motivo?: string;
+        };
+        Resposta: {
+            status: string;
+            resposta: string;
         };
         PaginaVisita: {
             itens?: components["schemas"]["Visita"][];
@@ -744,6 +889,15 @@ export interface components {
             totalElementos?: number;
             /** Format: int32 */
             totalPaginas?: number;
+        };
+        Documento: {
+            versao?: string;
+            hash?: string;
+            texto?: string;
+        };
+        Documentos: {
+            termos?: components["schemas"]["Documento"];
+            privacidade?: components["schemas"]["Documento"];
         };
         PaginaLead: {
             itens?: components["schemas"]["Lead"][];
@@ -1032,6 +1186,80 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["Visita"];
                 };
+            };
+        };
+    };
+    solicitar: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Pedido"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    exportar: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Senha"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    aceitar: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Aceite"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -1521,6 +1749,52 @@ export interface operations {
             };
         };
     };
+    responder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                protocolo: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Resposta"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listar: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
     favoritos: {
         parameters: {
             query?: {
@@ -1544,7 +1818,27 @@ export interface operations {
             };
         };
     };
-    listar: {
+    documentos: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Documentos"];
+                };
+            };
+        };
+    };
+    listar_1: {
         parameters: {
             query?: {
                 cidade?: string;
@@ -1619,6 +1913,50 @@ export interface operations {
             };
         };
     };
+    lerInterna: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                foto: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
+    remover: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                foto: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     ler: {
         parameters: {
             query?: never;
@@ -1664,24 +2002,47 @@ export interface operations {
             };
         };
     };
-    remover: {
+    fila: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: number;
-                foto: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description No Content */
-            204: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": {
+                        [key: string]: unknown;
+                    }[];
+                };
+            };
+        };
+    };
+    exclusoes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: unknown;
+                    }[];
+                };
             };
         };
     };

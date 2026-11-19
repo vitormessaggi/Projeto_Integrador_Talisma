@@ -1,3 +1,5 @@
+> Registro histórico do planejamento inicial. Para o contrato e a implantação atuais, consulte `Dev BackEnd/imoveisapi/docs/openapi.json`, `docs/analise-tecnica.md` e `docs/aws-academy.md` na raiz. As descrições antigas de ausência de backend não representam o estado atual.
+
 # Plano de Implementação — App Mobile Talismã Imóveis (Android nativo, Java)
 
 > Status: **pronto para execução por agente orquestrador — decisões D1–D46, telas, dados, rotas, roteiros e guia de execução definidos; nada pendente**

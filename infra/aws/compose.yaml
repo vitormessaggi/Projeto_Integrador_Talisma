@@ -1,0 +1,29 @@
+name: talisma-aws
+services:
+  api:
+    image: talisma-api:${APP_IMAGE_TAG:?Defina APP_IMAGE_TAG}
+    build:
+      context: ../..
+      dockerfile: Dev BackEnd/imoveisapi/Dockerfile
+    env_file: /opt/talisma/runtime.env
+    environment:
+      SPRING_PROFILES_ACTIVE: aws
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - /opt/talisma/rds-truststore.p12:/run/secrets/rds-truststore.p12:ro
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    mem_limit: 1g
+    restart: unless-stopped
+  mailpit:
+    image: axllent/mailpit:v1.27
+    environment:
+      MP_MAX_MESSAGES: 500
+    ports:
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped

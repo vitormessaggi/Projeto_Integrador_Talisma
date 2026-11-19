@@ -77,12 +77,14 @@ public class CadastroActivity extends AppCompatActivity {
         edtSenha = findViewById(R.id.edtSenha);
         edtConfirmarSenha = findViewById(R.id.edtConfirmarSenha);
         chkTermos = findViewById(R.id.chkTermos);
+        chkTermos.setText("Aceito os Termos de Uso e confirmo a leitura da Política de Privacidade");
+        ((android.widget.TextView) findViewById(R.id.txtVerTermos)).setText("Ler termos e privacidade");
         txtErroTermos = findViewById(R.id.txtErroTermos);
         btnCadastrar = findViewById(R.id.btnCadastrar);
 
-        MascaraTexto.cpf(edtCpf);
+        tilCpf.setVisibility(View.GONE);
         findViewById(R.id.btnVoltar).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-        findViewById(R.id.txtVerTermos).setOnClickListener(v -> startActivity(new Intent(this, TermosActivity.class)));
+        findViewById(R.id.txtVerTermos).setOnClickListener(v -> startActivity(new Intent(this, PrivacidadeActivity.class)));
         chkTermos.setOnCheckedChangeListener((b, marcado) -> {
             if (marcado) {
                 txtErroTermos.setVisibility(View.GONE);
@@ -113,10 +115,6 @@ public class CadastroActivity extends AppCompatActivity {
             tilNome.setError(getString(R.string.conta_erro_nome_obrigatorio));
             valido = false;
         }
-        if (!Validacoes.cpf(cpf)) {
-            tilCpf.setError(getString(R.string.conta_erro_cpf_invalido));
-            valido = false;
-        }
         if (!Validacoes.email(email)) {
             tilEmail.setError(getString(R.string.conta_erro_email_invalido));
             valido = false;
@@ -133,19 +131,12 @@ public class CadastroActivity extends AppCompatActivity {
             txtErroTermos.setVisibility(View.VISIBLE);
             valido = false;
         }
-        String rg = texto(findViewById(R.id.edtRg));
-        String orgao = texto(findViewById(R.id.edtOrgaoEmissor));
-        String uf = texto(findViewById(R.id.edtUf)).toUpperCase(java.util.Locale.ROOT);
-        if (rg.isEmpty() || orgao.isEmpty() || !uf.matches("[A-Z]{2}")) {
-            Snackbar.make(findViewById(R.id.main), R.string.documentos_obrigatorios, Snackbar.LENGTH_LONG).show();
-            valido = false;
-        }
         if (!valido) {
             return;
         }
 
         btnCadastrar.setEnabled(false);
-        contaRepository.cadastrar(nome, Validacoes.vazio(cpf) ? null : cpf, email, senha, rg, orgao, uf, new Tarefas.Callback<Void>() {
+        contaRepository.cadastrar(nome, email, senha, new Tarefas.Callback<Void>() {
             @Override
             public void sucesso(Void dado) {
                 btnCadastrar.setEnabled(true);

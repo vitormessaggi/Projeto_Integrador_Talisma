@@ -1,0 +1,30 @@
+name: Publicar API no Learner Lab
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: deploy-laboratorio
+  cancel-in-progress: false
+jobs:
+  validar:
+    uses: ./.github/workflows/validar.yml
+  deploy:
+    needs: validar
+    # Runner temporário, exclusivo deste repositório, com chave SSH no computador do aluno.
+    # Nunca executar este job a partir de pull_request ou em runner compartilhado.
+    runs-on: [self-hosted, Windows, talisma-lab]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enviar código e publicar
+        shell: pwsh
+        env:
+          LAB_HOST: ${{ vars.LAB_HOST }}
+          LAB_USER: ${{ vars.LAB_USER }}
+        run: |
+          if ($env:LAB_HOST -notmatch '^[a-zA-Z0-9.-]+$' -or $env:LAB_USER -notmatch '^[a-z_][a-z0-9_-]*$') { throw 'Configure LAB_HOST e LAB_USER' }
+          git archive --format=tar --output=release.tar HEAD
+          scp -o BatchMode=yes -o StrictHostKeyChecking=yes release.tar "${env:LAB_USER}@${env:LAB_HOST}:/opt/talisma/release.tar"
+          if ($LASTEXITCODE -ne 0) { throw 'Transferência falhou' }
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "${env:LAB_USER}@${env:LAB_HOST}" "mkdir -p /opt/talisma/releases/$env:GITHUB_SHA && tar -xf /opt/talisma/release.tar -C /opt/talisma/releases/$env:GITHUB_SHA && cd /opt/talisma/releases/$env:GITHUB_SHA && APP_IMAGE_TAG=$env:GITHUB_SHA bash infra/aws/deploy.sh"
+          if ($LASTEXITCODE -ne 0) { throw 'Deploy falhou; consulte o runbook' }

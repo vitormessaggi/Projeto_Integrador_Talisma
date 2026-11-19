@@ -120,8 +120,8 @@ class ImoveisapiApplicationTests {
         var put = org.springframework.http.HttpMethod.PUT;
 
         chamar(mvc, post, "/auth/cadastro", null, """
-                {"nome":"Cliente QA","email":"cliente-qa@example.test","cpf":"52998224725","rg":"TESTE1",
-                "orgaoEmissor":"SSP","uf":"SP","senha":"ApenasTeste123"}
+                {"nome":"Cliente QA","email":"cliente-qa@example.test","senha":"ApenasTeste123",
+                "aceiteTermos":true,"versaoTermos":"2026-11-18","versaoPrivacidade":"2026-11-18","origem":"WEB"}
                 """, 201);
         assertThat(jdbc.queryForObject("""
                 SELECT COUNT(*) FROM codigo_verificacao c JOIN usuario u ON u.id=c.usuario_id
@@ -208,6 +208,55 @@ class ImoveisapiApplicationTests {
                 """, 423);
         chamar(mvc, patch, desbloqueio, admin, null, 204);
         assertThat(login(mvc, "bloqueio@example.test").path("accessToken").asString()).isNotBlank();
+    }
+
+    @Test
+    void cadastroExigeAceiteVersionadoSemColetarDocumentos() throws Exception {
+        var mvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup(web)
+                .addFilters(web.getBean("springSecurityFilterChain", jakarta.servlet.Filter.class)).build();
+        String cadastro = """
+                {"nome":"Cliente fictício","email":"aceite@example.test","senha":"ApenasTeste123",
+                "aceiteTermos":true,"versaoTermos":"2026-11-18","versaoPrivacidade":"2026-11-18","origem":"WEB"}
+                """;
+        chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro.replace("true","false"),400);
+        chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro.replace("2026-11-18","antiga"),409);
+        chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro,201);
+        long id=jdbc.queryForObject("SELECT id FROM usuario WHERE email='aceite@example.test'",Long.class);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM documento_cliente WHERE usuario_id=?",Long.class,id)).isZero();
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM aceite_legal WHERE usuario_id=? AND LENGTH(hash_termos)=64 AND origem='WEB'",Long.class,id)).isEqualTo(1);
+    }
+
+    @Test
+    void exportaSomenteDadosPropriosEExcluiDependenciasRevogandoSessao() throws Exception {
+        var mvc = org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup(web)
+                .addFilters(web.getBean("springSecurityFilterChain", jakarta.servlet.Filter.class)).build();
+        var post=org.springframework.http.HttpMethod.POST;
+        String cliente=conta(mvc,"privacidade@example.test","CLIENTE");
+        String outro=conta(mvc,"outro-privacidade@example.test","CLIENTE");
+        String admin=conta(mvc,"admin-privacidade@example.test","ADMIN");
+        long id=jdbc.queryForObject("SELECT id FROM usuario WHERE email='privacidade@example.test'",Long.class);
+        chamar(mvc,post,"/usuarios/me/privacidade/solicitacoes",cliente,"{\"tipo\":\"ACESSO\",\"senha\":\"incorreta\"}",400);
+        var primeiro=chamar(mvc,post,"/usuarios/me/privacidade/solicitacoes",cliente,"{\"tipo\":\"ACESSO\",\"senha\":\"ApenasTeste123\"}",201);
+        var repetido=chamar(mvc,post,"/usuarios/me/privacidade/solicitacoes",cliente,"{\"tipo\":\"ACESSO\",\"senha\":\"ApenasTeste123\"}",201);
+        assertThat(primeiro.path("protocolo").asString()).isEqualTo(repetido.path("protocolo").asString());
+        chamar(mvc,post,"/leads",cliente,"{\"assunto\":\"Privado\",\"mensagem\":\"Minha mensagem\",\"telefone\":\"11900000000\"}",201);
+        jdbc.update("INSERT INTO documento_cliente(usuario_id,cpf,rg,orgao_emissor,uf) VALUES (?,'12345678909','ficticio','SSP','SP')",id);
+        var copia=chamar(mvc,post,"/usuarios/me/privacidade/exportacao",cliente,"{\"senha\":\"ApenasTeste123\"}",200);
+        assertThat(copia.path("perfil").path("email").asString()).isEqualTo("privacidade@example.test");
+        assertThat(copia.path("documentosLegados").size()).isEqualTo(1);
+        assertThat(copia.toString()).doesNotContain("senha_hash","refresh_hash","outro-privacidade@example.test");
+        var privado=chamar(mvc,org.springframework.http.HttpMethod.GET,"/usuarios/me/privacidade",outro,null,200);
+        assertThat(privado.path("solicitacoes").size()).isZero();
+        chamar(mvc,org.springframework.http.HttpMethod.GET,"/admin/privacidade/solicitacoes",cliente,null,403);
+        var exclusao=chamar(mvc,post,"/usuarios/me/privacidade/solicitacoes",cliente,"{\"tipo\":\"EXCLUSAO\",\"senha\":\"ApenasTeste123\"}",201);
+        assertThat(exclusao.path("status").asString()).isEqualTo("CONCLUIDA");
+        for(String tabela:java.util.List.of("sessao","documento_cliente","favorito","aceite_legal","codigo_verificacao"))
+            assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM "+tabela+" WHERE usuario_id=?",Long.class,id)).isZero();
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM lead_contato WHERE cliente_id=?",Long.class,id)).isZero();
+        chamar(mvc,org.springframework.http.HttpMethod.GET,"/usuarios/me",cliente,null,401);
+        chamar(mvc,org.springframework.http.HttpMethod.GET,"/usuarios/me",outro,null,200);
+        var interno=chamar(mvc,post,"/usuarios/me/privacidade/solicitacoes",admin,"{\"tipo\":\"EXCLUSAO\",\"senha\":\"ApenasTeste123\"}",201);
+        assertThat(interno.path("status").asString()).isEqualTo("PENDENTE");
     }
 
     private String conta(org.springframework.test.web.servlet.MockMvc mvc, String email, String perfil) throws Exception {

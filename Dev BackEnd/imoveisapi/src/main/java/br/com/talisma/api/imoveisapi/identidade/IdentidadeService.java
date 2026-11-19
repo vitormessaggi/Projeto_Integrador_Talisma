@@ -52,14 +52,13 @@ public class IdentidadeService {
     private record Desafio(long id, String hash, int tentativas, Instant expiracao, Instant criadoEm) {}
 
     void cadastrar(IdentidadeController.Cadastro dados) {
-        String cpf = Cpf.normalizar(dados.cpf());
+        DocumentosLegais.validar(dados.versaoTermos(), dados.versaoPrivacidade());
         String email = normalizarEmail(dados.email());
         try {
             banco.sql("INSERT INTO usuario(nome,email,senha_hash,perfil) VALUES (?,?,?,'CLIENTE')")
                     .params(dados.nome().strip(), email, hashSenha(dados.senha())).update();
             Usuario usuario = buscar(email);
-            banco.sql("INSERT INTO documento_cliente(usuario_id,cpf,rg,orgao_emissor,uf) VALUES (?,?,?,?,?)")
-                    .params(usuario.id(), cpf, dados.rg().strip(), dados.orgaoEmissor().strip(), dados.uf()).update();
+            DocumentosLegais.registrar(banco, usuario.id(), dados.versaoTermos(), dados.versaoPrivacidade(), dados.origem());
             emitirCodigo(usuario, "CADASTRO");
         } catch (DuplicateKeyException erro) {
             throw falha(CONFLICT, "Já existe cadastro com os dados informados");

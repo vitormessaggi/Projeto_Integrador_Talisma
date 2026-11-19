@@ -19,9 +19,9 @@ export default async function Gestao({ searchParams }: { searchParams: Promise<{
   const perfil = await privada<Perfil>("/usuarios/me", destino);
   if (perfil.perfil === "CLIENTE") redirect("/conta");
   const admin = perfil.perfil === "ADMIN";
-  const links: [string, string][] = [["/painel", "Imóveis"], ["/painel?aba=novo-imovel", "Cadastrar imóvel"],
+  const links: [string, string][] = [["/conta/privacidade", "Privacidade"], ["/painel", "Imóveis"], ["/painel?aba=novo-imovel", "Cadastrar imóvel"],
     ["/painel?aba=proprietarios", "Proprietários"], ["/painel?aba=contatos", "Contatos"], ["/painel?aba=visitas", "Visitas"]];
-  if (admin) links.push(["/painel?status=PENDENTE", "Aprovações"], ["/painel?aba=usuarios", "Usuários internos"]);
+  if (admin) links.push(["/painel/privacidade", "Solicitações de privacidade"], ["/painel?status=PENDENTE", "Aprovações"], ["/painel?aba=usuarios", "Usuários internos"]);
   let conteudo: React.ReactNode;
   const filtroPagina = `?page=${pagina}`;
   switch (aba) {

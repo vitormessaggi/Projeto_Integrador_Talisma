@@ -1,0 +1,23 @@
+TERMOS DE USO — TALISMÃ IMÓVEIS
+Versão: 2026-11-18
+
+1. Ambiente e finalidade
+Esta instalação é uma demonstração acadêmica do Projeto Integrador Talismã Imóveis, com dados fictícios. Não conclui transações imobiliárias, pagamentos, contratos ou reservas. Não envie documentos ou informações reais neste ambiente.
+
+2. Catálogo e atendimento
+O catálogo permite pesquisar anúncios, guardar favoritos e solicitar contato ou visita. Preços, disponibilidade e condições dependem de confirmação por responsável pela imobiliária. Os botões Comprar e Alugar iniciam atendimento; não constituem proposta aceita nem contratação.
+
+3. Conta e conduta
+Informe dados de demonstração, mantenha a senha em sigilo e não compartilhe sua conta. É proibido acessar dados de terceiros sem autorização, enviar conteúdo ilícito ou abusivo, explorar vulnerabilidades e publicar imagens sem autorização dos titulares de direitos. A equipe poderá restringir acessos em caso de abuso, assegurando canal para revisão.
+
+4. Perfis internos e anúncios
+Corretores gerenciam os registros sob sua responsabilidade. Anúncios dependem de aprovação administrativa e podem voltar à revisão após alterações. Imagens devem corresponder ao imóvel e não conter documentos, pessoas identificáveis ou informações pessoais desnecessárias.
+
+5. Disponibilidade
+O laboratório pode ser interrompido, reiniciado ou encerrado ao término da atividade acadêmica. A demonstração não oferece garantia de disponibilidade contínua. Estas disposições não afastam direitos previstos na legislação aplicável.
+
+6. Privacidade e aceite
+O aceite destes termos é registrado com a conta, data, versão e origem do aplicativo. A Política de Privacidade explica o tratamento de dados e os meios para exercer direitos. Ciência da política e aceite contratual não autorizam publicidade, rastreamento ou finalidades incompatíveis.
+
+7. Contato e mudanças
+Para a demonstração, utilize Minha conta > Privacidade no site ou Perfil > Termos e privacidade no Android. As mensagens eletrônicas são capturadas pelo Mailpit privado e não enviadas a destinatários reais. Mudanças relevantes exigirão nova leitura e confirmação. Antes de operação real, deverão ser identificados o controlador, seus contatos e as condições efetivas do serviço.

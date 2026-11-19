@@ -384,16 +384,7 @@ public class ServidorSimulado {
         if (!Validacoes.telefone(telefone)) {
             throw new ApiException(400, texto(R.string.conta_erro_telefone_invalido));
         }
-        String cpfVisita = usuario(db, id).cpf;
-        if (Validacoes.vazio(cpfVisita)) {
-            if (Validacoes.vazio(cpf)) {
-                throw new ApiException(400, texto(R.string.visita_erro_cpf_obrigatorio));
-            }
-            if (!Validacoes.cpf(cpf)) {
-                throw new ApiException(400, texto(R.string.conta_erro_cpf_invalido));
-            }
-            cpfVisita = Formatos.digitos(cpf);
-        }
+        String cpfVisita = null;
         String telefoneFormatado = Formatos.telefone(telefone);
 
         ContentValues perfil = new ContentValues();

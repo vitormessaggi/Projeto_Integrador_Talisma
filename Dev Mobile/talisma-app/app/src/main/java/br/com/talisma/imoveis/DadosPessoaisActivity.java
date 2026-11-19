@@ -82,6 +82,7 @@ public class DadosPessoaisActivity extends AppCompatActivity {
         conteudo = findViewById(R.id.scrollConteudo);
         tilNome = findViewById(R.id.tilNome);
         tilCpf = findViewById(R.id.tilCpf);
+        tilCpf.setVisibility(View.GONE);
         tilTelefone = findViewById(R.id.tilTelefone);
         edtNome = findViewById(R.id.edtNome);
         edtEmail = findViewById(R.id.edtEmail);
@@ -159,7 +160,7 @@ public class DadosPessoaisActivity extends AppCompatActivity {
 
     private void salvar() {
         String nome = texto(edtNome);
-        String cpf = cpfJaInformado ? null : texto(edtCpf);
+        String cpf = null;
         String telefone = texto(edtTelefone);
         tilNome.setError(null);
         tilCpf.setError(null);

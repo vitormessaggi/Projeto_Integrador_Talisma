@@ -1,5 +1,6 @@
 "use server";
 
+import { versaoLegal } from "./legal";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -49,7 +50,11 @@ export async function autenticar(modo: Modo, retorno: string, _estado: Estado, f
       proximo = destino;
     } else {
       if (modo === "cadastro" && form.get("senha") !== form.get("confirmarSenha")) return { erro: "As senhas precisam ser iguais." };
-      const corpo = camposDoFormulario(form, ["nome", "email", "cpf", "rg", "orgaoEmissor", "uf", "senha", "codigo", "novaSenha"]);
+      const corpo = camposDoFormulario(form, ["nome", "email", "senha", "codigo", "novaSenha"]);
+      if (modo === "cadastro") {
+        if (!form.has("aceiteTermos")) return { erro: "Confirme o aceite dos termos após ler os documentos." };
+        Object.assign(corpo, { aceiteTermos: true, versaoTermos: versaoLegal, versaoPrivacidade: versaoLegal, origem: "WEB" });
+      }
       const tokens = await chamada<Token | undefined>(`/auth/${rotasAuth[modo]}`, { method: "POST", body: JSON.stringify(corpo) });
       const retornoQuery = `?retorno=${encodeURIComponent(destino)}`;
       if (modo === "entrar" && tokens) {
@@ -73,7 +78,7 @@ export async function autenticar(modo: Modo, retorno: string, _estado: Estado, f
   return { sucesso: "Se a conta estiver apta, um código será enviado por e-mail." };
 }
 
-const mutacoes = /^\/(?:usuarios\/me(?:\/senha|\/favoritos\/\d+)?|leads(?:\/\d+\/(?:status|corretor))?|visitas(?:\/\d+\/status)?|admin\/(?:corretores|usuarios\/\d+\/desbloqueio)|gestao\/(?:proprietarios(?:\/\d+)?|imoveis(?:\/\d+(?:\/status|\/fotos(?:\/\d+)?)?)?))$/;
+const mutacoes = /^\/(?:usuarios\/me(?:\/senha|\/favoritos\/\d+)?|leads(?:\/\d+\/(?:status|corretor))?|visitas(?:\/\d+\/status)?|admin\/(?:privacidade\/solicitacoes\/[0-9a-f-]{36}|corretores|usuarios\/\d+\/desbloqueio)|gestao\/(?:proprietarios(?:\/\d+)?|imoveis(?:\/\d+(?:\/status|\/fotos(?:\/\d+)?)?)?))$/;
 
 export async function executar(operacao: Operacao, _estado: Estado, form: FormData): Promise<Estado> {
   if (!mutacoes.test(operacao.caminho)) return { erro: "Operação inválida." };

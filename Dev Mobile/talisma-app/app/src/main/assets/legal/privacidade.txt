@@ -1,0 +1,26 @@
+POLÍTICA DE PRIVACIDADE — TALISMÃ IMÓVEIS
+Versão: 2026-11-18
+
+1. Quem trata os dados
+Esta instalação é uma demonstração acadêmica mantida pela equipe do Projeto Integrador Talismã Imóveis. Use somente dados fictícios. O nome do projeto não identifica, por si só, uma pessoa jurídica controladora. A publicação para uso real depende de identificar o controlador e divulgar contato efetivo para privacidade e atendimento de titulares sem conta.
+
+2. Dados e finalidades
+Conta: nome, e-mail e senha protegida por hash são utilizados para autenticação e segurança. Telefone, mensagens e preferências de visita são utilizados para atender solicitações. Favoritos associam a conta a anúncios. Registros antigos podem conter CPF, RG, órgão emissor e UF: novos cadastros não os solicitam. Registros internos incluem responsáveis, proprietários, anúncios e histórico de ações. Registramos versões, hashes dos documentos, origem web/Android e data do aceite.
+
+3. Fundamentos do tratamento
+Na demonstração utilizamos dados fictícios. Em operação real, cadastro e atendimento deverão ser associados à execução de contrato ou a procedimentos preliminares solicitados pelo titular; obrigações legais e exercício regular de direitos dependerão de necessidade documentada. Segurança baseada em legítimo interesse exige avaliação de necessidade e equilíbrio. Consentimento será reservado a finalidades opcionais específicas, podendo ser revogado. Aceitar termos não é consentimento genérico ao tratamento.
+
+4. Cookies, mapas e dispositivos
+Cookies de sessão são necessários para autenticação; a preferência de cookies também é armazenada para respeitar sua escolha. Favoritos usam armazenamento local para funcionar sem login e sincronizar quando solicitado. Não usamos ferramentas de publicidade ou analytics. No site, mapas externos só são incorporados após autorização para conteúdo opcional; ao autorizar, o provedor OpenStreetMap recebe os dados técnicos necessários, como IP. Um link externo abre o site do provedor por iniciativa do usuário. Você pode recusar e rever sua escolha no rodapé. A localização é solicitada somente para Perto de mim; coordenadas são enviadas à API para ordenar resultados e não são gravadas no cadastro. Câmera e galeria são usadas para fotos enviadas por corretores. Mapas nativos no Android se conectam ao provedor de mapas para exibir o recurso solicitado. O Android mantém cache, favoritos e sessão protegida no aparelho; permissões podem ser revogadas nas configurações do sistema.
+
+5. Compartilhamento e infraestrutura
+O backend roda em EC2, o banco em RDS e as imagens em S3, na região us-east-1 do laboratório AWS Academy, nos Estados Unidos. Administradores e corretores autorizados acessam somente os dados necessários às suas funções. E-mails de teste ficam no Mailpit privado. Não vendemos dados. Para dados reais, o uso de infraestrutura internacional depende de avaliação e mecanismo válido de transferência internacional, além de contratos e transparência adequados.
+
+6. Segurança e retenção
+Utilizamos controle de acesso, senhas com hash, HTTPS na API remota, bucket e banco privados e revogação de sessões. Nenhum mecanismo elimina todos os riscos. No laboratório, dados fictícios permanecem durante a atividade e devem ser removidos no encerramento. Backups têm retenção operacional de sete dias; exclusões devem ser reaplicadas quando um backup for restaurado. Conservamos protocolo, data, resultado e identificador técnico mínimo da exclusão para impedir a reativação da conta por restauração. Esse registro restrito deve ser removido após expirar a última cópia que possa conter os dados e concluir o atendimento. Não se trata de prazo legal para operação real. Essa operação exigirá uma tabela de retenção por finalidade e obrigação aplicável. Evitamos registrar senhas, tokens, mensagens e documentos em logs.
+
+7. Seus direitos
+Você pode solicitar confirmação, acesso e cópia dos dados, correção, exclusão, anonimização, informações sobre compartilhamento e revisão de tratamento, conforme a legislação aplicável. O perfil permite corrigir nome e telefone. Minha conta > Privacidade e a tela de privacidade do Android permitem abrir solicitações e baixar dados mediante confirmação de senha. A exclusão confirmada de um cliente no laboratório remove sua conta e dados relacionados e encerra suas sessões. Contas internas dependem de análise administrativa devido às responsabilidades sobre anúncios. Eventual retenção deve ter fundamento, escopo e prazo informados; não será presumida de forma genérica. Pedidos completos de acesso devem observar o prazo legal de até quinze dias quando aplicável, sem cobrança. Quando necessário, a equipe deverá verificar a identidade de forma proporcional.
+
+8. Escolhas e contato
+Recusar conteúdo opcional não impede navegação, cadastro ou atendimento. Revogar a autorização remove o mapa incorporado. Utilize o canal de privacidade da conta para solicitações autenticadas; a equipe deve disponibilizar um canal real também a titulares sem conta antes de qualquer operação real. Você pode procurar a Autoridade Nacional de Proteção de Dados pelos canais oficiais. Esta política descreve a instalação acadêmica e deverá ser revisada antes de sua utilização com dados reais.

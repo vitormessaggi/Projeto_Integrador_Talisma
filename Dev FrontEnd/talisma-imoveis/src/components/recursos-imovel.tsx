@@ -1,4 +1,5 @@
 "use client";
+import { useConsentimento } from "./consentimento";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,7 +22,8 @@ export function PertoDeMim(){
   return <div><button type="button" className={`filter-chip ${ativo?"active":""}`} onClick={buscar} disabled={aguardando} aria-pressed={ativo}><MapPin size={17}/>{aguardando?"Localizando…":"Perto de mim"}</button>{mensagem&&<p role="status" className="mt-2 text-sm text-primary">{mensagem}</p>}</div>;
 }
 export function MapaImovel({latitude,longitude}:{latitude?:number;longitude?:number}){
+  const { opcionais, abrir } = useConsentimento();
   if(latitude==null||longitude==null)return <p className="text-sm text-muted-foreground">A localização no mapa ainda não foi informada.</p>;
   const bbox=[longitude-.008,latitude-.006,longitude+.008,latitude+.006].join(",");
-  return <div className="overflow-hidden rounded-2xl border"><iframe loading="lazy" title="Localização do imóvel" className="h-72 w-full border-0" referrerPolicy="no-referrer" src={`https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${latitude}%2C${longitude}`}/><a className="block bg-white p-3 text-xs text-muted-foreground" target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=16/${latitude}/${longitude}`}>© OpenStreetMap contributors · Abrir mapa</a></div>;
+  return <div className="overflow-hidden rounded-2xl border">{opcionais ? <iframe loading="lazy" title="Localização do imóvel" className="h-72 w-full border-0" referrerPolicy="no-referrer" src={`https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${latitude}%2C${longitude}`}/> : <div className="p-5"><p>O mapa externo só carrega com sua autorização.</p><button className="action-secondary mt-3" onClick={abrir}>Escolher preferências</button></div>}<a className="block bg-white p-3 text-xs text-muted-foreground" target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=16/${latitude}/${longitude}`}>© OpenStreetMap contributors · Abrir mapa</a></div>;
 }

@@ -11,10 +11,9 @@ const modos: Record<Exclude<Modo, "reenviar">, { titulo: string; botao: string; 
   entrar: { titulo: "Acesse sua conta", botao: "Entrar", campos: [email, senha] },
   cadastro: { titulo: "Crie sua conta", botao: "Cadastrar", campos: [
     { nome: "nome", rotulo: "Nome completo", autocomplete: "name" }, email,
-    { nome: "cpf", rotulo: "CPF" }, { nome: "rg", rotulo: "RG" }, { nome: "orgaoEmissor", rotulo: "Órgão emissor" },
-    { nome: "uf", rotulo: "UF do RG", opcoes: "AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO".split(" ").map(valor => ({ valor, texto: valor })) },
     { ...senha, autocomplete: "new-password", rotulo: "Senha (mínimo de 8 caracteres)" },
     { ...senha, nome: "confirmarSenha", autocomplete: "new-password", rotulo: "Confirmar senha" },
+    { nome: "aceiteTermos", rotulo: "Aceito os Termos de Uso e confirmo a leitura da Política de Privacidade", tipo: "checkbox", obrigatorio: true },
   ] },
   verificar: { titulo: "Verifique seu e-mail", botao: "Confirmar código", campos: [email, codigo] },
   recuperar: { titulo: "Recupere sua senha", botao: "Enviar código", campos: [email] },
@@ -30,12 +29,13 @@ export function TelaAcesso({ modo, retorno }: { modo: keyof typeof modos; retorn
     <div className="mx-auto max-w-xl rounded-3xl border border-white/30 bg-white p-6 shadow-2xl sm:p-10">
       <p className="eyebrow mb-3">BEM-VINDO À TALISMÃ</p>
       <h1 className="mb-6 text-3xl font-bold text-primary">{dados.titulo}</h1>
+      {modo === "cadastro" && <p className="mb-5 text-sm"><Link className="underline" href="/termos" target="_blank">Leia os Termos de Uso</Link> e a <Link className="underline" href="/privacidade" target="_blank">Política de Privacidade</Link>. O aceite não autoriza rastreamento.</p>}
       <Formulario acao={autenticar.bind(null, modo, destino)} campos={dados.campos} botao={dados.botao} colunas={modo === "cadastro"} />
       {modo === "entrar" && <nav aria-label="Ajuda com acesso" className="mt-6 flex flex-wrap gap-4 text-sm text-primary underline">
         <Link href={"/cadastro" + query}>Criar conta</Link><Link href={"/esqueci-senha" + query}>Esqueci a senha</Link><Link href={"/verificar-email" + query}>Verificar e-mail</Link>
       </nav>}
       {modo === "verificar" && <details className="mt-6"><summary className="mb-4 cursor-pointer text-primary underline">Preciso de outro código</summary>
-        <Formulario acao={autenticar.bind(null, "reenviar", destino)} campos={[email]} botao="Reenviar código" /></details>}
+      <Formulario acao={autenticar.bind(null, "reenviar", destino)} campos={[email]} botao="Reenviar código" /></details>}
       {modo === "sessao" && <Link href={"/entrar" + query} className={`${primario} mt-5 bg-secondary text-primary hover:text-white`}>Entrar novamente</Link>}
     </div>
   </div></section>;

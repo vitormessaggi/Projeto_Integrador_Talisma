@@ -7,10 +7,12 @@ export default defineConfig({
   testDir: "./e2e",
   timeout: 45000,
   use: { baseURL, trace: "retain-on-failure" },
-  webServer: process.env.E2E_BASE_URL ? undefined : {
+  webServer: process.env.E2E_BASE_URL ? undefined : [
+    ...(!process.env.API_URL ? [{ command: "node e2e/fixtures/api.mjs", url: "http://127.0.0.1:18089/health", reuseExistingServer: !process.env.CI }] : []),
+    {
     command: "npm run start -- --hostname 127.0.0.1 --port " + porta,
     url: baseURL,
-    env: { API_URL: process.env.API_URL ?? "http://127.0.0.1:8080" },
+    env: { API_URL: process.env.API_URL ?? "http://127.0.0.1:18089" },
     reuseExistingServer: !process.env.CI,
-  },
+  }],
 });

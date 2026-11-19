@@ -7,6 +7,7 @@ import logo from "@/assets/images/Logo-Red.svg";
 import logoBranco from "@/assets/images/Logo-White.svg";
 import "@fontsource/roboto/latin-400.css";
 import "./globals.css";
+import { ConsentimentoProvider, PreferenciasCookies } from "@/components/consentimento";
 import { FavoritosProvider } from "@/components/favoritos";
 import { NavegacaoMobile } from "@/components/navegacao";
 
@@ -31,7 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR" className={poppins.variable}>
       <body>
-        <FavoritosProvider>
+        <ConsentimentoProvider><FavoritosProvider>
         <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:z-20 focus:bg-white focus:p-3">Pular para o conteúdo</a>
         <header className="site-header mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-5 gap-y-4 px-5 py-5 sm:px-10">
           <Link href="/" aria-label="Talismã Imóveis — início"><Image src={logo} alt="Talismã Imóveis" className="h-auto w-32 md:w-44" priority /></Link>
@@ -48,12 +49,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className="mx-auto grid max-w-7xl gap-9 px-6 py-12 sm:grid-cols-3 sm:px-10">
             <Link href="/"><Image src={logoBranco} alt="Talismã Imóveis" className="h-auto w-40" /></Link>
             <div><h2 className="font-semibold">Contato</h2><Link className="mt-3 inline-block underline" href="/contato">Envie uma mensagem</Link></div>
-            <div className="grid content-start gap-3"><h2 className="font-semibold">Informações</h2><Link href="/imoveis">Imóveis</Link><Link href="/sobre">Sobre nós</Link><Link href="/termos">Termos e condições</Link></div>
+            <div className="grid content-start gap-3"><h2 className="font-semibold">Informações</h2><Link href="/imoveis">Imóveis</Link><Link href="/sobre">Sobre nós</Link><Link href="/termos">Termos de uso</Link><Link href="/privacidade">Política de privacidade</Link><Link href="/conta/privacidade">Meus dados e solicitações</Link><PreferenciasCookies/></div>
             <p className="text-sm sm:col-span-3">Talismã Imóveis © {new Date().getFullYear()}</p>
           </div>
         </footer>
         <NavegacaoMobile/>
-        </FavoritosProvider>
+        </FavoritosProvider></ConsentimentoProvider>
       </body>
     </html>
   );

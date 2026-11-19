@@ -71,7 +71,7 @@ public class PerfilActivity extends AppCompatActivity {
         findViewById(R.id.itemMeusContatos).setOnClickListener(v -> startActivity(new Intent(this, MeusContatosActivity.class)));
         findViewById(R.id.itemAlterarSenha).setOnClickListener(v -> startActivity(new Intent(this, AlterarSenhaActivity.class)));
         findViewById(R.id.itemFaleConosco).setOnClickListener(v -> abrirFaleConosco());
-        findViewById(R.id.itemTermos).setOnClickListener(v -> startActivity(new Intent(this, TermosActivity.class)));
+        findViewById(R.id.itemTermos).setOnClickListener(v -> startActivity(new Intent(this, PrivacidadeActivity.class)));
         findViewById(R.id.btnSair).setOnClickListener(v -> confirmarSaida());
 
         TextView txtVersao = findViewById(R.id.txtVersao);

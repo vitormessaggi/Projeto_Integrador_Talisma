@@ -9,6 +9,8 @@ Provisionar uma base vazia `talisma` e outra `talisma_test`, com usuários disti
 2. DML/V2__perfis.sql
 3. DDL/V3__atendimento_seguranca.sql
 4. DDL/V4__limite_login.sql
+5. DDL/V5__privacidade.sql
+6. DDL/V6__registro_exclusao_backup.sql
 
 O backend empacota estes arquivos diretamente e executa via Flyway. Não aplicar manualmente as mesmas migrations em uma base gerenciada pelo Flyway. Não editar migrations já aplicadas; criar uma nova versão.
 
@@ -25,3 +27,7 @@ Executar mysqldump com --single-transaction --routines --triggers, usando senha 
 Após cadastrar um corretor fictício pelo painel administrativo, defina a variável SQL @email_corretor e execute DML/demo/catalogo.sql na base talisma. O imóvel começa como rascunho para praticar envio, aprovação e publicação.
 
 Flyway validado em MySQL 8.0.44 nas bases locais. MySQL 8.4 permanece o alvo do projeto.
+
+## AWS e direitos do titular
+
+A instalação AWS usa RDS privado com TLS e conta de execução separada da conta de migrations. Consulte [o guia AWS](../docs/aws-academy.md) para copiar dados e fotos, validar e restaurar. V5 adiciona aceites, solicitações e fila durável de limpeza de arquivos; V6 registra identificador mínimo para conciliar exclusões após restauração. Novos clientes não precisam de linha em documento_cliente; o vínculo já era opcional no esquema.

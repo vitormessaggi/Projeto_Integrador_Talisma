@@ -9,7 +9,8 @@ val propriedadesLocais = Properties().apply {
     val arquivo = rootProject.file("local.properties")
     if (arquivo.exists()) arquivo.inputStream().use { load(it) }
 }
-val apiUrl: String = propriedadesLocais.getProperty("api.url", "http://10.0.2.2:8080")
+val apiUrl: String = providers.gradleProperty("apiUrl").orNull ?: propriedadesLocais.getProperty("api.url", "http://10.0.2.2:8080")
+require(apiUrl.matches(Regex("https://[A-Za-z0-9.:_-]+/?|http://(10\\.0\\.2\\.2|localhost|127\\.0\\.0\\.1)(:[0-9]+)?/?"))) { "Use HTTPS para a API remota; HTTP é permitido apenas no desenvolvimento local." }
 
 // Keystore de demonstração commitado (D42): uso só acadêmico, nunca na Play Store
 val pastaKeystore = rootProject.file("keystore")

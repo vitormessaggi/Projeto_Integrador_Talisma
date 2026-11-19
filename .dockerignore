@@ -1,0 +1,15 @@
+**/.git
+**/.idea
+**/target
+**/node_modules
+**/.next
+**/build
+**/config
+**/local.properties
+**/fotos-local
+**/.env*
+.local
+Dev Mobile
+Dev FrontEnd
+Gestão de Projetos
+Eng. Software

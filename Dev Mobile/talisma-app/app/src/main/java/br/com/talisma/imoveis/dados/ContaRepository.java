@@ -61,20 +61,19 @@ public class ContaRepository {
         }, callback);
     }
 
-    /** Cadastro de cliente (CPF opcional — D12); depois, VerificarEmail(CADASTRO). 409 = e-mail existente. */
-    public void cadastrar(String nome, @Nullable String cpf, String email, String senha, String rg, String orgaoEmissor, String uf,
+    /** Cadastro minimizado, aceite explícito e documentos versionados; 409 também indica versão desatualizada. */
+    public void cadastrar(String nome, String email, String senha,
                           Tarefas.Callback<Void> callback) {
-        String cpfDigitos = Validacoes.vazio(cpf) ? null : Formatos.digitos(cpf);
         Tarefas.executar(() -> {
             if (simulado()) {
-                new ServidorSimulado(context).cadastrar(nome, cpfDigitos, email, senha);
+                new ServidorSimulado(context).cadastrar(nome, null, email, senha);
             } else {
                 JSONObject corpo = new JSONObject();
                 colocar(corpo, "nome", nome.trim());
-                colocar(corpo, "cpf", cpfDigitos);
-                colocar(corpo, "rg", rg);
-                colocar(corpo, "orgaoEmissor", orgaoEmissor);
-                colocar(corpo, "uf", uf);
+                colocar(corpo, "aceiteTermos", true);
+                colocar(corpo, "versaoTermos", "2026-11-18");
+                colocar(corpo, "versaoPrivacidade", "2026-11-18");
+                colocar(corpo, "origem", "ANDROID");
                 colocar(corpo, "email", email.trim());
                 colocar(corpo, "senha", senha);
                 new Api(context).post(ApiRotas.CADASTRO, corpo);
@@ -173,7 +172,6 @@ public class ContaRepository {
             } else {
                 JSONObject corpo = new JSONObject();
                 colocar(corpo, "nome", nome.trim());
-                colocar(corpo, "cpf", cpfDigitos);
                 colocar(corpo, "telefone", telefone);
                 usuario = usuarioDeJson(Api.objeto(new Api(context).put(ApiRotas.PERFIL, corpo)));
             }

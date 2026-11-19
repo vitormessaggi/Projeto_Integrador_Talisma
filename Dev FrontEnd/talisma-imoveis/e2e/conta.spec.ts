@@ -1,15 +1,5 @@
 import { expect, test, type APIRequestContext } from "@playwright/test";
-import { randomInt, randomUUID } from "node:crypto";
-
-function cpfFicticio() {
-  const digitos = String(randomInt(100_000_000, 999_999_999)).split("").map(Number);
-  for (const tamanho of [9, 10]) {
-    const soma = digitos.reduce((total, digito, indice) => total + digito * (tamanho + 1 - indice), 0);
-    const verificador = 11 - soma % 11;
-    digitos.push(verificador >= 10 ? 0 : verificador);
-  }
-  return digitos.join("");
-}
+import { randomUUID } from "node:crypto";
 
 async function codigo(request: APIRequestContext, email: string, assunto: string) {
   let recebido: string | undefined;
@@ -33,12 +23,9 @@ test("verifica cadastro e recuperação de senha pelo Mailpit", async ({ page, r
   await page.goto("/cadastro");
   await page.getByLabel("Nome completo").fill("Cliente fictício");
   await page.getByRole("textbox", { name: "E-mail", exact: true }).fill(email);
-  await page.getByLabel("CPF", { exact: true }).fill(cpfFicticio());
-  await page.getByLabel("RG", { exact: true }).fill("RG-TESTE");
-  await page.getByLabel("Órgão emissor").fill("SSP");
-  await page.getByLabel("UF do RG").selectOption("SP");
   await page.getByLabel("Senha (mínimo de 8 caracteres)", { exact: true }).fill("SenhaFicticia123");
   await page.getByLabel("Confirmar senha", { exact: true }).fill("SenhaFicticia123");
+  await page.getByLabel("Aceito os Termos de Uso").check();
   await page.getByRole("button", { name: "Cadastrar", exact: true }).click();
   await expect(page).toHaveURL(/\/verificar-email/);
   await page.getByRole("textbox", { name: "E-mail", exact: true }).fill(email);

@@ -182,7 +182,7 @@ public class SolicitarVisitaActivity extends AppCompatActivity {
             @Override
             public void sucesso(Usuario usuario) {
                 carregado = true;
-                pedeCpf = Validacoes.vazio(usuario.cpf);
+                pedeCpf = false;
                 if (!Validacoes.vazio(usuario.telefone) && edtTelefone.length() == 0) {
                     edtTelefone.setText(Formatos.telefone(usuario.telefone));
                 }

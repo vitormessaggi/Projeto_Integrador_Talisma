@@ -53,7 +53,7 @@ class Seguranca {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(regras -> regras
-                        .requestMatchers(HttpMethod.GET, "/api/v1/imoveis", "/api/v1/imoveis/*", "/api/v1/fotos/*", "/actuator/health", "/v3/api-docs").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/legal", "/api/v1/imoveis", "/api/v1/imoveis/*", "/api/v1/fotos/*", "/actuator/health", "/v3/api-docs").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/cadastro", "/api/v1/auth/login",
                                 "/api/v1/auth/verificar-email", "/api/v1/auth/reenviar-codigo",
                                 "/api/v1/auth/esqueci-senha", "/api/v1/auth/redefinir-senha",

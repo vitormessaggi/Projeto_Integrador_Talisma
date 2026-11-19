@@ -15,9 +15,9 @@ class IdentidadeController {
     }
 
     record Cadastro(@NotBlank @Size(max = 160) String nome, @NotBlank @Email @Size(max = 254) String email,
-                    @NotBlank @Size(max = 20) String cpf, @NotBlank @Size(max = 30) String rg,
-                    @NotBlank @Size(max = 20) String orgaoEmissor,
-                    @NotBlank @Pattern(regexp = "[A-Z]{2}") String uf, @NotBlank @Size(min = 8, max = 72) String senha) {}
+                    @NotBlank @Size(min = 8, max = 72) String senha,
+                    @NotNull @AssertTrue Boolean aceiteTermos, @NotBlank String versaoTermos,
+                    @NotBlank String versaoPrivacidade, @NotBlank @Pattern(regexp = "WEB|ANDROID") String origem) {}
     record Login(@NotBlank @Email @Size(max = 254) String email, @NotBlank @Size(max = 72) String senha) {}
     record PedidoEmail(@NotBlank @Email @Size(max = 254) String email) {}
     record Codigo(@NotBlank @Email @Size(max = 254) String email, @NotBlank @Pattern(regexp = "[0-9]{6}") String codigo) {}

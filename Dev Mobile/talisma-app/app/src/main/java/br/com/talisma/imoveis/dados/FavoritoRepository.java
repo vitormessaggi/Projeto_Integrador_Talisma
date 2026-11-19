@@ -314,6 +314,15 @@ public class FavoritoRepository {
     private final ThreadLocal<SQLiteDatabase> bancoSincronizacao = new ThreadLocal<>();
     private final ThreadLocal<Long> usuarioSincronizacao = new ThreadLocal<>();
 
+    public void limparParaExclusao() {
+        synchronized (TRAVA_SINCRONIZACAO) {
+            banco().delete(BancoLocal.FAVORITO,null,null);
+            BancoLocal.favoritos(context,ambiente()+"visitante").delete(BancoLocal.FAVORITO,null,null);
+            var local=BancoLocal.instancia(context).getWritableDatabase();
+            for(String tabela:new String[]{BancoLocal.CACHE_LISTA,BancoLocal.CACHE_IMOVEL,BancoLocal.BUSCA_RECENTE}) local.delete(tabela,null,null);
+        }
+    }
+
     private String ambiente() {
         return (simulado() ? "demo" : "api_" + Integer.toHexString(ApiRotas.BASE.hashCode())) + "_";
     }

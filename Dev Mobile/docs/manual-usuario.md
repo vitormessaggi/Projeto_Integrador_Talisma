@@ -1,11 +1,11 @@
 # Manual do usuário — app Talismã Imóveis (Android)
 
-Versão 1.0 · EAP 2.6.3. O app mostra os imóveis da Talismã para venda e locação, guarda favoritos, agenda
+Manual atualizado em 18/11/2026 · App 1.0 · EAP 2.6.3. O app mostra os imóveis da Talismã para venda e locação, guarda favoritos, agenda
 visitas com um corretor e permite ao corretor enviar fotos dos imóveis.
 
-> Enquanto a API não estiver pronta, o app roda no **modo demonstração**: os dados vêm do próprio app.
+> O app usa a **API real por padrão**. O modo demonstração pode ser ativado no Perfil e utiliza dados fictícios internos, sem conta na AWS.
 > Contas de teste: `cliente@teste.com` / `1234`, `corretor@teste.com` / `1234` e `bloqueada@teste.com`
-> (conta bloqueada). Código de verificação de e-mail: `1234`.
+> (conta bloqueada). Código de verificação de e-mail no modo simulado: `123456`.
 
 ## Sumário
 
@@ -17,7 +17,7 @@ visitas com um corretor e permite ao corretor enviar fotos dos imóveis.
 6. [Perfil](#6-perfil)
 7. [Entrar, cadastrar e recuperar senha](#7-entrar-cadastrar-e-recuperar-senha)
 8. [Solicitar visita e Meus contatos](#8-solicitar-visita-e-meus-contatos)
-9. [Dados pessoais, Alterar senha, Fale conosco e Termos](#9-dados-pessoais-alterar-senha-fale-conosco-e-termos)
+9. [Dados pessoais, Alterar senha, Fale conosco e Privacidade](#9-dados-pessoais-alterar-senha-fale-conosco-e-privacidade)
 10. [Área do corretor: fotos dos imóveis](#10-área-do-corretor-fotos-dos-imóveis)
 11. [Sem conexão](#11-sem-conexão)
 12. [Modo demonstração](#12-modo-demonstração)
@@ -78,10 +78,8 @@ confirmação).
 
 ## 7. Entrar, cadastrar e recuperar senha
 
-- **Entrar:** e-mail e senha. Três senhas erradas bloqueiam a conta; a conta bloqueada mostra um aviso para
-  falar com a imobiliária.
-- **Cadastrar:** nome, e-mail, telefone, CPF e senha, aceitando os Termos; depois digite o código enviado por
-  e-mail (no modo demonstração, `1234`).
+- **Entrar:** e-mail e senha. Três falhas bloqueiam contas internas; clientes estão sujeitos a limitação temporária de tentativas. A conta bloqueada mostra um aviso para falar com a equipe.
+- **Cadastrar:** nome, e-mail e senha de no mínimo oito caracteres, confirmação da senha e checkbox desmarcado para aceitar os Termos e confirmar a leitura da Política de Privacidade. Abra os textos antes de confirmar. Não é necessário CPF, RG ou telefone no cadastro inicial. Depois informe o código de seis dígitos; no modo simulado, `123456`. No laboratório AWS, consulte a mensagem no Mailpit privado.
 - **Esqueci minha senha:** informe o e-mail, digite o código e crie a nova senha.
 
 | Entrar | Senha errada | Conta bloqueada | Cadastro | Verificar e-mail |
@@ -102,7 +100,7 @@ corretor confirma (no modo demonstração, após 2 minutos). Dá para **cancelar
 |---|---|---|---|---|---|
 | ![Solicitar](prints/t06/solicitar_visita_retrato.png) | ![Data](prints/t06/solicitar_visita_datepicker_retrato.png) | ![Enviada](prints/t06/solicitar_visita_enviada_retrato.png) | ![Pendente](prints/t06/meus_contatos_pendente_retrato.png) | ![Confirmada](prints/t06/meus_contatos_confirmada_retrato.png) | ![Cancelada](prints/t06/meus_contatos_cancelada_retrato.png) |
 
-## 9. Dados pessoais, Alterar senha, Fale conosco e Termos
+## 9. Dados pessoais, Alterar senha, Fale conosco e Privacidade
 
 | Dados pessoais | Alterar senha | Fale com a imobiliária | Termos e Condições |
 |---|---|---|---|
@@ -135,3 +133,23 @@ dados internos; desligado, usa a API real. **Simular sem conexão** serve para t
 Ao alternar, a sessão e os dados salvos são limpos.
 
 ![Modo demonstração](prints/t06/modo_demonstracao_retrato.png)
+
+## 13. Termos, privacidade e seus dados
+
+No Perfil, o item Termos abre **Termos e privacidade**. O link também está disponível antes do cadastro. Os textos são versionados e disponíveis sem login; o aceite enviado ao servidor registra origem Android e data, sem autorizar rastreadores.
+
+Na API real, depois de entrar, você pode:
+
+1. Ler os termos e a política e registrar o aceite atual caso sua conta seja anterior à atualização.
+2. Informar a senha atual e tocar **Solicitar acesso**. Guarde o protocolo.
+3. Tocar **Baixar meus dados**, confirmar a senha e escolher onde salvar o JSON no seletor do Android. O arquivo contém informações pessoais da conta: guarde-o com segurança.
+4. Ver **Minhas solicitações**, com resultado e resposta da equipe.
+5. Tocar **Solicitar exclusão dos meus dados**, informar a senha e confirmar o diálogo. Para clientes fictícios, a conta, os contatos, visitas e favoritos serão excluídos e a sessão encerrada. Contas internas seguem para análise administrativa. A tela mostra o protocolo após a exclusão.
+
+O aplicativo limpa favoritos e caches do aparelho atual após exclusão. Dados salvos em outros aparelhos offline precisam ser limpos quando eles forem reutilizados. Backups do laboratório expiram em até sete dias e devem ter exclusões conciliadas antes de restauração.
+
+No modo simulado não há uma conta correspondente na AWS. A tela permite apagar contas e registros simulados deste aparelho; os pedidos ao servidor devem ser demonstrados com o modo real. Não use dados ou senhas reais no ambiente acadêmico.
+
+Localização é opcional e serve a Perto de mim. Câmera/galeria são usadas quando o corretor escolhe fotos. Você pode revogar permissões nas configurações do Android. O banner de cookies pertence ao site; o aplicativo nativo não carrega esse iframe web. Os mapas nativos acessam o provedor de mapas e isso está explicado na política.
+
+Os prints anteriores ilustram a versão visual inicial; podem mostrar campos removidos. Para os novos controles, use esta seção e o aplicativo atualizado.

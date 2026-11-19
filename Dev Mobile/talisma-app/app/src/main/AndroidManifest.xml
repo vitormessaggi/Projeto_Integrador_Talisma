@@ -16,7 +16,7 @@
         android:required="false" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -39,6 +39,7 @@
         <activity
             android:name=".FavoritosActivity"
             android:exported="false" />
+        <activity android:name=".PrivacidadeActivity" android:exported="false" />
         <activity
             android:name=".PerfilActivity"
             android:exported="false" />
@@ -82,9 +83,6 @@
             android:name=".DadosPessoaisActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".TermosActivity"
-            android:exported="false" />
         <activity
             android:name=".MeusContatosActivity"
             android:exported="false" />
