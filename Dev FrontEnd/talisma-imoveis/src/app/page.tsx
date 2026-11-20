@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Form from "next/form";
 import Link from "next/link";
 import { ArrowRight, Search, MapPin, ShieldCheck, MessagesSquare, KeyRound } from "lucide-react";
 import { chamada, type Imovel, type Pagina, type Schemas } from "@/lib/api";
@@ -24,17 +25,17 @@ export default async function Home() {
           <div className="mt-7 flex items-center gap-2 text-xs text-rose-100/80"><MapPin size={15}/>Encontre seu lugar em São Paulo e região</div>
         </div>
       </div>
-      <form action="/imoveis" className="relative z-10 mx-4 -mt-16 rounded-2xl border border-border bg-white p-5 shadow-[0_16px_50px_#35000b0b] sm:mx-8 sm:p-7 md:mx-12">
+      <Form action="/imoveis" className="relative z-10 mx-4 -mt-16 rounded-2xl border border-border bg-white p-5 shadow-[0_16px_50px_#35000b0b] sm:mx-8 sm:p-7 md:mx-12">
         <fieldset className="mb-5 flex gap-2 border-b border-border pb-4"><legend className="sr-only">Finalidade</legend>
           {[["VENDA","Comprar"],["LOCACAO","Alugar"]].map(([valor,nome])=><label key={valor} className="cursor-pointer"><input className="peer sr-only" type="radio" name="finalidade" value={valor} defaultChecked={valor==="VENDA"}/><span className="block rounded-lg px-6 py-2.5 text-sm font-semibold text-muted-foreground peer-checked:bg-primary peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-primary">{nome}</span></label>)}
         </fieldset>
         <div className="grid items-end gap-4 md:grid-cols-[1fr_1.4fr_auto]">
-          <label className={rotulo}>Tipo de imóvel<select name="tipo" className={campo}><option value="">Todos os tipos</option>{opcoes?.tipos?.map(tipo=><option key={tipo}>{tipo}</option>)}</select></label>
-          <label className={rotulo}>Onde deseja morar?<select name="cidade" className={campo}><option value="">Todas as cidades</option>{opcoes?.cidades?.map(cidade=><option key={cidade}>{cidade}</option>)}</select></label>
-          <button className={`${primario} md:px-8`}><Search size={18}/>Buscar imóveis</button>
+          <label className={rotulo}>Tipo de imóvel<select name="tipo" className={campo}><option value="">Todos os tipos</option>{opcoes?.tipos?.map(tipo=><option key={tipo} value={tipo}>{tipo}</option>)}</select></label>
+          <label className={rotulo}>Onde deseja morar?<select name="cidade" className={campo}><option value="">Todas as cidades</option>{opcoes?.cidades?.map(cidade=><option key={cidade} value={cidade}>{cidade}</option>)}</select></label>
+          <button type="submit" className={`${primario} md:px-8`}><Search size={18}/>Buscar imóveis</button>
         </div>
         {filtros.status === "rejected" && <p role="status" className="mt-4 text-sm text-muted-foreground">O catálogo está temporariamente indisponível. Tente novamente em instantes.</p>}
-      </form>
+      </Form>
     </section>
     <section className={`${caixa} pb-16 md:pb-24`} aria-labelledby="destaques">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow">UMA SELEÇÃO PARA VOCÊ</p><h2 id="destaques" className="mt-3 text-3xl font-semibold tracking-tight">Imóveis em destaque</h2></div><Link href="/imoveis" className="flex items-center gap-2 text-xs font-semibold text-primary">Explorar todos<ArrowRight size={17}/></Link></div>

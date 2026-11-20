@@ -10,8 +10,8 @@ export const campo = "field";
 export const primario = "action-primary";
 export const rotulo = "grid content-start gap-1.5 text-sm font-semibold";
 
-export function CartaoImovel({ imovel, finalidade }: { imovel: Imovel; finalidade?: string }) {
-  const oferta = imovel.ofertas.find((item) => item.finalidade === finalidade) ?? imovel.ofertas[0];
+export function CartaoImovel({ imovel, ofertaSelecionada }: { imovel: Imovel; ofertaSelecionada?: Imovel["ofertas"][number] }) {
+  const oferta = ofertaSelecionada ?? imovel.ofertas[0];
   return (
     <article className="property-card">
       <div className="relative">
