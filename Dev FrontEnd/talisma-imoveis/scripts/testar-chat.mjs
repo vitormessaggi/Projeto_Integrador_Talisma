@@ -1,22 +1,29 @@
 import assert from "node:assert/strict";
 
-const endpoint = new URL("/api/chat", process.argv[2] ?? "http://localhost:3000");
+const endpoint = new URL("/api/chat", process.argv[2] ?? "http://127.0.0.1:3000");
 
-try {
+async function enviar(mensagem, status = 200) {
   const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ mensagem: "Responda apenas com a palavra PONG." }),
+    body: JSON.stringify({ mensagem }),
     signal: AbortSignal.timeout(20_000),
   });
-
-  assert.ok(response.ok, `A rota retornou HTTP ${response.status}.`);
-  const dados = await response.json();
-  assert.equal(typeof dados.resposta, "string");
-  assert.match(dados.resposta, /\bPONG\b/i, "O modelo não retornou o texto esperado.");
-
-  console.log("A rota de chat recebeu uma resposta do modelo.");
-} catch (erro) {
-  console.error(erro.message);
-  process.exitCode = 1;
+  assert.equal(response.status, status);
+  return response.json();
 }
+
+const fora = await enviar("azul girafa 123");
+assert.match(fora.resposta, /Posso ajudar com imóveis da Talismã/);
+assert.equal(fora.links.length, 0);
+
+const visita = await enviar("Como agendar uma visita?");
+assert.match(visita.resposta, /solicitar visita/);
+assert.ok(visita.links.some(link => link.href === "/imoveis"));
+
+const aluguel = await enviar("Apartamentos para alugar");
+assert.ok(aluguel.links.some(link => link.href.includes("finalidade=LOCACAO") && link.href.includes("tipo=APARTAMENTO")));
+await enviar("   ", 400);
+await enviar("a".repeat(2001), 400);
+
+console.log("Chat: assunto fora do escopo, visita, filtros do catálogo e validação de entrada OK.");

@@ -10,6 +10,7 @@ import "./globals.css";
 import { ConsentimentoProvider, PreferenciasCookies } from "@/components/consentimento";
 import { FavoritosProvider } from "@/components/favoritos";
 import { NavegacaoMobile } from "@/components/navegacao";
+import { Chatbot } from "@/components/chatbot";
 
 const poppins = localFont({
   src: [
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </div>
         </footer>
         <NavegacaoMobile/>
+        <Chatbot />
         </FavoritosProvider></ConsentimentoProvider>
       </body>
     </html>

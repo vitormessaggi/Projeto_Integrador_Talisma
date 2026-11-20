@@ -2,7 +2,7 @@
 
 Projeto integrador de Análise e Desenvolvimento de Sistemas do SENAI Armando de Arruda Pereira. O sistema reúne um catálogo de compra e locação, painéis de gestão e um aplicativo Android. O site e o app compartilham a API REST.
 
-O chatbot é desenvolvido na branch `chatbot`.
+A Lia, assistente virtual da imobiliária, está documentada no [guia do chatbot](Dev%20Chatbot/README.md).
 
 **Para começar**, siga o [passo a passo para rodar a aplicação](docs/rodar-aplicacao.md). Ele cobre a execução local, a AWS Academy, o Android e os testes com dados fictícios.
 

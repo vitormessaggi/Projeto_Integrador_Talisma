@@ -24,7 +24,9 @@ export async function chamada<T>(path: string, init: RequestInit = {}, token?: s
   if (token) headers.set("Authorization", `Bearer ${token}`);
   let resposta: Response;
   try {
-    resposta = await fetch(`${apiUrl}/api/v1${path}`, { ...init, headers, cache: "no-store", signal: AbortSignal.timeout(10000) });
+    const timeout = AbortSignal.timeout(10000);
+    const signal = init.signal ? AbortSignal.any([init.signal, timeout]) : timeout;
+    resposta = await fetch(`${apiUrl}/api/v1${path}`, { ...init, headers, cache: "no-store", signal });
   } catch {
     throw new ErroApi(503, "O serviço está temporariamente indisponível. Tente novamente.");
   }
