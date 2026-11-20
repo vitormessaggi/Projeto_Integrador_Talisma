@@ -1,4 +1,4 @@
-> Registro histórico do planejamento inicial. Para o contrato e a implantação atuais, consulte `Dev BackEnd/imoveisapi/docs/openapi.json`, `docs/analise-tecnica.md` e `docs/aws-academy.md` na raiz. As descrições antigas de ausência de backend não representam o estado atual.
+> Registro histórico do planejamento inicial. Consulte o [guia Android](../docs/mobile.md), o [contrato OpenAPI](../Dev%20BackEnd/imoveisapi/docs/openapi.json) e o [passo a passo de execução](../docs/rodar-aplicacao.md) para a versão atual.
 
 # Plano de Implementação — App Mobile Talismã Imóveis (Android nativo, Java)
 

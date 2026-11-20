@@ -56,6 +56,8 @@ O aceite dos termos não é usado como base genérica para todo tratamento. Os t
 
 ## Limites e pendências de operação real
 
+O estado desta seção corresponde a 18/11/2026. As verificações posteriores do Aurora, S3 e frontend estão em [Resultados de validação](validacao.md#validação-do-learner-lab-em-20112026).
+
 - Os textos identificam explicitamente a demonstração. Antes de uso real: identificar controlador e canal de privacidade, validar bases legais por finalidade, retenção, contratos com operadores, transferência internacional, resposta a incidentes e atendimento de titulares sem conta. A infraestrutura us-east-1 fica nos EUA.
 - O provisionamento AWS depende de permissões e crédito do Learner Lab. RDS 8.4, S3 real, perfil EC2, certificado, restauração e Docker da API precisam de validação na conta; o link da console não prova que foram implantados.
 - O laboratório usa Mailpit privado: não envia verificação/recuperação a e-mails reais. Um serviço SMTP de produção exigiria configuração, credenciais e operação próprias.

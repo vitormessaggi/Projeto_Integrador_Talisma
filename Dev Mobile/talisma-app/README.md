@@ -3,6 +3,8 @@
 App nativo (Java) da imobiliária Talismã, parte do Projeto Integrador (EAP 2 — Desenvolvimento Mobile).
 Plano completo e decisões (D1–D46): [`../PLANO_IMPLEMENTACAO_MOBILE.md`](../PLANO_IMPLEMENTACAO_MOBILE.md).
 
+Use o [guia Android](../../docs/mobile.md) para a arquitetura e o [passo a passo de execução](../../docs/rodar-aplicacao.md#4-rodar-o-android) para instalar, rodar e conectar à API.
+
 Documentação: [manual do usuário](../docs/manual-usuario.md) · [roteiro de demonstração](../docs/roteiro-demonstracao.md)
 · [roteiro de testes em dispositivo](../docs/roteiro-testes.md).
 
@@ -31,15 +33,13 @@ export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
 
 ## Modo demonstração e API
 
-- Enquanto a API não tiver os endpoints, o app roda no **modo demonstração** (padrão ligado): o
+- No **modo demonstração** (padrão ligado), o
   `ServidorSimulado` lê `app/src/main/assets/fake/` (`imoveis.json`, `usuarios.json`, `fotos/`) e grava
   nas tabelas `sim_*` do SQLite, com atraso de ~600 ms.
 - **Contas de teste** (só no modo demonstração): `cliente@teste.com` / `1234`, `corretor@teste.com` / `1234`
   e `bloqueada@teste.com` (conta bloqueada — RN-002). Código de verificação de e-mail: `1234`.
-- **Apontar para a API real:** em `local.properties`, adicione `api.url=http://SEU_HOST:8080`
-  (padrão `http://10.0.2.2:8080`, o `localhost` do PC visto pelo emulador). A URL vai para
-  `BuildConfig.API_URL`; todas as rotas ficam em `dados/ApiRotas.java` e a conversão JSON nos
-  métodos `deJson`/`paraJson` dos modelos.
+- Para a API real, configure `-PapiUrl` ou `api.url` conforme o guia de execução. A URL vai para
+  `BuildConfig.API_URL`. As rotas ficam em `dados/ApiRotas.java` e a conversão JSON nos modelos.
 
 - **Alternar modo demonstração × API:** no Perfil (logado ou não), toque **5 vezes em "Versão 1.0"**. O diálogo
   liga/desliga o modo demonstração e o **Simular sem conexão**; ao alternar, a sessão e o cache são limpos.

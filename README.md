@@ -1,23 +1,26 @@
-# Projeto_Integrador Talismã Imóveis
-Este repositório é utilizado para o projeto integrador do curso de Análise e Desenvolvimento de sistemas do senai Armando de Arruda Pereira. O projeto, consiste em um sistema completo para a imobiliária Talismã. Contendo: Banco de dados, Site corporativo, APP para Alugueis e venda, Chat Bot e controles de segurança sujeitos a testes e validação contínuos.
+# Talismã Imóveis
 
-## Aplicação Talismã Imóveis
+Projeto integrador de Análise e Desenvolvimento de Sistemas do SENAI Armando de Arruda Pereira. O sistema reúne um catálogo de compra e locação, painéis de gestão e um aplicativo Android. O site e o app compartilham a API REST.
 
-- [Implantação local e roteiro de demonstração](Dev%20BackEnd/imoveisapi/docs/implantacao-local.md)
+O chatbot é desenvolvido na branch `chatbot`.
+
+**Para começar**, siga o [passo a passo para rodar a aplicação](docs/rodar-aplicacao.md). Ele cobre a execução local, a AWS Academy, o Android e os testes com dados fictícios.
+
+## Documentação por área
+
+| Guia | Conteúdo |
+|---|---|
+| [Backend](docs/backend.md) | Spring Boot, módulos da API, banco, migrations e armazenamento de fotos. |
+| [Frontend](docs/frontend.md) | Next.js, estrutura do site, sessão e configuração da API. |
+| [Mobile](docs/mobile.md) | Projeto Android, SDK, emulador e integração com a API. |
+| [AWS Academy](docs/aws.md) | EC2, Aurora MySQL, S3, rede, publicação e restauração. |
+
+## Referências do projeto
+
 - [Contrato OpenAPI](Dev%20BackEnd/imoveisapi/docs/openapi.json)
-- [Guia de migração da API mobile](Dev%20BackEnd/imoveisapi/docs/migracao-mobile.md)
-- [Migrations e scripts MySQL](Dev%20BancoDados/README.md)
-
-## Infraestrutura e privacidade
-
+- [Schema e migrations](Dev%20BancoDados/README.md)
+- [Manual Android](Dev%20Mobile/docs/manual-usuario.md)
 - [Análise técnica e regras de negócio](docs/analise-tecnica.md)
-- [Criação e configuração completa: EC2, RDS e S3](docs/aws-passo-a-passo-completo.md)
-- [Guia operacional AWS: pipeline, rollback e restauração](docs/aws-academy.md)
-- [Resultados de validação e limitações](docs/validacao.md)
-- [Manual Android atualizado](Dev%20Mobile/docs/manual-usuario.md)
+- [Resultados de validação](docs/validacao.md)
 
-O ambiente remoto é uma demonstração acadêmica com dados fictícios. O frontend roda localmente; a API usa o perfil `aws`, RDS privado e bucket S3 privado. O cadastro registra aceite versionado dos documentos, sem exigir CPF/RG. O site possui política de privacidade, escolhas de conteúdo opcional e área de acesso/exclusão dos dados.
-
-Os documentos legais canônicos ficam em `Dev BackEnd/imoveisapi/src/main/resources/legal/`. Execute `python scripts/sincronizar-legais.py` ao alterá-los e `python scripts/sincronizar-legais.py --check` para conferir as cópias web/Android. Preserve cada versão publicada e incremente sua identificação em mudança relevante.
-
-As variáveis necessárias estão documentadas nos guias; arquivos `.env.example` foram removidos. Segredos reais ficam fora do Git. O pipeline de deploy é manual e depende de configuração do laboratório e de runner temporário do aluno.
+Os textos legais canônicos ficam em `Dev BackEnd/imoveisapi/src/main/resources/legal/`. Ao alterá-los, atualize a versão e rode `python scripts/sincronizar-legais.py`. Confira as cópias web e Android com `python scripts/sincronizar-legais.py --check`.

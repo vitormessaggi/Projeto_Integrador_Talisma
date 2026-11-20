@@ -19,4 +19,12 @@ class ArmazenamentoFotosTest {
     @Test void recusaConfiguracaoS3Incompleta() {
         assertThatThrownBy(()->new ArmazenamentoFotos("s3","","us-east-1",pasta.toString())).isInstanceOf(IllegalArgumentException.class);
     }
+    @Test void geraChavesPorImovelNoS3EPreservaFormatoLocal() {
+        try (var local = new ArmazenamentoFotos("local", "", "us-east-1", pasta.toString());
+             var s3 = new ArmazenamentoFotos("s3", "talisma-teste", "us-east-1", pasta.toString())) {
+            assertThat(local.novaChave(42, "jpeg")).matches("[0-9a-f-]{36}\\.jpeg");
+            assertThat(s3.novaChave(42, "png")).matches("imoveis/42/[0-9a-f-]{36}\\.png");
+            assertThatThrownBy(() -> s3.ler("imoveis/42/../segredo.png")).isInstanceOf(java.io.IOException.class);
+        }
+    }
 }

@@ -30,4 +30,4 @@ Flyway validado em MySQL 8.0.44 nas bases locais. MySQL 8.4 permanece o alvo do 
 
 ## AWS e direitos do titular
 
-A instalação AWS usa RDS privado com TLS e conta de execução separada da conta de migrations. Consulte [o guia AWS](../docs/aws-academy.md) para copiar dados e fotos, validar e restaurar. V5 adiciona aceites, solicitações e fila durável de limpeza de arquivos; V6 registra identificador mínimo para conciliar exclusões após restauração. Novos clientes não precisam de linha em documento_cliente; o vínculo já era opcional no esquema.
+A instalação AWS usa Aurora MySQL privado com TLS e conta de execução separada da conta de migrations. Consulte [o guia AWS](../docs/aws.md) para os cuidados de restauração e [o passo a passo de migração](../docs/rodar-aplicacao.md#37-migrar-dados-e-fotos-opcional) para copiar dados e fotos. V5 adiciona aceites, solicitações e fila durável de limpeza de arquivos. V6 registra o identificador mínimo para conciliar exclusões após restauração. Novos clientes não precisam de linha em `documento_cliente`.

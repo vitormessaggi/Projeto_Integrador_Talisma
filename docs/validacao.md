@@ -31,9 +31,9 @@ Use um esquema exclusivo chamado `talisma_test`, forneça `TEST_DB_URL`, `TEST_D
 
 No frontend, execute typecheck, lint, build e `npm run e2e`. Sem `API_URL`, os testes de UI sobem a fixture local. Para exercitar dados reais de teste, configure `API_URL` para API de testes e forneça `E2E_CONTA_EMAIL`/`E2E_CONTA_SENHA` de conta fictícia previamente verificada. `dados.spec.ts` **exclui essa conta**. O teste de mapa na API real requer `E2E_IMOVEL_ID` de anúncio publicado com coordenadas. Nunca use conta pessoal ou banco operacional.
 
-## Pendências da implantação AWS
+## Estado da implantação em 18/11/2026
 
-O usuário escolheu criar os serviços seguindo `docs/aws-academy.md`. Nenhum recurso foi criado na conta, nem dados locais foram transferidos para a nuvem nesta execução. O backend ficou preparado para configuração remota; a mudança efetiva depende dos endpoints e do bucket criados no Learner Lab.
+Em 18/11, a configuração remota estava preparada e o provisionamento na conta ainda estava pendente.
 
 Na conta, ainda validar: build da imagem Docker (Docker indisponível neste terminal), permissões do papel EC2, TLS do RDS 8.4, criação/leitura/remoção privada no S3, compensação de falhas, certificado IP e renovação, restore e conciliação de exclusões, saldo, reinício do laboratório e pipeline em GitHub Actions. Arquivos de pipeline foram preparados; não foram executados no GitHub.
 
@@ -42,5 +42,14 @@ Antes de apresentar, faça o roteiro integrado com frontend local e Android fís
 ## Limpeza realizada
 
 Removidos `.env.example`, `Animal.java`, validador CPF Java sem uso após minimização, prompt de orquestração mobile desatualizado, tela/layout antigos de termos substituídos e strings de conteúdo obsoleto. Removidos 15 arquivos de pesos/itálicos Poppins sem importação no Next.js; preservados Regular, SemiBold, Bold e a licença OFL. Documentação histórica, keystore acadêmico ainda usado pelo Gradle e migrations anteriores foram preservados. Nenhum `.env` privado foi apagado.
+
+## Validação do Learner Lab em 20/11/2026
+
+- A API na EC2 retornou `UP` e acessou Aurora MySQL por TLS 1.3.
+- O Aurora retornou 10 imóveis publicados para venda e 10 para locação. O S3 retornou 40 objetos de foto, dois por prefixo `imoveis/<id>/`, com acesso público bloqueado.
+- O frontend local conectado por HTTPS à EC2 exibiu as duas listagens e uma galeria de cada finalidade.
+- Pela API, passaram o cadastro de cliente fictício, a verificação de e-mail pelo Mailpit, o login, o favorito e a confirmação de visita. A integração Android com esse endpoint AWS ficou pendente nessa execução.
+
+[Guia da AWS](aws.md) · [Passo a passo atual](rodar-aplicacao.md)
 
 A alteração pré-existente de uma linha na rota pública de fotos do frontend foi preservada.

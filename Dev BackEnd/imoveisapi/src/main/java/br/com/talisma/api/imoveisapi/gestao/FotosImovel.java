@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 import javax.imageio.ImageIO;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -51,7 +50,7 @@ class FotosImovel {
         try {
             for (MultipartFile arquivo : arquivos) {
                 String formato = formato(arquivo);
-                String nome = UUID.randomUUID() + "." + formato;
+                String nome = this.arquivos.novaChave(id, formato);
                 limpeza.prepararUpload(nome);
                 // Recodificar remove EXIF, GPS e outros metadados do arquivo original.
                 java.awt.image.BufferedImage imagem;
