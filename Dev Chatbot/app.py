@@ -44,7 +44,7 @@ PROMPT_ROTEADOR = ChatPromptTemplate.from_messages([
 
 class Pergunta(BaseModel):
     pergunta: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=2000)]
-    usar_ia: bool = True
+    usar_ia: bool = False
 
 
 class Link(BaseModel):
@@ -140,9 +140,11 @@ def buscar_imoveis(texto: str, categoria: str) -> dict:
     if quartos := re.search(r"\b([1-9][0-9]?)\s+(?:quartos?|dormitorios?)\b", texto):
         filtros["quartosMin"] = quartos[1]
 
-    base = os.getenv("API_URL", "http://127.0.0.1:8080").rstrip("/")
+    base = os.getenv("API_URL", "").strip().rstrip("/")
     busca = {"titulo": "Ver catálogo", "href": "/imoveis"}
     try:
+        if not base:
+            raise ValueError("API_URL ausente")
         with httpx.Client(base_url=base, timeout=3) as client:
             opcoes = client.get("/api/v1/imoveis/filtros").raise_for_status().json()
             palavras = " " + re.sub(r"[^a-z0-9]+", " ", texto) + " "

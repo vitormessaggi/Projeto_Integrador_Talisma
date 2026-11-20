@@ -12,6 +12,7 @@ import br.com.talisma.imoveis.BuildConfig;
 public final class ApiRotas {
 
     public static final String BASE = BuildConfig.API_URL;
+    public static final String CHAT = "/chat";
 
     // Imóveis
     public static final String DESTAQUES = "/api/v1/imoveis?destaque=true";

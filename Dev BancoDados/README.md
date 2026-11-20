@@ -20,13 +20,13 @@ DQL contém consultas de consulta manual, não migrations. Não há senha padrã
 Usuário pertence a perfil e pode possuir documento, favoritos e sessões. Proprietário e imóvel são gerenciados pelo corretor. Imóvel possui ofertas distintas por finalidade e fotos ordenadas. Lead pertence ao cliente, pode referenciar imóvel/oferta e ser atribuído a corretor. Visita possui um único lead. Notificações persistem independentemente do envio SMTP. Histórico registra ator e ação sobre o imóvel.
 
 ## Backup e restauração
-Executar mysqldump com --single-transaction --routines --triggers, usando senha solicitada interativamente ou arquivo de credenciais protegido fora do Git. Incluir separadamente o diretório de fotos. Restaurar em uma base nova e validar contagens e relacionamentos antes de substituir qualquer base em uso.
+Execute o backup do Aurora com `mysqldump --single-transaction --routines --triggers` a partir de um ambiente autorizado na VPC. Use senha solicitada interativamente ou arquivo de credenciais protegido fora do Git. Faça uma cópia correspondente das fotos no S3. Restaure em uma base nova e valide contagens e relacionamentos antes de substituir a base em uso.
 
 ## Demonstração e validação
 
 Após cadastrar um corretor fictício pelo painel administrativo, defina a variável SQL @email_corretor e execute DML/demo/catalogo.sql na base talisma. O imóvel começa como rascunho para praticar envio, aprovação e publicação.
 
-Flyway validado em MySQL 8.0.44 nas bases locais. MySQL 8.4 permanece o alvo do projeto.
+O ambiente de execução usa Aurora MySQL 8.4. Os testes automatizados sobem uma instância MySQL 8.4 descartável via Testcontainers.
 
 ## AWS e direitos do titular
 

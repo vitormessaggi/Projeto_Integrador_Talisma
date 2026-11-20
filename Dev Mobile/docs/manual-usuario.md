@@ -1,11 +1,17 @@
 # Manual do usuário — app Talismã Imóveis (Android)
 
 Manual atualizado em 18/11/2026 · App 1.0 · EAP 2.6.3. O app mostra os imóveis da Talismã para venda e locação, guarda favoritos, agenda
-visitas com um corretor e permite ao corretor enviar fotos dos imóveis.
+visitas com um corretor e permite ao corretor enviar fotos dos imóveis. A Lia responde a perguntas sobre a imobiliária e o catálogo.
 
 > O app usa a **API real por padrão**. O modo demonstração pode ser ativado no Perfil e utiliza dados fictícios internos, sem conta na AWS.
 > Contas de teste: `cliente@teste.com` / `1234`, `corretor@teste.com` / `1234` e `bloqueada@teste.com`
 > (conta bloqueada). Código de verificação de e-mail no modo simulado: `123456`.
+
+## Conversar com a Lia
+
+Toque no avatar acima da barra de navegação para abrir o chat. Use um dos atalhos ou escreva uma pergunta sobre compra, locação ou visitas. Toque no link de um anúncio para abrir seus detalhes.
+
+Se quiser permitir que a Groq processe a pergunta, marque a opção antes de enviar. Evite incluir dados pessoais, senhas e códigos. O chat usa a conexão com a AWS.
 
 ## Sumário
 

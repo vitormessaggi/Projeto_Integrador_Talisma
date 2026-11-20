@@ -10,7 +10,15 @@ export type Pagina<T> = { itens: T[]; pagina: number; tamanho: number; totalElem
 
 export const acessoCookie = "talisma_acesso";
 export const renovacaoCookie = "talisma_renovacao";
-export const apiUrl = process.env.API_URL ?? "http://127.0.0.1:8080";
+export function origemApi(valor = process.env.API_URL): string {
+  if (!valor || !URL.canParse(valor)) return "";
+  const url = new URL(valor);
+  const mock = process.env.TALISMA_TEST_API === "1" && url.origin === "http://127.0.0.1:18089";
+  return (url.protocol === "https:" || mock) && !url.username && !url.password
+    && url.pathname === "/" && !url.search && !url.hash ? url.origin : "";
+}
+
+export const apiUrl = origemApi();
 
 export class ErroApi extends Error {
   constructor(public status: number, mensagem: string) {

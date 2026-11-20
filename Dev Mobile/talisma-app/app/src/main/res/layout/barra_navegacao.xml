@@ -28,4 +28,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_navegacao" />
 
+    <ImageButton
+        android:id="@+id/btnAbrirLia"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="@dimen/margem_tela"
+        android:layout_marginBottom="@dimen/espaco_8"
+        android:background="@drawable/fundo_lia"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clipToOutline="true"
+        android:contentDescription="@string/lia_abrir"
+        android:elevation="6dp"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_lia"
+        app:layout_constraintBottom_toTopOf="@id/navInferior"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </merge>

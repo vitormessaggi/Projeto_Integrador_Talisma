@@ -1,3 +1,5 @@
+import { origemApi } from "@/lib/api";
+
 export const runtime = "nodejs";
 
 const limiteCorpo = 16 * 1024;
@@ -63,12 +65,13 @@ export async function POST(request: Request) {
 
   const timeout = AbortSignal.timeout(timeoutMs);
   try {
-    const origemChat = process.env.CHATBOT_URL ?? "http://127.0.0.1:8000";
+    const origemChat = origemApi(process.env.CHATBOT_URL);
     const resposta = await fetch(new URL("/chat", origemChat), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pergunta: mensagem.mensagem, usar_ia: mensagem.usarIA }),
       cache: "no-store",
+      redirect: "error",
       signal: AbortSignal.any([request.signal, timeout]),
     });
     if (!resposta.ok) return json({ erro: "O serviço de chat está indisponível." }, 502);

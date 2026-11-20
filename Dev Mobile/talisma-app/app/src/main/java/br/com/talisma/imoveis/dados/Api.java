@@ -64,6 +64,10 @@ public class Api {
         return requisitar("POST", rota, corpo);
     }
 
+    public JSONObject perguntarLia(JSONObject pergunta) throws ApiException {
+        return objeto(enviar("POST", ApiRotas.CHAT, pergunta, null, 30_000));
+    }
+
     public String put(String rota, @Nullable JSONObject corpo) throws ApiException {
         return requisitar("PUT", rota, corpo);
     }
@@ -227,10 +231,15 @@ public class Api {
 
     private String umaVez(String metodo, String rota, @Nullable JSONObject corpo) throws ApiException {
         verificarConta();
+        return enviar(metodo, rota, corpo, Sessao.token(context), TIMEOUT_MS);
+    }
+
+    private String enviar(String metodo, String rota, @Nullable JSONObject corpo, @Nullable String token,
+                          int timeoutResposta) throws ApiException {
         HttpURLConnection conexao = null;
-        String token = Sessao.token(context);
         try {
             conexao = abrir(metodo, rota, token);
+            conexao.setReadTimeout(timeoutResposta);
             if (corpo != null) {
                 byte[] bytes = corpo.toString().getBytes(StandardCharsets.UTF_8);
                 conexao.setDoOutput(true);
@@ -239,6 +248,10 @@ public class Api {
                 try (OutputStream saida = conexao.getOutputStream()) {
                     saida.write(bytes);
                 }
+            }
+            if (ApiRotas.CHAT.equals(rota) && conexao.getResponseCode() != 200
+                    && conexao.getResponseCode() < 400) {
+                throw new ApiException(502, null);
             }
             return responder(conexao, metodo, rota, token);
         } catch (IOException e) {
@@ -254,6 +267,7 @@ public class Api {
     /** Abre a conexão com timeouts, {@code Accept} JSON e, se houver sessão, o token Bearer. */
     private static HttpURLConnection abrir(String metodo, String rota, @Nullable String token) throws IOException {
         HttpURLConnection conexao = (HttpURLConnection) new URL(ApiRotas.BASE + rota).openConnection();
+        conexao.setInstanceFollowRedirects(!ApiRotas.CHAT.equals(rota));
         conexao.setConnectTimeout(TIMEOUT_MS);
         conexao.setReadTimeout(TIMEOUT_MS);
         conexao.setRequestProperty("Accept", "application/json");

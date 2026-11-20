@@ -18,6 +18,8 @@ jobs:
       - uses: android-actions/setup-android@v3
       - run: chmod +x gradlew && ./gradlew :app:assembleDebug :app:lintDebug
         working-directory: Dev Mobile/talisma-app
+        env:
+          API_URL: https://api.example.invalid
   backend:
     runs-on: ubuntu-latest
     steps:

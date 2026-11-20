@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lia_nome">Lia</string>
+    <string name="lia_abrir">Conversar com a Lia</string>
+    <string name="lia_voltar">Voltar</string>
+    <string name="lia_boas_vindas">Olá! Sou a Lia, assistente da Talismã Imóveis. Posso ajudar a encontrar imóveis, entender a compra ou a locação e solicitar visitas.</string>
+    <string name="lia_compra">Quais imóveis estão à venda?</string>
+    <string name="lia_locacao">Quais imóveis estão para alugar?</string>
+    <string name="lia_visita">Como solicito uma visita?</string>
+    <string name="lia_mensagem">Escreva sua pergunta</string>
+    <string name="lia_enviar">Enviar</string>
+    <string name="lia_ia">Permitir que esta pergunta seja processada pela Groq. Evite incluir dados pessoais.</string>
+    <string name="lia_aguardando">Lia está respondendo…</string>
+    <string name="lia_falha">A Lia está indisponível no momento. Tente enviar a pergunta novamente.</string>
+    <string name="lia_limite">Foram enviadas muitas perguntas. Aguarde um momento e tente novamente.</string>
+    <string name="lia_resposta">%1$s\n%2$s</string>
+    <string name="lia_voce">Você</string>
+    <string name="lia_perfil_visitas">Acompanhar em Meus contatos</string>
+    <string name="lia_perfil_contato">Ver Fale conosco em Perfil</string>
+</resources>

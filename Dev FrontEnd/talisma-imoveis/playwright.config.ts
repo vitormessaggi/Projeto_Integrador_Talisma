@@ -12,7 +12,7 @@ export default defineConfig({
     {
     command: "npm run start -- --hostname 127.0.0.1 --port " + porta,
     url: baseURL,
-    env: { API_URL: process.env.API_URL ?? "http://127.0.0.1:18089" },
+    env: { API_URL: process.env.API_URL ?? "http://127.0.0.1:18089", TALISMA_TEST_API: process.env.API_URL ? "0" : "1" },
     reuseExistingServer: !process.env.CI,
   }],
 });

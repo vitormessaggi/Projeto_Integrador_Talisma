@@ -27,3 +27,20 @@ services:
     ports:
       - "127.0.0.1:8025:8025"
     restart: unless-stopped
+  chatbot:
+    image: talisma-chatbot:${APP_IMAGE_TAG:?Defina APP_IMAGE_TAG}
+    build:
+      context: ../../Dev Chatbot
+    env_file:
+      - path: /opt/talisma/chatbot.env
+        required: false
+    environment:
+      API_URL: ${CHAT_CATALOG_URL:-http://api:8080}
+    depends_on:
+      - api
+    ports:
+      - "127.0.0.1:8000:8000"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    restart: unless-stopped

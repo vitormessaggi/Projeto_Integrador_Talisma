@@ -1,16 +1,24 @@
 import java.util.Properties
+import java.net.URI
 
 plugins {
     id("com.android.application")
 }
 
-// URL da API vem de local.properties (api.url=...); padrão: localhost do PC visto pelo emulador (D26)
+// Catálogo e Lia usam a mesma origem HTTPS da AWS.
 val propriedadesLocais = Properties().apply {
     val arquivo = rootProject.file("local.properties")
     if (arquivo.exists()) arquivo.inputStream().use { load(it) }
 }
-val apiUrl: String = providers.gradleProperty("apiUrl").orNull ?: propriedadesLocais.getProperty("api.url", "http://10.0.2.2:8080")
-require(apiUrl.matches(Regex("https://[A-Za-z0-9.:_-]+/?|http://(10\\.0\\.2\\.2|localhost|127\\.0\\.0\\.1)(:[0-9]+)?/?"))) { "Use HTTPS para a API remota; HTTP é permitido apenas no desenvolvimento local." }
+val apiUrl = (providers.gradleProperty("apiUrl").orNull
+    ?: providers.environmentVariable("API_URL").orNull
+    ?: propriedadesLocais.getProperty("api.url", "")).trim().trimEnd('/')
+val origem = runCatching { URI(apiUrl) }.getOrNull()
+require(origem != null && origem.scheme == "https" && origem.host != null &&
+    origem.rawPath == "" && origem.rawQuery == null && origem.rawFragment == null &&
+    origem.rawUserInfo == null) {
+    "Configure API_URL, -PapiUrl ou api.url com a origem HTTPS da AWS, sem /api/v1."
+}
 
 // Keystore de demonstração commitado (D42): uso só acadêmico, nunca na Play Store
 val pastaKeystore = rootProject.file("keystore")

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barraLia"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/borgonha"
+        app:logo="@drawable/ic_marcador_casa"
+        app:navigationIcon="@drawable/ic_voltar"
+        app:navigationIconTint="@color/branco"
+        app:navigationContentDescription="@string/lia_voltar"
+        app:title="@string/lia_nome"
+        app:titleTextColor="@color/branco" />
+
+    <ScrollView
+        android:id="@+id/rolagemLia"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margem_tela">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lia_boas_vindas"
+                android:textAppearance="@style/TextAppearance.Talisma.BodyLarge" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/atalhosLia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/espaco_8">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/atalhoLiaCompra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lia_compra" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/atalhoLiaLocacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lia_locacao" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/atalhoLiaVisita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lia_visita" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <LinearLayout
+                android:id="@+id/conversaLia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/superficie"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/margem_tela"
+        android:paddingBottom="@dimen/espaco_8">
+
+        <TextView
+            android:id="@+id/estadoLia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityLiveRegion="polite"
+            android:visibility="gone" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/optInLia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:saveEnabled="false"
+            android:text="@string/lia_ia" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/espaco_8"
+                android:layout_weight="1"
+                android:hint="@string/lia_mensagem">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/perguntaLia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSend|flagNoExtractUi"
+                    android:inputType="textCapSentences"
+                    android:maxLength="2000"
+                    android:saveEnabled="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enviarLia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lia_enviar" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

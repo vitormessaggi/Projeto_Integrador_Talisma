@@ -1,12 +1,12 @@
 # AWS Academy
 
-O Learner Lab hospeda a API em uma EC2 e mantém o banco e as fotos em serviços privados. O frontend roda no computador e consulta a API por HTTPS. O Android usa a mesma API quando o endpoint tem certificado confiável no aparelho.
+O Learner Lab hospeda a API e a Lia em uma EC2 e mantém o banco e as fotos em serviços privados. O frontend e o Android usam a mesma origem HTTPS com certificado público.
 
 ## Serviços e estrutura
 
 | Serviço | Função |
 |---|---|
-| EC2 Ubuntu | Nginx termina HTTPS e encaminha as chamadas ao Spring Boot em Docker. O Mailpit recebe e-mails de teste. |
+| EC2 Ubuntu | Nginx encaminha `/api/v1/` ao Spring Boot e `POST /chat` ao FastAPI. O Mailpit recebe e-mails de teste. |
 | Aurora MySQL | Cluster privado compatível com MySQL 8.4. A aplicação usa o endpoint de escrita e TLS verificado. |
 | Amazon S3 | Bucket privado com SSE-S3, bloqueio de acesso público e ACLs desativadas. |
 | AWS Secrets Manager | Gerencia a senha administrativa do banco. A API usa a conta de execução com privilégios limitados. |
@@ -22,9 +22,9 @@ O Compose de referência, o script de deploy e o exemplo de Nginx estão em [inf
 3. Prepare a EC2 Ubuntu com EBS criptografado, perfil autorizado pelo laboratório e IMDSv2 obrigatório com limite de saltos 2 para os contêineres.
 4. Crie `talisma-aurora` com schema `talisma`, uma gravadora privada, armazenamento criptografado e retenção de sete dias. Neste laboratório, `db.t4g.medium` foi aceita e `db.serverless` foi bloqueada. A classe provisionada continua consumindo crédito enquanto estiver ativa.
 5. Crie ou reaproveite o bucket S3 privado. A API usa `imoveis/<id>/<uuid>.<extensão>` nos novos uploads. As fotos migradas conservam as chaves anteriores.
-6. Prepare as contas de migrations e execução, publique a API e valide a conexão com Aurora e o S3 antes de ligar o frontend.
+6. Prepare as contas de migrations e execução. Publique a API e a Lia e valide o catálogo, as fotos e o chat por HTTPS antes de abrir o frontend e o Android.
 
-No laboratório já preparado, o bucket é `talisma-lab-fotos-7cf6291d` e a EC2 tem a tag `talisma-api-ec2`. Após reiniciar o laboratório, confirme o IPv4 atual da EC2 e o certificado HTTPS antes de abrir o site.
+No laboratório já preparado, o bucket é `talisma-lab-fotos-7cf6291d` e a EC2 tem a tag `talisma-api-ec2`. Após reiniciar o laboratório, confirme o DNS, o endereço atual da EC2 e a validade do certificado.
 
 ## Atualizações, backups e restauração
 

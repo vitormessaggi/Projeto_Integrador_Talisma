@@ -21,7 +21,8 @@ Dependências: AppCompat, Material, Activity, ConstraintLayout, RecyclerView e o
 
 1. No Android Studio: **File → Open** → `Dev Mobile/talisma-app`.
 2. O Android Studio cria o `local.properties` com o caminho do SDK (fica fora do git).
-3. Rode a configuração `app` no emulador.
+3. Configure `API_URL` com a origem HTTPS da AWS. Também é possível usar `api.url` em `local.properties` ou passar `-PapiUrl` em um build específico.
+4. Rode a configuração `app` no emulador. Toque no avatar da Lia acima da navegação para perguntar sobre imóveis e visitas.
 
 Pela linha de comando (Git Bash), dentro de `Dev Mobile/talisma-app`:
 
@@ -33,13 +34,12 @@ export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
 
 ## Modo demonstração e API
 
-- No **modo demonstração** (padrão ligado), o
+- No **modo demonstração** (desligado por padrão), o
   `ServidorSimulado` lê `app/src/main/assets/fake/` (`imoveis.json`, `usuarios.json`, `fotos/`) e grava
   nas tabelas `sim_*` do SQLite, com atraso de ~600 ms.
 - **Contas de teste** (só no modo demonstração): `cliente@teste.com` / `1234`, `corretor@teste.com` / `1234`
   e `bloqueada@teste.com` (conta bloqueada — RN-002). Código de verificação de e-mail: `1234`.
-- Para a API real, configure `-PapiUrl` ou `api.url` conforme o guia de execução. A URL vai para
-  `BuildConfig.API_URL`. As rotas ficam em `dados/ApiRotas.java` e a conversão JSON nos modelos.
+- A origem configurada entra em `BuildConfig.API_URL`. O catálogo usa `/api/v1/` e o chat usa `POST /chat`.
 
 - **Alternar modo demonstração × API:** no Perfil (logado ou não), toque **5 vezes em "Versão 1.0"**. O diálogo
   liga/desliga o modo demonstração e o **Simular sem conexão**; ao alternar, a sessão e o cache são limpos.

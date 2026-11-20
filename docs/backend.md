@@ -18,18 +18,18 @@ Java 25, Spring Boot 4.1.2 e Maven Wrapper. Spring MVC recebe as requisições, 
 | `src/test/java/` | Testes de integração da API e testes do armazenamento. |
 | `docs/openapi.json` | Contrato HTTP usado pelo frontend e pelo Android. |
 
-As migrations V1–V6 estão em `Dev BancoDados/DDL` e `Dev BancoDados/DML`. O Maven as inclui no JAR. A API aplica Flyway na inicialização local. Na AWS o perfil `migrar` aplica o esquema antes do início do perfil `aws`, que usa a conta de execução. [Banco e migrations](../Dev%20BancoDados/README.md)
+As migrations V1–V6 estão em `Dev BancoDados/DDL` e `Dev BancoDados/DML`. O Maven as inclui no JAR. Na EC2, ative `aws,migrar` para aplicar o esquema antes de iniciar a API. O perfil padrão `aws` usa a conta de execução no Aurora MySQL. [Banco e migrations](../Dev%20BancoDados/README.md)
 
 ## Como montar o backend
 
-1. Prepare o MySQL com o schema `talisma` e o Mailpit. Use outro schema para testes.
-2. Configure a conexão e a chave JWT. No ambiente local, o script do repositório pode gerar a configuração privada.
-3. Execute `mvnw.cmd spring-boot:run` na pasta `imoveisapi` e confira `/actuator/health`.
+1. Prepare o schema `talisma` no Aurora privado e o SMTP do Mailpit na EC2.
+2. Configure o arquivo privado de runtime com a origem JDBC, as credenciais, a chave JWT e o bucket.
+3. Execute `infra/aws/deploy.sh` na EC2 e confira `/actuator/health` na porta interna 8080.
 4. Use `provisionar-admin` uma vez por base para criar o primeiro administrador. Cadastre o corretor e use o fluxo de rascunho, envio para revisão e publicação.
 5. Ao mudar o contrato, atualize o OpenAPI e regenere os tipos do frontend. Confira também os modelos e as rotas Android.
 
-O upload pela API registra a foto e sua ordem no MySQL. No ambiente local os arquivos ficam em `fotos-local`. Na AWS cada foto nova usa a chave `imoveis/<id>/<uuid>.<extensão>` no S3 privado. As chaves antigas continuam disponíveis no S3.
+O upload pela API registra a foto e sua ordem no Aurora. Cada foto nova usa a chave `imoveis/<id>/<uuid>.<extensão>` no S3 privado. As chaves antigas continuam disponíveis no S3.
 
-Use `APP_FOTOS_DIR` para trocar o diretório de fotos local. Para consultar ou atualizar o contrato gerado, inicie a API local com `APP_API_DOCS=true` e acesse `/v3/api-docs`.
+Os testes de integração usam um banco descartável pelo perfil de teste. A publicação mantém o Actuator interno. O Nginx encaminha `/api/v1/` ao Spring Boot e `POST /chat` à API da Lia na mesma EC2.
 
 [Contrato OpenAPI](../Dev%20BackEnd/imoveisapi/docs/openapi.json) · [Execução detalhada](rodar-aplicacao.md)

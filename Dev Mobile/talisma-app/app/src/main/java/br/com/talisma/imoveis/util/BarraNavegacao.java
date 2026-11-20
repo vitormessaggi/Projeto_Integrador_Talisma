@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import br.com.talisma.imoveis.FavoritosActivity;
 import br.com.talisma.imoveis.HomeActivity;
 import br.com.talisma.imoveis.ImoveisActivity;
+import br.com.talisma.imoveis.LiaActivity;
 import br.com.talisma.imoveis.PerfilActivity;
 import br.com.talisma.imoveis.R;
 
@@ -27,6 +28,8 @@ public final class BarraNavegacao {
 
     public static void configurar(AppCompatActivity activity, @IdRes int itemAtual) {
         BottomNavigationView barra = activity.findViewById(R.id.navInferior);
+        activity.findViewById(R.id.btnAbrirLia).setOnClickListener(
+                v -> activity.startActivity(new Intent(activity, LiaActivity.class)));
         // O inset da barra do sistema já vira padding de R.id.main (D7); sem isto a barra o aplicaria de novo
         // e os ícones sobreporiam os rótulos.
         ViewCompat.setOnApplyWindowInsetsListener(barra, (v, insets) -> insets);
