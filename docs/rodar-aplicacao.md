@@ -31,7 +31,7 @@ curl -fsS http://127.0.0.1:8080/actuator/health
 curl -fsS http://127.0.0.1:8000/health
 ```
 
-Na implantação do catálogo já validada, os contêineres se chamam `talisma-api` e `talisma-mailpit`. Se estiverem parados, use `sudo docker start talisma-api talisma-mailpit`. Em uma implantação feita pelo Compose versionado, execute `docker compose -f infra/aws/compose.yaml ps` na pasta da revisão, com o `APP_IMAGE_TAG` correspondente. Reutilize o método que já atende a porta 8080. Se a API Java está em um contêiner avulso, publique apenas a Lia com o Compose, após validar a origem HTTPS do catálogo. Assim a publicação reaproveita a API existente.
+Na implantação do catálogo já validada, os contêineres se chamam `talisma-api` e `talisma-mailpit`. Se estiverem parados, use `sudo docker start talisma-api talisma-mailpit`. Em uma implantação feita pelo Compose versionado, execute `docker compose -f infra/aws/compose.yaml ps` na pasta da revisão, com o `APP_IMAGE_TAG` correspondente. Reutilize o método que já atende a porta 8080. Se a API Java está em um contêiner avulso e o Compose está disponível, publique apenas a Lia depois de validar a origem HTTPS do catálogo.
 
 ```bash
 export APP_IMAGE_TAG=REVISAO_GIT
@@ -40,9 +40,27 @@ docker compose -f infra/aws/compose.yaml up -d --no-deps --build chatbot
 curl -fsS http://127.0.0.1:8000/health
 ```
 
+Se a instalação existente usa Docker avulso e a rede `talisma-lab`, a Lia pode consultar `http://talisma-api:8080` nessa rede privada. Na raiz da revisão extraída na EC2, faça a primeira implantação da Lia com estes comandos Bash. Se o Docker antigo não tiver Buildx e ainda oferecer o construtor clássico, prefixe o comando `docker build` com `DOCKER_BUILDKIT=0`.
+
+```bash
+REVISAO=REVISAO_GIT
+docker build -t "talisma-chatbot:$REVISAO" 'Dev Chatbot'
+opcoes_env=()
+if [ -r /opt/talisma/chatbot.env ]; then
+  opcoes_env=(--env-file /opt/talisma/chatbot.env)
+fi
+docker run -d --name talisma-chatbot --restart unless-stopped \
+  --network talisma-lab -p 127.0.0.1:8000:8000 --memory 900m \
+  --cap-drop ALL --security-opt no-new-privileges \
+  "${opcoes_env[@]}" -e API_URL=http://talisma-api:8080 \
+  -e OMP_NUM_THREADS=1 -e MKL_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 \
+  "talisma-chatbot:$REVISAO"
+curl -fsS http://127.0.0.1:8000/health
+```
+
 Acrescente `location = /chat` ao bloco HTTPS ativo e `limit_req_zone` ao contexto `http`, conforme o [modelo](../infra/aws/nginx.conf). Rode `sudo nginx -t && sudo systemctl reload nginx`.
 
-Confirme que o certificado do Nginx cobre o IPv4 atual. A implantação já validada usou uma CA privada confiada apenas pelo processo Next.js. Quando o IP mudar ou o certificado vencer, reemita o certificado para o endpoint atual. Para Android, configure HTTPS com certificado confiável no aparelho. A seção 3.5 descreve a emissão pública.
+Confirme externamente que o certificado público do Nginx cobre o endereço atual. A seção 3.5 descreve a emissão e a renovação. Se o Nginx estiver servindo certificados antigos no mesmo endereço de escuta, confira qual bloco é o padrão da porta 443 e valide que clientes conectados por IPv4 recebem o certificado novo.
 
 ### 3.2. Provisionar uma instalação nova
 
