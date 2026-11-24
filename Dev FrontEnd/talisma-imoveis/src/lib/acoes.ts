@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { acessoCookie, chamada, ErroApi, renovacaoCookie, retornoSeguro, type Schemas } from "./api";
+import { formatos, normalizarCampo } from "./campos-formatados";
 
 export type Estado = { erro?: string; sucesso?: string };
 type Token = Required<Schemas["Tokens"]>;
@@ -33,7 +34,17 @@ function camposDoFormulario(form: FormData, nomes: string[], numeros: string[] =
   return Object.fromEntries(nomes.map(nome => {
     const valor = form.get(nome);
     if (typeof valor !== "string" || !valor.trim()) return [nome, null];
-    return [nome, numeros.includes(nome) ? Number(valor) : valor];
+    if (nome === "telefone" || nome === "cep" || nome === "codigo") {
+      const normalizado = normalizarCampo(nome, valor);
+      if (normalizado === null) throw new ErroApi(400, formatos[nome].instrucao);
+      return [nome, normalizado];
+    }
+    if (numeros.includes(nome)) {
+      const numero = Number(valor);
+      if (!Number.isFinite(numero)) throw new ErroApi(400, "Confira os valores numéricos do formulário.");
+      return [nome, numero];
+    }
+    return [nome, valor];
   }));
 }
 
@@ -82,7 +93,12 @@ const mutacoes = /^\/(?:usuarios\/me(?:\/senha|\/favoritos\/\d+)?|leads(?:\/\d+\
 
 export async function executar(operacao: Operacao, _estado: Estado, form: FormData): Promise<Estado> {
   if (!mutacoes.test(operacao.caminho)) return { erro: "Operação inválida." };
-  const corpo = { ...camposDoFormulario(form, operacao.campos ?? [], operacao.numeros), ...operacao.fixos };
+  let corpo: Record<string, string | number | boolean | null>;
+  try {
+    corpo = { ...camposDoFormulario(form, operacao.campos ?? [], operacao.numeros), ...operacao.fixos };
+  } catch (erro) {
+    return mensagem(erro);
+  }
   let body: BodyInit | undefined;
   if (operacao.fotos) {
     const arquivos = form.getAll("arquivos").filter((item): item is File => typeof item !== "string" && item.size > 0);
@@ -94,12 +110,14 @@ export async function executar(operacao: Operacao, _estado: Estado, form: FormDa
     body = multipart;
   } else if (operacao.metodo !== "DELETE") {
     const { valorVenda, valorLocacao, ...dados } = corpo;
+    const ofertas = [["VENDA", valorVenda], ["LOCACAO", valorLocacao]]
+      .filter(([, preco]) => typeof preco === "number" && preco > 0).map(([finalidade, preco]) => ({ finalidade, preco }));
+    if (operacao.imovel && !ofertas.length) return { erro: "Informe um valor de venda ou de locação maior que zero." };
     body = JSON.stringify(operacao.imovel ? {
       ...dados,
       mobiliado: form.has("mobiliado"),
       destaque: form.has("destaque"),
-      ofertas: [["VENDA", valorVenda], ["LOCACAO", valorLocacao]]
-        .filter(([, preco]) => typeof preco === "number" && preco > 0).map(([finalidade, preco]) => ({ finalidade, preco })),
+      ofertas,
     } : corpo);
   }
   const jar = await cookies();

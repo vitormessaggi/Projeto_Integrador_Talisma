@@ -22,8 +22,8 @@ function Links({ links }: { links: [string, string][] }) {
   return <nav aria-label="Menu da conta" className="grid gap-2">{links.map(([href, nome]) => <Link key={href} className="rounded-md px-2 py-2 text-sm font-semibold hover:bg-accent" href={href}>{nome}</Link>)}</nav>;
 }
 
-export function Mutacao({ operacao, campos = [], botao, colunas }: { operacao: Operacao; campos?: Campo[]; botao: string; colunas?: boolean }) {
-  return <Formulario acao={executar.bind(null, operacao)} campos={campos} botao={botao} colunas={colunas} />;
+export function Mutacao({ operacao, campos = [], botao, colunas, preencherEndereco }: { operacao: Operacao; campos?: Campo[]; botao: string; colunas?: boolean; preencherEndereco?: boolean }) {
+  return <Formulario acao={executar.bind(null, operacao)} campos={campos} botao={botao} colunas={colunas} preencherEndereco={preencherEndereco} />;
 }
 
 export function Bloco({ titulo, children }: { titulo: string; children: React.ReactNode }) {
