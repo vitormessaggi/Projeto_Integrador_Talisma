@@ -1,5 +1,5 @@
 TERMOS DE USO — TALISMÃ IMÓVEIS
-Versão: 2026-11-18
+Versão: 2026-11-25
 
 1. Ambiente e finalidade
 Esta instalação é uma demonstração acadêmica do Projeto Integrador Talismã Imóveis, com dados fictícios. Não conclui transações imobiliárias, pagamentos, contratos ou reservas. Não envie documentos ou informações reais neste ambiente.
@@ -20,4 +20,4 @@ O laboratório pode ser interrompido, reiniciado ou encerrado ao término da ati
 O aceite destes termos é registrado com a conta, data, versão e origem do aplicativo. A Política de Privacidade explica o tratamento de dados e os meios para exercer direitos. Ciência da política e aceite contratual não autorizam publicidade, rastreamento ou finalidades incompatíveis.
 
 7. Contato e mudanças
-Para a demonstração, utilize Minha conta > Privacidade no site ou Perfil > Termos e privacidade no Android. As mensagens eletrônicas são capturadas pelo Mailpit privado e não enviadas a destinatários reais. Mudanças relevantes exigirão nova leitura e confirmação. Antes de operação real, deverão ser identificados o controlador, seus contatos e as condições efetivas do serviço.
+Para a demonstração, utilize Minha conta > Privacidade no site ou Perfil > Termos e privacidade no Android. Em testes com Mailpit, as mensagens ficam na caixa privada. Quando o envio externo está ativo, o Resend entrega códigos de acesso e notificações ao endereço informado. Mudanças relevantes exigirão nova leitura e confirmação. Antes de operação real, deverão ser identificados o controlador, seus contatos e as condições efetivas do serviço.

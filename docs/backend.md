@@ -33,3 +33,17 @@ O upload pela API registra a foto e sua ordem no Aurora. Cada foto nova usa a ch
 Os testes de integração usam um banco descartável pelo perfil de teste. A publicação mantém o Actuator interno. O Nginx encaminha `/api/v1/` ao Spring Boot e `POST /chat` à API da Lia na mesma EC2.
 
 [Contrato OpenAPI](../Dev%20BackEnd/imoveisapi/docs/openapi.json) · [Execução detalhada](rodar-aplicacao.md)
+
+### Envio externo com Resend
+
+Verifique um domínio de envio no painel do Resend, publicando os registros DNS indicados. Crie uma chave com permissão de envio para esse domínio. O destinatário pode pertencer a outro provedor, inclusive ao SENAI. No arquivo privado `/opt/talisma/runtime.env` da API configure:
+
+```dotenv
+SPRING_PROFILES_ACTIVE=aws,resend
+RESEND_API_KEY=<chave de envio>
+RESEND_FROM=contas@seu-dominio-verificado.example
+```
+
+Substitua os dois exemplos por valores reais. Publique a imagem desta revisão e recrie o contêiner da API com o Compose atualizado. A EC2 precisa de saída TCP 587 para `smtp.resend.com`. O perfil Resend exige STARTTLS e autentica com o usuário `resend`. A chave fica somente no backend. Cadastro, recuperação de senha e notificações passam a usar o provedor, inclusive notificações pendentes. Para testes com Mailpit use somente o perfil `aws`.
+
+Valide com um cadastro de teste, acompanhe a entrega no painel Resend e confirme o código recebido pela aplicação. [Documentação SMTP](https://resend.com/docs/send-with-smtp)

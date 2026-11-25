@@ -1,10 +1,8 @@
 package br.com.talisma.api.imoveisapi.atendimento;
 
-import org.springframework.beans.factory.annotation.Value;
+import br.com.talisma.api.imoveisapi.email.EmailTalisma;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 class FilaNotificacoes {
     private final JdbcClient banco;
-    private final JavaMailSender smtp;
-    private final String remetente;
+    private final EmailTalisma email;
 
-    FilaNotificacoes(JdbcClient banco, JavaMailSender smtp,
-                     @Value("${APP_MAIL_FROM:no-reply@talisma.local}") String remetente) {
+    FilaNotificacoes(JdbcClient banco, EmailTalisma email) {
         this.banco = banco;
-        this.smtp = smtp;
-        this.remetente = remetente;
+        this.email = email;
     }
 
     record Pendente(long id, String email, String assunto, String corpo, int tentativas) {}
@@ -35,13 +30,8 @@ class FilaNotificacoes {
         if (item == null) {
             return;
         }
-        var mensagem = new SimpleMailMessage();
-        mensagem.setFrom(remetente);
-        mensagem.setTo(item.email());
-        mensagem.setSubject(item.assunto());
-        mensagem.setText(item.corpo());
         try {
-            smtp.send(mensagem);
+            email.enviar(item.email(), item.assunto(), item.corpo());
             banco.sql("UPDATE notificacao SET status='ENVIADA', enviada_em=UTC_TIMESTAMP(6) WHERE id=?")
                     .param(item.id()).update();
         } catch (MailException erro) {

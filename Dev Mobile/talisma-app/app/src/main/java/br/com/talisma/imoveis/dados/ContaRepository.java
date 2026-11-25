@@ -71,8 +71,8 @@ public class ContaRepository {
                 JSONObject corpo = new JSONObject();
                 colocar(corpo, "nome", nome.trim());
                 colocar(corpo, "aceiteTermos", true);
-                colocar(corpo, "versaoTermos", "2026-11-18");
-                colocar(corpo, "versaoPrivacidade", "2026-11-18");
+                colocar(corpo, "versaoTermos", "2026-11-25");
+                colocar(corpo, "versaoPrivacidade", "2026-11-25");
                 colocar(corpo, "origem", "ANDROID");
                 colocar(corpo, "email", email.trim());
                 colocar(corpo, "senha", senha);

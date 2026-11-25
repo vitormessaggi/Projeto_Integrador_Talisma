@@ -2,33 +2,25 @@ package br.com.talisma.api.imoveisapi.identidade;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import br.com.talisma.api.imoveisapi.email.EmailTalisma;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 class EnvioCodigo {
     private static final Logger LOG = LoggerFactory.getLogger(EnvioCodigo.class);
-    private final JavaMailSender smtp;
-    private final String remetente;
+    private final EmailTalisma email;
 
-    EnvioCodigo(JavaMailSender smtp, @Value("${APP_MAIL_FROM:no-reply@talisma.local}") String remetente) {
-        this.smtp = smtp;
-        this.remetente = remetente;
+    EnvioCodigo(EmailTalisma email) {
+        this.email = email;
     }
 
     @TransactionalEventListener
     void enviar(IdentidadeService.CodigoEmail evento) {
-        var mensagem = new SimpleMailMessage();
-        mensagem.setFrom(remetente);
-        mensagem.setTo(evento.email());
-        mensagem.setSubject(evento.finalidade().equals("CADASTRO") ? "Verifique seu e-mail" : "Recupere sua senha");
-        mensagem.setText("Seu código Talismã Imóveis é " + evento.codigo() + ". Ele expira em 10 minutos.");
+        String assunto = evento.finalidade().equals("CADASTRO") ? "Verifique seu e-mail" : "Recupere sua senha";
         try {
-            smtp.send(mensagem);
+            email.enviar(evento.email(), assunto, "Seu código Talismã Imóveis é " + evento.codigo() + ". Ele expira em 10 minutos.");
         } catch (MailException erro) {
             LOG.warn("Falha ao enviar código de {}. O usuário pode solicitar outro código.", evento.finalidade());
         }

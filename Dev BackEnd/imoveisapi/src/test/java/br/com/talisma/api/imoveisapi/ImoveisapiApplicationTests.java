@@ -123,7 +123,7 @@ class ImoveisapiApplicationTests {
 
         chamar(mvc, post, "/auth/cadastro", null, """
                 {"nome":"Cliente QA","email":"cliente-qa@example.test","senha":"ApenasTeste123",
-                "aceiteTermos":true,"versaoTermos":"2026-11-18","versaoPrivacidade":"2026-11-18","origem":"WEB"}
+                "aceiteTermos":true,"versaoTermos":"2026-11-25","versaoPrivacidade":"2026-11-25","origem":"WEB"}
                 """, 201);
         assertThat(jdbc.queryForObject("""
                 SELECT COUNT(*) FROM codigo_verificacao c JOIN usuario u ON u.id=c.usuario_id
@@ -218,10 +218,10 @@ class ImoveisapiApplicationTests {
                 .addFilters(web.getBean("springSecurityFilterChain", jakarta.servlet.Filter.class)).build();
         String cadastro = """
                 {"nome":"Cliente fictício","email":"aceite@example.test","senha":"ApenasTeste123",
-                "aceiteTermos":true,"versaoTermos":"2026-11-18","versaoPrivacidade":"2026-11-18","origem":"WEB"}
+                "aceiteTermos":true,"versaoTermos":"2026-11-25","versaoPrivacidade":"2026-11-25","origem":"WEB"}
                 """;
         chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro.replace("true","false"),400);
-        chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro.replace("2026-11-18","antiga"),409);
+        chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro.replace("2026-11-25","antiga"),409);
         chamar(mvc,org.springframework.http.HttpMethod.POST,"/auth/cadastro",null,cadastro,201);
         long id=jdbc.queryForObject("SELECT id FROM usuario WHERE email='aceite@example.test'",Long.class);
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM documento_cliente WHERE usuario_id=?",Long.class,id)).isZero();

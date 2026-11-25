@@ -44,7 +44,7 @@ public class PrivacidadeActivity extends AppCompatActivity {
         botao("Voltar",this::finish);
         botao("Ler Termos de Uso",()->documento("termos"));
         botao("Ler Política de Privacidade",()->documento("privacidade"));
-        texto("Demonstração acadêmica. Use dados fictícios. O aceite dos termos não autoriza rastreamento. Versão 2026-11-18.",16);
+        texto("Demonstração acadêmica. Use dados fictícios. O aceite dos termos não autoriza rastreamento. Versão 2026-11-25.",16);
         resultado=texto("",16);
         if (!Sessao.logado(this)) { texto("Entre na sua conta para solicitar acesso ou exclusão dos dados.",16); return; }
         if (Preferencias.modoDemonstracao(this)) { texto("O modo simulado não cria conta na AWS. Para testar os direitos do titular no servidor, desligue o modo demonstração e entre com uma conta da API. Você pode apagar os dados locais abaixo.",16);
@@ -76,7 +76,7 @@ public class PrivacidadeActivity extends AppCompatActivity {
             Api api=new Api(this); JSONObject dados=new JSONObject(); dados.put("senha",atual);
             if(acao.equals("LISTAR"))return api.get("/api/v1/usuarios/me/privacidade");
             if(acao.equals("ACEITAR")){
-                dados=new JSONObject();dados.put("aceiteTermos",true);dados.put("versaoTermos","2026-11-18");dados.put("versaoPrivacidade","2026-11-18");dados.put("origem","ANDROID");
+                dados=new JSONObject();dados.put("aceiteTermos",true);dados.put("versaoTermos","2026-11-25");dados.put("versaoPrivacidade","2026-11-25");dados.put("origem","ANDROID");
                 api.post("/api/v1/usuarios/me/aceites",dados);return "Aceite registrado.";
             }
             if(acao.equals("EXPORTAR"))return api.post("/api/v1/usuarios/me/privacidade/exportacao",dados);

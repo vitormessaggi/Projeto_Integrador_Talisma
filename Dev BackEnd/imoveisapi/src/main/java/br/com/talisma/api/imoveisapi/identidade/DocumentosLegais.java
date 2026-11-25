@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RestController
 @RequestMapping("/api/v1/legal")
 public class DocumentosLegais {
-    public static final String VERSAO = "2026-11-18";
+    public static final String VERSAO = "2026-11-25";
     public static final String TERMOS = ler("termos.txt");
     public static final String PRIVACIDADE = ler("privacidade.txt");
     public record Documento(String versao, String hash, String texto) {}
