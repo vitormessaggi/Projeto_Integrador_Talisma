@@ -42,11 +42,13 @@ class Atendimento {
                 dados.assunto().strip(), dados.mensagem(), dados.telefone()).update(chave, "id");
         long id = chave.getKey().longValue();
         if (corretor != null) {
-            notificar(corretor, id, "Novo atendimento");
+            notificar(corretor, id, "Novo atendimento",
+                    "Você recebeu um novo atendimento: " + dados.assunto().strip() + sobre(dados.imovelId()) + ".");
         } else {
             var admins = banco.sql("SELECT id FROM usuario WHERE perfil='ADMIN'").query(Long.class).list();
             for (long admin : admins) {
-                notificar(admin, id, "Contato aguardando atribuição");
+                notificar(admin, id, "Contato aguardando atribuição",
+                        "Um novo contato aguarda atribuição a um corretor: " + dados.assunto().strip() + ".");
             }
         }
         return lead(id, false);
@@ -62,6 +64,9 @@ class Atendimento {
         var chave = new GeneratedKeyHolder();
         banco.sql("INSERT INTO visita(lead_id,data_preferida,periodo) VALUES (?,?,?)")
                 .params(lead.id(), dados.data(), dados.periodo()).update(chave, "id");
+        notificar(cliente.id(), lead.id(), "Recebemos seu pedido de visita",
+                "Recebemos seu pedido de visita" + sobre(dados.imovelId()) + " para " + quando(dados.data(), dados.periodo())
+                        + ". O corretor responsável vai confirmar a visita.");
         return new Visita(chave.getKey().longValue(), lead.id(), dados.imovelId(), dados.data(), dados.periodo(), "PENDENTE");
     }
 
@@ -100,7 +105,8 @@ class Atendimento {
             throw erro(NOT_FOUND, "Corretor não encontrado");
         }
         banco.sql("UPDATE lead_contato SET corretor_id=? WHERE id=?").params(corretorId, id).update();
-        notificar(corretorId, id, "Atendimento atribuído");
+        notificar(corretorId, id, "Atendimento atribuído",
+                "O atendimento \"" + lead.assunto() + "\" foi atribuído a você.");
     }
 
     void statusLead(UsuarioDto ator, long id, String status) {
@@ -137,7 +143,9 @@ class Atendimento {
         Lead lead = lead(atual.leadId(), false);
         Long destino = interno ? Long.valueOf(lead.clienteId()) : lead.corretorId();
         if (destino != null) {
-            notificar(destino, lead.id(), "Visita " + proximo.toLowerCase(java.util.Locale.ROOT));
+            String situacao = proximo.equals("CONCLUIDA") ? "concluída" : proximo.toLowerCase(java.util.Locale.ROOT);
+            notificar(destino, lead.id(), "Visita " + situacao, "A visita" + sobre(atual.imovelId()) + " para "
+                    + quando(atual.dataPreferida(), atual.periodo()) + " foi " + situacao + ".");
         }
     }
 
@@ -163,9 +171,27 @@ class Atendimento {
                 .orElseThrow(() -> erro(NOT_FOUND, "Contato não encontrado"));
     }
 
-    private void notificar(long usuario, long lead, String assunto) {
+    private void notificar(long usuario, long lead, String assunto, String texto) {
         banco.sql("INSERT INTO notificacao(usuario_id,lead_id,assunto,corpo) VALUES (?,?,?,?)")
-                .params(usuario, lead, assunto, "Consulte o atendimento #" + lead + " no painel Talismã Imóveis.").update();
+                .params(usuario, lead, assunto, texto + "\n\nAcompanhe o atendimento #" + lead + " no site ou no app Talismã Imóveis.")
+                .update();
+    }
+
+    private String sobre(Long imovel) {
+        if (imovel == null) {
+            return "";
+        }
+        return banco.sql("SELECT CONCAT(' ao imóvel \"',titulo,'\" (',bairro,', ',cidade,')') FROM imovel WHERE id=?")
+                .param(imovel).query(String.class).optional().orElse("");
+    }
+
+    private static String quando(LocalDate data, String periodo) {
+        String turno = switch (periodo) {
+            case "MANHA" -> "manhã";
+            case "TARDE" -> "tarde";
+            default -> "noite";
+        };
+        return data.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ", período da " + turno;
     }
 
     private static String acesso(UsuarioDto ator) {

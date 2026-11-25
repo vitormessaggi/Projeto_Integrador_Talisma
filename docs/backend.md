@@ -46,4 +46,6 @@ RESEND_FROM=contas@seu-dominio-verificado.example
 
 Substitua os dois exemplos por valores reais. Publique a imagem desta revisão e recrie o contêiner da API com o Compose atualizado. A EC2 precisa de saída TCP 587 para `smtp.resend.com`. O perfil Resend exige STARTTLS e autentica com o usuário `resend`. A chave fica somente no backend. Cadastro, recuperação de senha e notificações passam a usar o provedor, inclusive notificações pendentes. Para testes com Mailpit use somente o perfil `aws`.
 
+E-mails enviados: código de cadastro e de recuperação de senha; confirmação ao cliente quando ele pede uma visita; mudança de status da visita (confirmada, cancelada ou concluída); novo atendimento ao corretor; contato aguardando atribuição ao admin; atendimento atribuído ao corretor. O app e o site não enviam e-mail: tudo sai da API.
+
 Valide com um cadastro de teste, acompanhe a entrega no painel Resend e confirme o código recebido pela aplicação. [Documentação SMTP](https://resend.com/docs/send-with-smtp)

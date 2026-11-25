@@ -173,7 +173,7 @@ class ImoveisapiApplicationTests {
                 """.formatted(id, data), 201);
         long visitaId = visita.path("id").asLong();
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM notificacao WHERE lead_id=?", Integer.class,
-                visita.path("leadId").asLong())).isEqualTo(1);
+                visita.path("leadId").asLong())).isEqualTo(2);
         chamar(mvc, patch, "/visitas/" + visitaId + "/status", tokenOutro, "{\"status\":\"CONFIRMADA\"}", 404);
         chamar(mvc, patch, "/visitas/" + visitaId + "/status", tokenCorretor, "{\"status\":\"CONFIRMADA\"}", 204);
         chamar(mvc, patch, "/visitas/" + visitaId + "/status", tokenCliente, "{\"status\":\"CANCELADA\"}", 204);
