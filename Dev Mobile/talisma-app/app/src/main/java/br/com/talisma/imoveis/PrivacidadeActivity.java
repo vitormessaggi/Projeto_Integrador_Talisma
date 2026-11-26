@@ -9,6 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import br.com.talisma.imoveis.dados.*;
 import br.com.talisma.imoveis.util.Tarefas;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 
@@ -57,7 +59,13 @@ public class PrivacidadeActivity extends AppCompatActivity {
         }
         CheckBox aceite=new CheckBox(this); aceite.setText("Aceito os termos e confirmo a leitura da política acima"); corpo.addView(aceite);
         botao("Registrar aceite atual",()->{if(!aceite.isChecked()){resultado.setText("Leia os documentos e marque a confirmação.");return;} executar("ACEITAR");});
-        senha=new EditText(this); senha.setHint("Senha atual para confirmar identidade"); senha.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD); corpo.addView(senha);
+        var campoSenha = new TextInputLayout(this);
+        campoSenha.setHint("Senha atual para confirmar identidade");
+        senha = new TextInputEditText(campoSenha.getContext());
+        senha.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        campoSenha.addView(senha);
+        campoSenha.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+        corpo.addView(campoSenha);
         botao("Solicitar acesso",()->executar("ACESSO"));
         botao("Baixar meus dados",()->executar("EXPORTAR"));
         botao("Minhas solicitações",()->executar("LISTAR"));

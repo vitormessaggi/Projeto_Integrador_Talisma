@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CampoSenha } from "./campo-senha";
 import { campo, rotulo } from "./vitrine";
 import type { Estado } from "@/lib/acoes";
 import { digitosDoCampo, formatarCampo, formatos, type CampoFormatado } from "@/lib/campos-formatados";
@@ -31,7 +32,11 @@ function Entrada({ item, id, valor, alterar }: { item: Campo; id: string; valor:
   const mascara = mascaraDe(item);
   if (mascara) {
     const formato = formatos[mascara];
-    return <Input className="min-h-11 bg-white" {...comum} type={item.tipo ?? "text"} inputMode={mascara === "telefone" ? "tel" : "numeric"}
+    if (item.tipo === "password") {
+    return <CampoSenha {...comum} autoComplete={item.autocomplete} maxLength={72}
+      minLength={item.autocomplete === "new-password" ? 8 : undefined} />;
+  }
+  return <Input className="min-h-11 bg-white" {...comum} type={item.tipo ?? "text"} inputMode={mascara === "telefone" ? "tel" : "numeric"}
       autoComplete={item.autocomplete ?? (mascara === "cep" ? "postal-code" : mascara === "telefone" ? "tel" : "one-time-code")}
       pattern={formato.pattern} title={formato.instrucao}
       placeholder={mascara === "telefone" ? "(11) 91234-5678" : mascara === "cep" ? "00000-000" : undefined}
@@ -55,8 +60,12 @@ function Entrada({ item, id, valor, alterar }: { item: Campo; id: string; valor:
         }
       }} />;
   }
+  if (item.tipo === "password") {
+    return <CampoSenha {...comum} autoComplete={item.autocomplete} maxLength={72}
+      minLength={item.autocomplete === "new-password" ? 8 : undefined} />;
+  }
   return <Input className="min-h-11 bg-white" {...comum} type={item.tipo ?? "text"} autoComplete={item.autocomplete}
-    min={item.min} max={item.max} step={item.step} maxLength={item.tipo === "password" ? 72 : limites[item.nome]}
+    min={item.min} max={item.max} step={item.step} maxLength={limites[item.nome]}
     minLength={item.autocomplete === "new-password" ? 8 : undefined} />;
 }
 
