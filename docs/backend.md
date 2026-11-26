@@ -49,3 +49,11 @@ Substitua os dois exemplos por valores reais. Publique a imagem desta revisão e
 E-mails enviados: código de cadastro e de recuperação de senha; confirmação ao cliente quando ele pede uma visita; mudança de status da visita (confirmada, cancelada ou concluída); novo atendimento ao corretor; contato aguardando atribuição ao admin; atendimento atribuído ao corretor. O app e o site não enviam e-mail: tudo sai da API.
 
 Valide com um cadastro de teste, acompanhe a entrega no painel Resend e confirme o código recebido pela aplicação. [Documentação SMTP](https://resend.com/docs/send-with-smtp)
+
+### Cadastro da equipe
+
+Em **Minha conta → Equipe da imobiliária**, administradores podem cadastrar corretores e funcionários. Use `POST /api/v1/admin/equipe` e informe `perfil` como `CORRETOR` ou `FUNCIONARIO`. Para corretor, informe também o CRECI. A rota anterior de cadastro de corretores exige os mesmos documentos.
+
+A migration V8 acrescenta o perfil Funcionário e o cadastro documental em tabela separada. As contas existentes continuam acessíveis. A listagem administrativa apresenta nome, e-mail, perfil e estado da conta. CPF e RG ficam fora da resposta HTTP. O funcionário acessa o próprio perfil e não tem permissões de administração ou de gestão de imóveis.
+
+Use dados fictícios na validação acadêmica. Antes de publicar, execute as migrations pendentes com o perfil de migração, conforme o guia de execução.

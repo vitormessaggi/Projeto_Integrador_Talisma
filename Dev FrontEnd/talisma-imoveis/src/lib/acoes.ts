@@ -89,7 +89,7 @@ export async function autenticar(modo: Modo, retorno: string, _estado: Estado, f
   return { sucesso: "Se a conta estiver apta, um código será enviado por e-mail." };
 }
 
-const mutacoes = /^\/(?:usuarios\/me(?:\/senha|\/favoritos\/\d+)?|leads(?:\/\d+\/(?:status|corretor))?|visitas(?:\/\d+\/status)?|admin\/(?:privacidade\/solicitacoes\/[0-9a-f-]{36}|corretores|usuarios\/\d+\/desbloqueio)|gestao\/(?:proprietarios(?:\/\d+)?|imoveis(?:\/\d+(?:\/status|\/fotos(?:\/\d+)?)?)?))$/;
+const mutacoes = /^\/(?:usuarios\/me(?:\/senha|\/favoritos\/\d+)?|leads(?:\/\d+\/(?:status|corretor))?|visitas(?:\/\d+\/status)?|admin\/(?:privacidade\/solicitacoes\/[0-9a-f-]{36}|corretores|equipe|usuarios\/\d+\/desbloqueio)|gestao\/(?:proprietarios(?:\/\d+)?|imoveis(?:\/\d+(?:\/status|\/fotos(?:\/\d+)?)?)?))$/;
 
 export async function executar(operacao: Operacao, _estado: Estado, form: FormData): Promise<Estado> {
   if (!mutacoes.test(operacao.caminho)) return { erro: "Operação inválida." };

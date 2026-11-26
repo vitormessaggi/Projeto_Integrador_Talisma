@@ -967,7 +967,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Corretor"
+                "$ref": "#/components/schemas/CadastroEquipe"
               }
             }
           },
@@ -1708,6 +1708,41 @@
           }
         ]
       }
+    },
+    "/api/v1/admin/equipe": {
+      "post": {
+        "tags": [
+          "usuarios-controller"
+        ],
+        "operationId": "cadastrarEquipe",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CadastroEquipe"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContaInterna"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -2355,32 +2390,6 @@
           "versaoTermos"
         ]
       },
-      "Corretor": {
-        "type": "object",
-        "properties": {
-          "nome": {
-            "type": "string",
-            "maxLength": 160,
-            "minLength": 0
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "maxLength": 254,
-            "minLength": 0
-          },
-          "senha": {
-            "type": "string",
-            "maxLength": 72,
-            "minLength": 8
-          }
-        },
-        "required": [
-          "email",
-          "nome",
-          "senha"
-        ]
-      },
       "ContaInterna": {
         "type": "object",
         "properties": {
@@ -2750,6 +2759,77 @@
             "format": "int64"
           }
         }
+      },
+      "CadastroEquipe": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 0
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 0
+          },
+          "senha": {
+            "type": "string",
+            "maxLength": 72,
+            "minLength": 8
+          },
+          "telefone": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "[0-9+() -]{8,20}"
+          },
+          "cpf": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "[0-9.\\-]{11,14}"
+          },
+          "rg": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 0
+          },
+          "orgaoEmissor": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 0
+          },
+          "ufRg": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO"
+          },
+          "cargo": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "creci": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 0
+          },
+          "perfil": {
+            "type": "string",
+            "pattern": "CORRETOR|FUNCIONARIO"
+          }
+        },
+        "required": [
+          "cargo",
+          "cpf",
+          "email",
+          "nome",
+          "orgaoEmissor",
+          "rg",
+          "senha",
+          "telefone",
+          "ufRg"
+        ]
       }
     },
     "securitySchemes": {

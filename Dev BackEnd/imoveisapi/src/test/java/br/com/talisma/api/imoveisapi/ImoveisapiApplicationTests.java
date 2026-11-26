@@ -195,7 +195,7 @@ class ImoveisapiApplicationTests {
         var patch = org.springframework.http.HttpMethod.PATCH;
         String admin = conta(mvc, "admin-bloqueio@example.test", "ADMIN");
         var corretor = chamar(mvc, post, "/admin/corretores", admin, """
-                {"nome":"Corretor fictício","email":"bloqueio@example.test","senha":"ApenasTeste123"}
+                {"nome":"Corretor fictício","email":"bloqueio@example.test","senha":"ApenasTeste123","telefone":"11912345678","cpf":"52998224725","rg":"12345678","orgaoEmissor":"SSP","ufRg":"SP","cargo":"Corretor","creci":"12345-F"}
                 """, 201);
         String token = login(mvc, "bloqueio@example.test").path("accessToken").asString();
         String desbloqueio = "/admin/usuarios/" + corretor.path("id").asLong() + "/desbloqueio";

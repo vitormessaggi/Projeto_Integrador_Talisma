@@ -21,8 +21,17 @@ class UsuariosController {
 
     record Atualizacao(@NotBlank @Size(max = 160) String nome, @Pattern(regexp = "[0-9+() -]{8,20}") String telefone) {}
     record TrocaSenha(@NotBlank @Size(max = 72) String senhaAtual, @NotBlank @Size(min = 8, max = 72) String novaSenha) {}
-    record Corretor(@NotBlank @Size(max = 160) String nome, @NotBlank @Email @Size(max = 254) String email,
-                    @NotBlank @Size(min = 8, max = 72) String senha) {}
+    record CadastroEquipe(@NotBlank @Size(max = 160) String nome,
+                          @NotBlank @Email @Size(max = 254) String email,
+                          @NotBlank @Size(min = 8, max = 72) String senha,
+                          @NotBlank @Pattern(regexp = "[0-9+() -]{8,20}") String telefone,
+                          @NotBlank @Pattern(regexp = "[0-9.\\-]{11,14}") String cpf,
+                          @NotBlank @Size(max = 30) String rg,
+                          @NotBlank @Size(max = 20) String orgaoEmissor,
+                          @NotBlank @Pattern(regexp = "AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO") String ufRg,
+                          @NotBlank @Size(max = 80) String cargo,
+                          @Size(max = 30) String creci,
+                          @Pattern(regexp = "CORRETOR|FUNCIONARIO") String perfil) {}
 
     @GetMapping("/usuarios/me")
     UsuariosService.Perfil perfil(@AuthenticationPrincipal Jwt jwt) {
@@ -66,8 +75,14 @@ class UsuariosController {
 
     @PostMapping("/admin/corretores")
     @ResponseStatus(HttpStatus.CREATED)
-    UsuariosService.ContaInterna criarCorretor(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody Corretor dados) {
-        return usuarios.criarCorretor(identidade.usuarioAtual(jwt), dados.nome(), dados.email(), dados.senha());
+    UsuariosService.ContaInterna criarCorretor(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody CadastroEquipe dados) {
+        return usuarios.cadastrarEquipe(identidade.usuarioAtual(jwt), dados, "CORRETOR");
+    }
+
+    @PostMapping("/admin/equipe")
+    @ResponseStatus(HttpStatus.CREATED)
+    UsuariosService.ContaInterna cadastrarEquipe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody CadastroEquipe dados) {
+        return usuarios.cadastrarEquipe(identidade.usuarioAtual(jwt), dados, dados.perfil());
     }
 
     @PatchMapping("/admin/usuarios/{id}/desbloqueio")

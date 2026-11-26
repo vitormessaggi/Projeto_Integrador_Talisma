@@ -628,6 +628,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/equipe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cadastrarEquipe"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -813,12 +829,6 @@ export interface components {
             versaoPrivacidade: string;
             origem: string;
         };
-        Corretor: {
-            nome: string;
-            /** Format: email */
-            email: string;
-            senha: string;
-        };
         ContaInterna: {
             /** Format: int64 */
             id?: number;
@@ -952,6 +962,20 @@ export interface components {
             totalElementos?: number;
             /** Format: int64 */
             totalPaginas?: number;
+        };
+        CadastroEquipe: {
+            nome: string;
+            /** Format: email */
+            email: string;
+            senha: string;
+            telefone: string;
+            cpf: string;
+            rg: string;
+            orgaoEmissor: string;
+            ufRg: string;
+            cargo: string;
+            creci?: string;
+            perfil?: string;
         };
     };
     responses: never;
@@ -1618,7 +1642,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Corretor"];
+                "application/json": components["schemas"]["CadastroEquipe"];
             };
         };
         responses: {
@@ -2042,6 +2066,30 @@ export interface operations {
                     "*/*": {
                         [key: string]: unknown;
                     }[];
+                };
+            };
+        };
+    };
+    cadastrarEquipe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CadastroEquipe"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ContaInterna"];
                 };
             };
         };

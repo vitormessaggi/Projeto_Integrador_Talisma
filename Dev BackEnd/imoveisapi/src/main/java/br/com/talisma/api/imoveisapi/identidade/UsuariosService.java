@@ -78,24 +78,63 @@ public class UsuariosService {
     PaginaInterna internos(IdentidadeService.UsuarioDto admin, int pagina, int tamanho) {
         exigir(admin, "ADMIN");
         CatalogoService.validarPagina(pagina, tamanho);
-        long total = banco.sql("SELECT COUNT(*) FROM usuario WHERE perfil IN ('CORRETOR','ADMIN')").query(Long.class).single();
+        long total = banco.sql("SELECT COUNT(*) FROM usuario WHERE perfil IN ('CORRETOR','ADMIN','FUNCIONARIO')").query(Long.class).single();
         var itens = banco.sql("""
-                SELECT id,nome,email,perfil,bloqueado FROM usuario WHERE perfil IN ('CORRETOR','ADMIN')
+                SELECT id,nome,email,perfil,bloqueado FROM usuario WHERE perfil IN ('CORRETOR','ADMIN','FUNCIONARIO')
                 ORDER BY id LIMIT ? OFFSET ?
                 """).params(tamanho, (long) pagina * tamanho).query(ContaInterna.class).list();
         return new PaginaInterna(itens, pagina, tamanho, total, (total + tamanho - 1) / tamanho);
     }
 
-    ContaInterna criarCorretor(IdentidadeService.UsuarioDto admin, String nome, String email, String senha) {
+    ContaInterna cadastrarEquipe(IdentidadeService.UsuarioDto admin, UsuariosController.CadastroEquipe dados, String perfil) {
         exigir(admin, "ADMIN");
-        return criarInterno(nome, email, senha, "CORRETOR");
+        if (!"CORRETOR".equals(perfil) && !"FUNCIONARIO".equals(perfil)) {
+            throw new ResponseStatusException(BAD_REQUEST, "Selecione o perfil da conta");
+        }
+        String cpf = dados.cpf().replaceAll("[^0-9]", "");
+        if (!cpfValido(cpf)) {
+            throw new ResponseStatusException(BAD_REQUEST, "CPF inválido");
+        }
+        String telefone = dados.telefone().replaceAll("[^0-9]", "");
+        if (!telefone.matches("[1-9][0-9]{9,10}")) {
+            throw new ResponseStatusException(BAD_REQUEST, "Informe o telefone com DDD");
+        }
+        String creci = dados.creci() == null ? "" : dados.creci().strip();
+        if ("CORRETOR".equals(perfil) && !creci.matches(".*[0-9].*")) {
+            throw new ResponseStatusException(BAD_REQUEST, "Informe o CRECI do corretor");
+        }
+        ContaInterna conta = criarInterno(dados.nome(), dados.email(), dados.senha(), perfil);
+        try {
+            banco.sql("""
+                    INSERT INTO documento_equipe(usuario_id,cpf,rg,orgao_emissor,uf_rg,cargo,creci)
+                    VALUES (?,?,?,?,?,?,NULLIF(?, ''))
+                    """).params(conta.id(), cpf, dados.rg().strip(), dados.orgaoEmissor().strip(), dados.ufRg(),
+                    dados.cargo().strip(), "CORRETOR".equals(perfil) ? creci : "").update();
+        } catch (DuplicateKeyException erro) {
+            throw new ResponseStatusException(CONFLICT, "CPF já cadastrado na equipe");
+        }
+        banco.sql("UPDATE usuario SET telefone=? WHERE id=?").params(telefone, conta.id()).update();
+        return conta;
+    }
+
+    private static boolean cpfValido(String cpf) {
+        if (cpf.length() != 11 || cpf.chars().distinct().count() == 1) return false;
+        for (int posicao = 9; posicao < 11; posicao++) {
+            int soma = 0;
+            for (int i = 0; i < posicao; i++) {
+                soma += (cpf.charAt(i) - '0') * (posicao + 1 - i);
+            }
+            int digito = (soma * 10 % 11) % 10;
+            if (cpf.charAt(posicao) - '0' != digito) return false;
+        }
+        return true;
     }
 
     void desbloquear(IdentidadeService.UsuarioDto admin, long id) {
         exigir(admin, "ADMIN");
         int alterados = banco.sql("""
                 UPDATE usuario SET bloqueado=FALSE,tentativas=0,limitado_ate=NULL
-                WHERE id=? AND perfil IN ('ADMIN','CORRETOR')
+                WHERE id=? AND perfil IN ('ADMIN','CORRETOR','FUNCIONARIO')
                 """).param(id).update();
         if (alterados == 0) {
             throw new ResponseStatusException(NOT_FOUND, "Conta interna não encontrada");

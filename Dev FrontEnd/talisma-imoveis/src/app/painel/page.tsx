@@ -5,6 +5,7 @@ import { privada, type Pagina, type Perfil, type Schemas } from "@/lib/api";
 import { Bloco, Mutacao, Painel, Status, nomesStatus } from "@/components/painel-comum";
 import { Leads, Visitas } from "@/components/atendimentos";
 import { TreinamentoCorretor } from "@/components/treinamento-corretor";
+import type { Campo } from "@/components/formulario";
 import { EditorImovel } from "@/components/editor-imovel";
 import { Paginacao, Vazio } from "@/components/vitrine";
 
@@ -18,12 +19,12 @@ export default async function Gestao({ searchParams }: { searchParams: Promise<{
   const status = busca.status === "PENDENTE" ? "PENDENTE" : "";
   const destino = `/painel?aba=${aba}&page=${pagina}${id ? `&id=${id}` : ""}${status ? `&status=${status}` : ""}`;
   const perfil = await privada<Perfil>("/usuarios/me", destino);
-  if (perfil.perfil === "CLIENTE") redirect("/conta");
+  if (perfil.perfil !== "ADMIN" && perfil.perfil !== "CORRETOR") redirect("/conta");
   const admin = perfil.perfil === "ADMIN";
   const links: [string, string][] = [["/conta/privacidade", "Privacidade"], ["/painel", "Imóveis"], ["/painel?aba=novo-imovel", "Cadastrar imóvel"],
     ["/painel?aba=proprietarios", "Proprietários"], ["/painel?aba=contatos", "Contatos"], ["/painel?aba=visitas", "Visitas"]];
   if (perfil.perfil === "CORRETOR") links.push(["/painel?aba=protecao-de-dados", "LGPD e segurança"]);
-  if (admin) links.push(["/painel/privacidade", "Solicitações de privacidade"], ["/painel?status=PENDENTE", "Aprovações"], ["/painel?aba=usuarios", "Usuários internos"]);
+  if (admin) links.push(["/painel/privacidade", "Solicitações de privacidade"], ["/painel?status=PENDENTE", "Aprovações"], ["/painel?aba=usuarios", "Equipe da imobiliária"]);
   let conteudo: React.ReactNode;
   const filtroPagina = `?page=${pagina}`;
   switch (aba) {
@@ -84,10 +85,10 @@ export default async function Gestao({ searchParams }: { searchParams: Promise<{
       }
       const dados = await privada<Pagina<Schemas["ContaInterna"]>>(`/admin/usuarios${filtroPagina}`, destino);
       conteudo = <div className="grid gap-5">
-        <Bloco titulo="Cadastrar corretor"><Mutacao operacao={{ caminho: "/admin/corretores", metodo: "POST", retorno: destino, campos: ["nome", "email", "senha"] }} botao="Criar conta"
-          campos={[{ nome: "nome", rotulo: "Nome" }, { nome: "email", rotulo: "E-mail", tipo: "email" }, { nome: "senha", rotulo: "Senha inicial", tipo: "password", autocomplete: "new-password" }]} colunas /></Bloco>
+        <Bloco titulo="Cadastrar corretor"><CadastroEquipe perfil="CORRETOR" destino={destino} /></Bloco>
+        <Bloco titulo="Cadastrar funcionário"><CadastroEquipe perfil="FUNCIONARIO" destino={destino} /></Bloco>
         <Bloco titulo="Contas internas"><ul className="grid gap-4">{dados.itens.map(conta => <li key={conta.id} className="grid gap-2 rounded-lg border p-4">
-          <span className="font-semibold">{conta.nome}</span><span className="break-words text-sm">{conta.email} · {conta.perfil} · {conta.bloqueado ? "Bloqueada" : "Ativa"}</span>
+          <span className="font-semibold">{conta.nome}</span><span className="break-words text-sm">{conta.email} · {conta.perfil === "FUNCIONARIO" ? "Funcionário" : conta.perfil} · {conta.bloqueado ? "Bloqueada" : "Ativa"}</span>
           {conta.bloqueado && <Mutacao operacao={{ caminho: `/admin/usuarios/${conta.id}/desbloqueio`, metodo: "PATCH", retorno: destino }} botao="Desbloquear" />}
         </li>)}</ul><Paginacao atual={dados.pagina} total={dados.totalPaginas} href={page => `/painel?aba=usuarios&page=${page}`} /></Bloco>
       </div>;
@@ -117,6 +118,26 @@ export default async function Gestao({ searchParams }: { searchParams: Promise<{
     }
   }
   return <Painel titulo={admin ? "Administração" : "Painel do corretor"} links={links}>{conteudo}</Painel>;
+}
+
+const estados = "AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO"
+  .split(" ").map(valor => ({ valor, texto: valor }));
+
+function CadastroEquipe({ perfil, destino }: { perfil: "CORRETOR" | "FUNCIONARIO"; destino: string }) {
+  const campos: Campo[] = [
+    { nome: "nome", rotulo: "Nome completo", autocomplete: "name" },
+    { nome: "email", rotulo: "E-mail", tipo: "email", autocomplete: "off" },
+    { nome: "telefone", rotulo: "Telefone com DDD", tipo: "tel" },
+    { nome: "cpf", rotulo: "CPF" },
+    { nome: "rg", rotulo: "RG" },
+    { nome: "orgaoEmissor", rotulo: "Órgão emissor do RG" },
+    { nome: "ufRg", rotulo: "UF do RG", opcoes: estados },
+    { nome: "cargo", rotulo: "Cargo" },
+    { nome: "senha", rotulo: "Senha inicial", tipo: "password", autocomplete: "new-password" },
+  ];
+  if (perfil === "CORRETOR") campos.splice(8, 0, { nome: "creci", rotulo: "CRECI" });
+  return <Mutacao operacao={{ caminho: "/admin/equipe", metodo: "POST", retorno: destino, fixos: { perfil },
+    campos: campos.map(campo => campo.nome) }} campos={campos} botao="Criar conta" colunas />;
 }
 
 function EditorProprietario({ existente, destino }: { existente?: Schemas["Proprietario"]; destino: string }) {

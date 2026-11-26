@@ -12,7 +12,9 @@ export default async function Conta({ searchParams }: { searchParams: Promise<{ 
   const numero = page && /^\d{1,6}$/.test(page) ? Number(page) : 0;
   const retorno = aba && ["favoritos", "contatos", "visitas"].includes(aba) ? `/conta?aba=${aba}&page=${numero}` : "/conta";
   const perfil = await privada<Perfil>("/usuarios/me", retorno);
-  if (perfil.perfil !== "CLIENTE") redirect("/painel");
+  const funcionario = perfil.perfil === "FUNCIONARIO";
+  if (perfil.perfil !== "CLIENTE" && !funcionario) redirect("/painel");
+  if (funcionario && aba) redirect("/conta");
   let conteudo: React.ReactNode;
   switch (aba) {
     case "favoritos": {
@@ -33,5 +35,5 @@ export default async function Conta({ searchParams }: { searchParams: Promise<{ 
           { nome: "novaSenha", rotulo: "Nova senha", tipo: "password", autocomplete: "new-password" }]} colunas /></Bloco>
     </div>;
   }
-  return <Painel titulo={`Olá, ${perfil.nome}`} links={links}>{conteudo}</Painel>;
+  return <Painel titulo={`Olá, ${perfil.nome}`} links={funcionario ? links.slice(0, 2) : links}>{conteudo}</Painel>;
 }

@@ -15,6 +15,7 @@ export type Campo = { nome: string; rotulo: string; tipo?: string; inicial?: str
 const limites: Record<string, number> = {
   nome: 160, email: 254, titulo: 180, descricao: 10000, logradouro: 200,
   bairro: 120, cidade: 120, numero: 20, mensagem: 2000,
+  cpf: 14, rg: 30, orgaoEmissor: 20, cargo: 80, creci: 30,
 };
 const camposEndereco = ["logradouro", "bairro", "cidade", "uf"] as const;
 
