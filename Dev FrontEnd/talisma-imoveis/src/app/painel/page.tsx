@@ -4,10 +4,11 @@ import { redirect } from "next/navigation";
 import { privada, type Pagina, type Perfil, type Schemas } from "@/lib/api";
 import { Bloco, Mutacao, Painel, Status, nomesStatus } from "@/components/painel-comum";
 import { Leads, Visitas } from "@/components/atendimentos";
+import { TreinamentoCorretor } from "@/components/treinamento-corretor";
 import { EditorImovel } from "@/components/editor-imovel";
 import { Paginacao, Vazio } from "@/components/vitrine";
 
-const abas = ["imoveis", "proprietarios", "contatos", "visitas", "usuarios", "novo-imovel", "editar-imovel"];
+const abas = ["imoveis", "proprietarios", "contatos", "visitas", "usuarios", "protecao-de-dados", "novo-imovel", "editar-imovel"];
 
 export default async function Gestao({ searchParams }: { searchParams: Promise<{ aba?: string; page?: string; id?: string; status?: string }> }) {
   const busca = await searchParams;
@@ -21,10 +22,15 @@ export default async function Gestao({ searchParams }: { searchParams: Promise<{
   const admin = perfil.perfil === "ADMIN";
   const links: [string, string][] = [["/conta/privacidade", "Privacidade"], ["/painel", "Imóveis"], ["/painel?aba=novo-imovel", "Cadastrar imóvel"],
     ["/painel?aba=proprietarios", "Proprietários"], ["/painel?aba=contatos", "Contatos"], ["/painel?aba=visitas", "Visitas"]];
+  if (perfil.perfil === "CORRETOR") links.push(["/painel?aba=protecao-de-dados", "LGPD e segurança"]);
   if (admin) links.push(["/painel/privacidade", "Solicitações de privacidade"], ["/painel?status=PENDENTE", "Aprovações"], ["/painel?aba=usuarios", "Usuários internos"]);
   let conteudo: React.ReactNode;
   const filtroPagina = `?page=${pagina}`;
   switch (aba) {
+    case "protecao-de-dados":
+      if (perfil.perfil !== "CORRETOR") redirect("/painel");
+      conteudo = <TreinamentoCorretor />;
+      break;
     case "novo-imovel":
     case "editar-imovel": {
       const [proprietarios, existente] = await Promise.all([
