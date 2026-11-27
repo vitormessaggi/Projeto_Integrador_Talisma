@@ -129,6 +129,28 @@ public class GestaoImoveis {
             }
         }
 
+        BigDecimal latitude = dados.latitude();
+        BigDecimal longitude = dados.longitude();
+        if ((latitude == null) != (longitude == null)) {
+            throw erro(BAD_REQUEST, "Informe latitude e longitude juntas");
+        }
+        if (latitude == null && atual != null) {
+            var anterior = detalhe(ator, id).dados();
+            if (anterior.cep().equals(dados.cep()) && anterior.numero().strip().equals(dados.numero().strip())
+                    && anterior.logradouro().equalsIgnoreCase(dados.logradouro().strip())
+                    && anterior.cidade().equalsIgnoreCase(dados.cidade().strip())
+                    && anterior.uf().equals(dados.uf())) {
+                latitude = anterior.latitude();
+                longitude = anterior.longitude();
+            }
+        }
+        if (latitude == null) {
+            var ponto = Geocodificacao.buscar(dados);
+            if (ponto != null) {
+                latitude = ponto.lat();
+                longitude = ponto.lon();
+            }
+        }
         String status = atual == null ? "RASCUNHO" : switch (atual.status()) {
             case "PUBLICADO", "PENDENTE" -> "PENDENTE";
             default -> "RASCUNHO";
@@ -141,7 +163,7 @@ public class GestaoImoveis {
         Object[] valores = {dados.proprietarioId(), corretor, dados.titulo().strip(), dados.descricao(), dados.tipo(), status,
                 dados.cidade().strip(), dados.bairro().strip(), dados.uf(), dados.cep(), dados.logradouro().strip(),
                 dados.numero(), dados.quartos(), dados.banheiros(), dados.vagas(), dados.areaTotal(), dados.areaConstruida(),
-                dados.mobiliado(), dados.destaque(), dados.latitude(), dados.longitude()};
+                dados.mobiliado(), dados.destaque(), latitude, longitude};
         if (atual == null) {
             var chave = new GeneratedKeyHolder();
             banco.sql("INSERT INTO imovel SET " + campos).params(valores).update(chave, "id");

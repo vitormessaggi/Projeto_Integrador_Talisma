@@ -1,6 +1,15 @@
 # Como rodar o Talismã Imóveis
 
-O site e o Android consultam a mesma origem HTTPS da AWS. O Nginx da EC2 encaminha `/api/v1/` ao Spring Boot e `POST /chat` à Lia. O Spring Boot acessa Aurora MySQL e S3 privados. Para uma instalação existente, comece pela seção 3.1. Em seguida configure a URL do site e do Android nas seções 3.6 e 4.
+O site e o Android consultam a mesma origem HTTPS da AWS. Na EC2, o Nginx encaminha `/api/v1/` ao Spring Boot e `POST /chat` à Lia. O Spring Boot acessa Aurora MySQL, S3 e o Mailpit privado.
+
+## Caminho rápido para testar
+
+1. [Reabra o Learner Lab e confira os serviços da EC2](#31-reutilizar-a-implantação-existente).
+2. [Confirme a URL HTTPS, inicie o site e acesse o Mailpit](#36-abrir-o-site-e-o-mailpit-com-a-api-da-aws).
+3. [Instale o Android](#4-rodar-o-android) se for testar no emulador ou em um aparelho.
+4. [Siga o roteiro manual](#5-testar-os-fluxos). Use os passos de provisionamento somente para montar outra instalação.
+
+Ao testar com a AWS, deixe o backend, a Lia e o Mailpit rodando na EC2. No seu computador, execute o Next.js e, se necessário, o Android Studio. O Docker Desktop local só é necessário se você o usar para rodar contêineres ou os testes Java com Testcontainers.
 
 ## 1. Preparar o computador
 
@@ -20,7 +29,7 @@ Quando o laboratório estiver encerrado ou os serviços estiverem parados, site 
 ### 3.1. Reutilizar a implantação existente
 
 1. Abra o Learner Lab e clique em **Start Lab**. Abra a AWS e selecione **N. Virginia (`us-east-1`)**.
-2. Em **Aurora and RDS**, confira se `talisma-aurora` e sua gravadora estão disponíveis. Em **EC2**, inicie `talisma-api-ec2` se estiver parada e copie seu IPv4 público atual.
+2. Em **Aurora and RDS**, confira se `talisma-aurora` e sua gravadora estão disponíveis. Em **EC2**, inicie `talisma-api-ec2` se estiver parada. Copie o ID da instância para o Session Manager e o IPv4 público atual para montar a URL da API.
 3. Acesse a EC2 por SSH com a chave do laboratório e a identidade do host verificada. Se a chave estiver indisponível e a instância estiver online no Systems Manager, use **Session Manager** ou **Run Command** conforme as permissões do laboratório.
 4. Na EC2, confira o estado da aplicação:
 
@@ -29,9 +38,12 @@ sudo docker ps -a --format 'table {{.Names}}\t{{.Status}}'
 sudo systemctl status nginx --no-pager
 curl -fsS http://127.0.0.1:8080/actuator/health
 curl -fsS http://127.0.0.1:8000/health
+curl -fsS http://127.0.0.1:8025/readyz
 ```
 
-Na implantação do catálogo já validada, os contêineres se chamam `talisma-api` e `talisma-mailpit`. Se estiverem parados, use `sudo docker start talisma-api talisma-mailpit`. Em uma implantação feita pelo Compose versionado, execute `docker compose -f infra/aws/compose.yaml ps` na pasta da revisão, com o `APP_IMAGE_TAG` correspondente. Reutilize o método que já atende a porta 8080. Se a API Java está em um contêiner avulso e o Compose está disponível, publique apenas a Lia depois de validar a origem HTTPS do catálogo.
+Na implantação existente, os contêineres se chamam `talisma-api`, `talisma-chatbot` e `talisma-mailpit`. Se estiverem parados, use `sudo docker start talisma-mailpit talisma-api talisma-chatbot` e repita as verificações depois da inicialização. Em uma implantação feita pelo Compose versionado, use `docker compose -f infra/aws/compose.yaml ps` e, se necessário, `docker compose -f infra/aws/compose.yaml up -d` na pasta da revisão, com o `APP_IMAGE_TAG` correspondente.
+
+Se o contêiner da Lia ainda precisar ser criado e a API Java estiver rodando avulsa, publique apenas o chatbot depois de validar a origem HTTPS do catálogo.
 
 ```bash
 export APP_IMAGE_TAG=REVISAO_GIT
@@ -177,14 +189,15 @@ Adicione ou atualize o bloco 443. Confira em `sudo certbot certificates` os cami
 
 ### 3.6. Abrir o site e o Mailpit com a API da AWS
 
-No Windows, defina a origem uma vez para o usuário e para o terminal atual. Troque `HOST_PUBLICO` pelo DNS ou IPv4 que consta no certificado. Terminais e Android Studio já abertos precisam ser reiniciados para ler a variável persistente.
+No Windows, troque `HOST_PUBLICO` pelo DNS ou IPv4 atual coberto pelo certificado. Verifique primeiro se o catálogo responde por HTTPS. Depois salve a origem no Windows e reinicie o Next.js ou o Android Studio que já estiver aberto para que leia a URL atual.
 
 ```powershell
 $env:API_URL = 'https://HOST_PUBLICO'
+$catalogo = Invoke-RestMethod "$env:API_URL/api/v1/imoveis?size=1" -TimeoutSec 15 -ErrorAction Stop
+$catalogo.totalElementos
 [Environment]::SetEnvironmentVariable('API_URL', $env:API_URL, 'User')
-Invoke-RestMethod "$env:API_URL/api/v1/imoveis?size=1"
 $corpo = @{ pergunta = 'Quais imóveis estão à venda?'; usar_ia = $false } | ConvertTo-Json
-Invoke-RestMethod "$env:API_URL/chat" -Method Post -ContentType 'application/json' -Body $corpo
+Invoke-RestMethod "$env:API_URL/chat" -Method Post -ContentType 'application/json; charset=utf-8' -Body $corpo -TimeoutSec 30
 ```
 
 A partir da raiz do repositório:
@@ -197,13 +210,35 @@ npm run dev -- --hostname 127.0.0.1 --port 3000
 
 Abra [o site](http://127.0.0.1:3000/) e confira as abas de venda e locação. Na base do laboratório já validada há 10 anúncios fictícios publicados por finalidade e duas fotos por imóvel. O backend usa HTTPS mesmo quando o site roda em HTTP no loopback.
 
-Para ler e-mails na EC2, abra um túnel em outro terminal e acesse [o Mailpit remoto pelo túnel](http://127.0.0.1:18025/):
+O perfil `aws` envia e-mails de teste ao SMTP privado do Mailpit na porta 1025. Para ler os códigos no computador, mantenha um túnel aberto em outro terminal e acesse a caixa pelo navegador. [Mailpit do laboratório](http://127.0.0.1:18025/)
+
+Se já tiver acesso SSH, substitua o caminho da chave e o IP público neste comando PowerShell.
 
 ```powershell
-ssh -i CAMINHO_DA_CHAVE -N -L 18025:127.0.0.1:8025 ubuntu@IP_PUBLICO
+ssh -i CAMINHO_DA_CHAVE -N -L 127.0.0.1:18025:127.0.0.1:8025 ubuntu@IP_PUBLICO
 ```
 
-Com AWS CLI e Session Manager Plugin já configurados no computador, também é possível encaminhar essas portas com o documento SSM `AWS-StartPortForwardingSession`.
+Com AWS CLI, Session Manager Plugin e credenciais válidas do Learner Lab configurados no computador, use o ID da instância para abrir o túnel pelo SSM. [Encaminhamento de porta pelo Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-port-forwarding)
+
+```powershell
+aws ssm start-session --region us-east-1 --target ID_DA_INSTANCIA `
+  --document-name AWS-StartPortForwardingSession `
+  --parameters 'portNumber=8025,localPortNumber=18025'
+```
+
+Se puder abrir uma sessão do Session Manager pelo console, também é possível consultar a mensagem diretamente na EC2. Execute o trecho Bash abaixo com o e-mail fictício usado no cadastro. O comando mostra o assunto e o corpo da mensagem mais recente de verificação para esse endereço.
+
+```bash
+read -r -p 'E-mail fictício cadastrado: ' EMAIL_TESTE
+mailpit=http://127.0.0.1:8025/api/v1
+mensagem=$(curl -fsS --get "$mailpit/search" --data-urlencode "query=to:$EMAIL_TESTE" |
+  jq -r 'first(.messages[]? | select(.Subject == "Verifique seu e-mail") | .ID) // empty')
+if [ -n "$mensagem" ]; then
+  curl -fsS "$mailpit/message/$mensagem" | jq -r '.Subject, .Text'
+else
+  echo 'Mensagem ainda não encontrada. Confira o e-mail e tente novamente.'
+fi
+```
 
 ### 3.7. Migrar dados e fotos (opcional)
 
@@ -227,10 +262,12 @@ Confira o resultado antes de iniciar a aplicação. Para um backup que possa con
 ## 4. Rodar o Android
 
 1. Abra `Dev Mobile/talisma-app` no Android Studio. Selecione o JDK 21 para o Gradle e instale o SDK 36.
-2. Confirme a variável `API_URL` da seção 3.6. Para uma configuração específica do módulo, use `api.url=https://HOST_PUBLICO` em `local.properties`, que fica fora do Git. A ordem é `-PapiUrl`, `API_URL` e `api.url`.
-3. Inicie um emulador no **Device Manager** ou conecte um aparelho. Execute a configuração `app` ou instale pela linha de comando na pasta do módulo.
+2. Confirme a variável `API_URL` da seção 3.6. Para uma configuração específica do módulo, use `api.url=https://HOST_PUBLICO` em `local.properties`, que fica fora do Git. A ordem é `-PapiUrl`, `API_URL` e `api.url`. O APK guarda a URL usada na compilação. Se o IP do laboratório mudar, gere e instale outro APK.
+3. Inicie um emulador no **Device Manager** ou conecte um aparelho com depuração USB. Execute a configuração `app` ou rode os comandos PowerShell em um segundo terminal, a partir da raiz do repositório.
 
 ```powershell
+Set-Location 'Dev Mobile/talisma-app'
+$env:API_URL = [Environment]::GetEnvironmentVariable('API_URL', 'User')
 .\gradlew.bat :app:installDebug
 ```
 
@@ -239,17 +276,25 @@ Confira o resultado antes de iniciar a aplicação. Para um backup que possa con
 
 ## 5. Testar os fluxos
 
-1. Na vitrine, abra venda e locação, aplique um filtro e entre no detalhe. Confira as fotos da galeria.
-2. Em base de demonstração, entre como administrador e cadastre um corretor. Com a conta do corretor, cadastre proprietário e imóvel, informe a oferta, envie fotos e mova o anúncio para revisão.
-3. Volte ao administrador e publique. Confirme que o anúncio apareceu no catálogo. Na AWS, confira `imoveis/<id>/` no S3.
-4. Cadastre um cliente fictício e obtenha o código no Mailpit. Verifique o e-mail, faça login, favorite um imóvel e solicite visita. Com o corretor, encontre o pedido e confirme a visita.
-5. No site e no Android, pergunte à Lia sobre locação, visitas e um assunto fora do escopo. Confirme a resposta genérica na última pergunta. Se a Groq estiver configurada, marque a opção para uma pergunta de orientação e confira a resposta.
-6. Use uma conta fictícia separada para testar exportação de dados, aceite versionado e exclusão de conta.
+Use somente dados fictícios. Para manter cliente, corretor e administrador logados ao mesmo tempo, use perfis de navegador separados. Reutilize as contas de corretores já cadastradas no laboratório se tiver as credenciais guardadas localmente.
+
+| Fluxo | Passos | Resultado esperado |
+|---|---|---|
+| Catálogo e fotos | Abra **Imóveis**, filtre venda e locação e abra um anúncio. | A lista reflete os filtros e a galeria carrega as fotos da AWS. |
+| Cadastro e e-mail | Em **Criar conta**, informe um novo e-mail fictício, confira os termos e envie o cadastro. No Mailpit, procure **Verifique seu e-mail** para esse endereço. Informe os seis dígitos na tela **Verifique seu e-mail** e faça login. | A mensagem chega ao Mailpit e a conta verificada consegue entrar. |
+| Corretor | Use uma conta existente ou crie uma em **Painel do administrador → Usuários internos → Cadastrar corretor**. Faça login como corretor e abra **Proprietários**. | O corretor entra no painel e consegue cadastrar um proprietário fictício com telefone e DDD. |
+| Imóvel | Como corretor, abra **Cadastrar imóvel**, selecione um proprietário, informe um CEP, confira o endereço, complete o número e preencha pelo menos um preço. Salve, abra o anúncio no painel, envie fotos e clique em **Enviar para revisão**. | Na revisão com ViaCEP, a consulta preenche logradouro, bairro, cidade e UF quando disponíveis. O endereço continua editável. O anúncio fica pendente após o envio para revisão. |
+| Publicar e editar | Como administrador, abra **Aprovações** e clique em **Aprovar e publicar**. Confira o anúncio no catálogo. Para testar a edição, abra um anúncio fictício no painel do corretor e salve uma alteração. | O anúncio aprovado aparece na vitrine. Alterações em um anúncio publicado voltam para revisão. Fotos novas ficam em `imoveis/<id>/` no S3. |
+| Visita | Como cliente verificado, abra o anúncio publicado pelo corretor usado no teste, selecione **Solicitar visita**, informe data a partir de amanhã, período e telefone, e envie. Entre como o corretor responsável, abra **Visitas** e confirme o pedido. | A visita aparece como pendente para o corretor vinculado ao imóvel na hora do pedido. Após a confirmação, o cliente vê o novo status em **Minha conta → Visitas**. |
+| Lia | No site ou no Android, pergunte por imóveis para alugar, como solicitar visita e faça uma pergunta fora do tema. | A Lia mostra links do catálogo, explica o pedido de visita e responde genericamente fora do escopo. A opção Groq requer a chave configurada na EC2. |
+| Privacidade | Em **Minha conta → Privacidade**, use uma conta fictícia separada para testar exportação e exclusão. | A conta pode baixar os próprios dados. Após concluir a exclusão, a sessão é encerrada. |
+
+Para testar o encaminhamento de visitas com anúncios já existentes, confirme o responsável antes de enviar o pedido. O sistema grava o corretor no momento da solicitação. Trocar o responsável de um anúncio afeta as próximas visitas. Para testar a saída de um anúncio da vitrine, use **Arquivar** num imóvel fictício que você reservou para esse fim.
 
 ### Verificações automatizadas
 
 - Backend, a partir de `imoveisapi`: `.\mvnw.cmd -B -Ptestcontainers verify` com Docker ativo. Os testes de integração também aceitam `TEST_DB_URL`, `TEST_DB_USER` e `TEST_DB_PASSWORD` de um schema descartável `talisma_test`.
-- Frontend, a partir de `talisma-imoveis`: `npm run typecheck`, `npm run lint`, `npm run build`, `npx playwright install chromium` e `npm run e2e -- privacidade.spec.ts`. Para usar a fixture, deixe `API_URL` e `E2E_BASE_URL` ausentes no terminal de testes.
+- Frontend, a partir de `talisma-imoveis`: `npm run typecheck`, `npm run lint`, `npm run build` e `npx playwright install chromium`. Na revisão com ViaCEP, execute `npm run e2e -- privacidade.spec.ts mascaras-cep.spec.ts`. Para usar a fixture, deixe `API_URL` e `E2E_BASE_URL` ausentes no terminal de testes.
 - Android, a partir de `talisma-app`: `.\gradlew.bat :app:assembleDebug :app:lintDebug` com JDK 21 e `API_URL` configurada.
 - A partir da raiz, confira as cópias dos textos legais com `python scripts/sincronizar-legais.py --check`.
 
@@ -263,4 +308,5 @@ Confira o resultado antes de iniciar a aplicação. Para um backup que possa con
 | Site abre, mas catálogo está vazio | Confira o `API_URL`, a base selecionada e se há anúncios em `PUBLICADO`. |
 | HTTPS falha após reiniciar o Learner Lab | Confira o novo IPv4 da EC2, o certificado do Nginx e o `API_URL` usado no Next.js e no build Android. |
 | Foto falha na AWS | Confirme que o anúncio está publicado e verifique bucket, região e acesso do perfil EC2 à chave da foto. |
-| E-mail de teste não aparece | Confira se a API usa o SMTP do Mailpit e abra a caixa da EC2 pelo túnel. |
+| E-mail de teste não aparece | Confira o e-mail informado, o estado do Mailpit na EC2 e se o túnel continua aberto. Na tela de verificação, use **Preciso de outro código** para reenviar. |
+| Visita não aparece no painel do corretor | Confira a conta em uso, o responsável no momento do pedido e se a solicitação foi enviada. O administrador também consegue consultar visitas. |

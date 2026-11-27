@@ -20,6 +20,17 @@ export function origemApi(valor = process.env.API_URL): string {
 
 export const apiUrl = origemApi();
 
+export function validadeRenovacao(token: string): number {
+  try {
+    const { session_exp } = JSON.parse(Buffer.from(token.split(".")[1], "base64url").toString("utf8"));
+    return typeof session_exp === "number"
+      ? Math.max(0, Math.min(86400, session_exp - Math.floor(Date.now() / 1000)))
+      : 86400;
+  } catch {
+    return 86400;
+  }
+}
+
 export class ErroApi extends Error {
   constructor(public status: number, mensagem: string) {
     super(mensagem);

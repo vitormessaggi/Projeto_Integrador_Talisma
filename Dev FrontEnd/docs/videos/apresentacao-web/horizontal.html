@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920,height=1080">
+  <title>Talismã Imóveis — apresentação para slides</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: Poppins; src: url(assets/Poppins-Regular.ttf); font-weight: 400; }
+    @font-face { font-family: Poppins; src: url(assets/Poppins-SemiBold.ttf); font-weight: 600; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #35000b; font-family: Poppins, sans-serif; }
+    #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 560px 1fr;
+      align-items: center;
+      gap: 50px;
+      padding: 100px 112px;
+      overflow: hidden;
+      color: #35000b;
+      background: #fcf8f4;
+    }
+    .dark { color: #fff9f6; background: linear-gradient(140deg, #35000b 4%, #630016 62%, #8d001a); }
+    .copy, .frame { position: relative; }
+    .kicker {
+      margin: 0 0 24px;
+      color: #8d001a;
+      font-weight: 600;
+      font-size: 23px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .dark .kicker { color: #ffd2d8; }
+    h1, h2 { margin: 0; font-size: 81px; line-height: 1.02; letter-spacing: -.063em; font-weight: 600; }
+    .home h1 { font-size: 72px; }
+    .deck { margin: 30px 0 0; font-size: 29px; line-height: 1.43; max-width: 485px; }
+    .frame {
+      border: 2px solid #e9ddd8;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 32px 90px #35000b36;
+    }
+    .dark .frame { border-color: #fff5; box-shadow: 0 36px 100px #28000c78; }
+    .chrome {
+      display: flex;
+      align-items: center;
+      height: 49px;
+      gap: 8px;
+      padding: 0 20px;
+      color: #650016;
+      border-bottom: 1px solid #e7dbd7;
+      background: #fff9f5;
+    }
+    .chrome i { width: 10px; height: 10px; border-radius: 50%; background: #e7c1c6; }
+    .chrome i:first-child { background: #8d001a; }
+    .chrome span { margin-left: 12px; font-size: 17px; font-weight: 600; }
+    .viewport { position: relative; aspect-ratio: 8 / 5; overflow: hidden; background: #fff; }
+    .screen { position: absolute; display: block; inset: 0 auto auto 0; width: 100%; }
+    .lia .screen { inset: auto 0 0 auto; width: 132%; transform-origin: right bottom; }
+    .visits .screen { inset: 0 0 auto auto; width: 107%; transform-origin: right top; }
+    .outline {
+      position: absolute;
+      width: 830px;
+      height: 830px;
+      right: -280px;
+      bottom: -320px;
+      border: 1px solid #8d001a3d;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .dark .outline { border-color: #ffd2d84f; }
+    .end { grid-template-columns: 1fr; place-items: center; text-align: center; }
+    .end .outline { width: 760px; height: 760px; left: 580px; top: 160px; }
+    .lockup { position: relative; }
+    .lockup img { display: block; width: 520px; margin: 0 auto; }
+    .lockup h2 { margin: 52px 0 0; font-size: 72px; }
+    .lockup p { margin: 22px 0 0; color: #ffd2d8; font-size: 26px; }
+  </style>
+</head>
+<body>
+  <main id="root" data-composition-id="main" data-start="0" data-duration="28.7" data-width="1920" data-height="1080" data-fps="30">
+    <section id="inicio" class="scene dark home clip" data-start="0" data-duration="5" data-track-index="0">
+      <div class="outline" data-layout-allow-overflow></div>
+      <div class="copy">
+        <p class="kicker">Talismã Imóveis · Web</p>
+        <h1>Seu próximo capítulo começa em casa.</h1>
+        <p class="deck">Compra e locação em São Paulo e região.</p>
+      </div>
+      <div class="frame">
+        <div class="chrome"><i></i><i></i><i></i><span>Talismã Imóveis</span></div>
+        <div class="viewport" data-layout-allow-overflow><img class="screen" src="assets/01-inicio.png" alt="Página inicial da Talismã"></div>
+      </div>
+    </section>
+    <section id="localizar" class="scene clip" data-start="5" data-duration="4.8" data-track-index="0">
+      <div class="outline" data-layout-allow-overflow></div>
+      <div class="copy">
+        <p class="kicker">Catálogo</p>
+        <h2>Perto de você.</h2>
+        <p class="deck">Filtre por tipo, preço e localização para encontrar o imóvel certo.</p>
+      </div>
+      <div class="frame">
+        <div class="chrome"><i></i><i></i><i></i><span>Imóveis · Perto de mim</span></div>
+        <div class="viewport" data-layout-allow-overflow><img class="screen" src="assets/03-perto-de-mim.png" alt="Catálogo ordenado por distância"></div>
+      </div>
+    </section>
+    <section id="explorar" class="scene dark clip" data-start="9.8" data-duration="5" data-track-index="0">
+      <div class="outline" data-layout-allow-overflow></div>
+      <div class="copy">
+        <p class="kicker">Detalhes e favoritos</p>
+        <h2>Imagine a vida nesse lugar.</h2>
+        <p class="deck">Veja as fotos, compare as opções e salve os imóveis que combinam com você.</p>
+      </div>
+      <div class="frame">
+        <div class="chrome"><i></i><i></i><i></i><span>Detalhes do imóvel</span></div>
+        <div class="viewport" data-layout-allow-overflow><img class="screen" src="assets/04-detalhe-imovel.png" alt="Fotos e condições de um imóvel cadastrado"></div>
+      </div>
+    </section>
+    <section id="visita" class="scene visits clip" data-start="14.8" data-duration="5.1" data-track-index="0">
+      <div class="outline" data-layout-allow-overflow></div>
+      <div class="copy">
+        <p class="kicker">Área do cliente</p>
+        <h2>O próximo passo é visitar.</h2>
+        <p class="deck">Escolha a data e acompanhe a resposta do corretor em Minha conta.</p>
+      </div>
+      <div class="frame">
+        <div class="chrome"><i></i><i></i><i></i><span>Minha conta · Visitas</span></div>
+        <div class="viewport" data-layout-allow-overflow><img class="screen" src="assets/visita.png" alt="Visita exibida na área do cliente"></div>
+      </div>
+    </section>
+    <section id="lia" class="scene dark lia clip" data-start="19.9" data-duration="4.8" data-track-index="0">
+      <div class="outline" data-layout-allow-overflow></div>
+      <div class="copy">
+        <p class="kicker">Assistente Talismã</p>
+        <h2>Tem dúvida? Pergunte à Lia.</h2>
+        <p class="deck">Converse sobre imóveis, visitas e como comprar ou alugar.</p>
+      </div>
+      <div class="frame">
+        <div class="chrome"><i></i><i></i><i></i><span>Lia · Assistente da Talismã</span></div>
+        <div class="viewport" data-layout-allow-overflow><img class="screen" src="assets/05-lia.png" alt="Lia responde a uma pergunta sobre agendamento"></div>
+      </div>
+    </section>
+    <section id="marca" class="scene dark end clip" data-start="24.7" data-duration="4" data-track-index="0">
+      <div class="outline"></div>
+      <div class="lockup">
+        <img src="assets/logo.svg" alt="Talismã Imóveis">
+        <h2>Encontre o seu lugar.</h2>
+        <p>Compra · Locação · Atendimento</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    const timeline = gsap.timeline({ paused: true });
+    for (const scene of document.querySelectorAll('.scene')) {
+      const start = Number(scene.dataset.start);
+      if (scene.id === 'marca') {
+        timeline.fromTo('#marca .lockup > *',
+          { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.72, stagger: 0.12, ease: 'power3.out' }, start);
+        timeline.fromTo('#marca .outline', { scale: 0.95 }, { scale: 1.05, duration: 4, ease: 'none' }, start);
+        continue;
+      }
+      const selector = '#' + scene.id;
+      timeline.fromTo(selector + ' .copy', { opacity: 0, x: -34 },
+        { opacity: 1, x: 0, duration: 0.68, ease: 'power3.out' }, start + 0.03);
+      timeline.fromTo(selector + ' .frame', { opacity: 0, y: 46, scale: 0.975 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.78, ease: 'power3.out' }, start + 0.08);
+      timeline.fromTo(selector + ' .screen', { scale: 1 }, { scale: 1.025, duration: 4.6, ease: 'none' }, start);
+    }
+    window.__timelines = window.__timelines || {};
+    window.__timelines.main = timeline;
+    timeline.seek(0);
+  </script>
+</body>
+</html>

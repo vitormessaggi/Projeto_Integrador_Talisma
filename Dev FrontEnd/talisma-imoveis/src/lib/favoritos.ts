@@ -1,7 +1,7 @@
 "use server";
 import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
-import { acessoCookie, renovacaoCookie, chamada, apiUrl, ErroApi, type Imovel, type Pagina, type Perfil, type Schemas } from "./api";
+import { validadeRenovacao, acessoCookie, renovacaoCookie, chamada, apiUrl, ErroApi, type Imovel, type Pagina, type Perfil, type Schemas } from "./api";
 
 async function autenticada<T>(caminho: string, init: RequestInit = {}): Promise<T> {
   const jar = await cookies();
@@ -16,7 +16,7 @@ async function autenticada<T>(caminho: string, init: RequestInit = {}): Promise<
     const tokens = await chamada<Required<Schemas["Tokens"]>>("/auth/renovar", {method:"POST", body:JSON.stringify({refreshToken})});
     const options = {httpOnly:true, sameSite:"lax" as const, secure:process.env.COOKIE_SECURE === "true", path:"/"};
     jar.set(acessoCookie, tokens.accessToken, {...options, maxAge:tokens.expiresIn});
-    jar.set(renovacaoCookie, tokens.refreshToken, {...options, maxAge:7*86400});
+    jar.set(renovacaoCookie, tokens.refreshToken, {...options, maxAge:validadeRenovacao(tokens.accessToken)});
     token = tokens.accessToken;
     return chamada<T>(caminho, init, token);
   }

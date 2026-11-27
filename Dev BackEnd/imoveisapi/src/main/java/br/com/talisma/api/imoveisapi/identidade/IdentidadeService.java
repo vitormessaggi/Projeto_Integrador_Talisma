@@ -89,7 +89,7 @@ public class IdentidadeService {
         String refresh = gerarToken();
         String hash = sha256(refresh);
         banco.sql("INSERT INTO sessao(usuario_id,refresh_hash,expira_em) VALUES (?,?,?)")
-                .params(usuario.id(), hash, Timestamp.from(Instant.now().plus(Duration.ofDays(7)))).update();
+                .params(usuario.id(), hash, Timestamp.from(Instant.now().plus(Duration.ofDays(1)))).update();
         Sessao sessao = buscarSessao(hash);
         return tokens(usuario.dto(), sessao, refresh);
     }
@@ -151,7 +151,7 @@ public class IdentidadeService {
     private UsuarioDto usuarioAtivo(long usuarioId, long sessaoId) {
         return banco.sql("""
                 SELECT u.id,u.nome,u.email,u.perfil FROM usuario u JOIN sessao s ON s.usuario_id=u.id
-                WHERE u.id=? AND s.id=? AND s.revogada_em IS NULL AND s.expira_em>UTC_TIMESTAMP(6)
+                WHERE u.id=? AND s.id=? AND s.revogada_em IS NULL AND s.expira_em>UTC_TIMESTAMP(6) AND s.criado_em>UTC_TIMESTAMP(6)-INTERVAL 1 DAY
                 AND u.bloqueado=FALSE AND u.email_verificado=TRUE
                 """).params(usuarioId, sessaoId).query(UsuarioDto.class).optional()
                 .orElseThrow(() -> falha(UNAUTHORIZED, "Sessão expirada"));
@@ -220,7 +220,7 @@ public class IdentidadeService {
     }
 
     private Sessao buscarSessao(String hash) {
-        return banco.sql("SELECT id,usuario_id,expira_em FROM sessao WHERE refresh_hash=? AND revogada_em IS NULL FOR UPDATE")
+        return banco.sql("SELECT id,usuario_id,LEAST(expira_em, criado_em + INTERVAL 1 DAY) AS expira_em FROM sessao WHERE refresh_hash=? AND revogada_em IS NULL FOR UPDATE")
                 .param(hash).query((rs, row) -> new Sessao(rs.getLong("id"), rs.getLong("usuario_id"),
                         rs.getTimestamp("expira_em").toInstant())).optional().orElse(null);
     }
@@ -232,7 +232,7 @@ public class IdentidadeService {
             expira = sessao.expiraEm();
         }
         var claims = JwtClaimsSet.builder().issuer(Seguranca.EMISSOR).subject(Long.toString(usuario.id()))
-                .issuedAt(agora).expiresAt(expira).claim("sid", Long.toString(sessao.id())).build();
+                .issuedAt(agora).expiresAt(expira).claim("session_exp", sessao.expiraEm().getEpochSecond()).claim("sid", Long.toString(sessao.id())).build();
         var header = JwsHeader.with(MacAlgorithm.HS256).build();
         String access = encoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
         return new Tokens(access, refresh, Duration.between(agora, expira).toSeconds(), usuario);

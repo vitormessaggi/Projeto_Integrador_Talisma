@@ -4,7 +4,7 @@ import { versaoLegal } from "./legal";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { acessoCookie, chamada, ErroApi, renovacaoCookie, retornoSeguro, type Schemas } from "./api";
+import { validadeRenovacao, acessoCookie, chamada, ErroApi, renovacaoCookie, retornoSeguro, type Schemas } from "./api";
 import { formatos, normalizarCampo } from "./campos-formatados";
 
 export type Estado = { erro?: string; sucesso?: string };
@@ -19,7 +19,7 @@ export type Modo = keyof typeof rotasAuth;
 async function guardar(tokens: Token) {
   const jar = await cookies();
   jar.set(acessoCookie, tokens.accessToken, { ...cookieOpts, maxAge: Math.max(1, tokens.expiresIn) });
-  jar.set(renovacaoCookie, tokens.refreshToken, { ...cookieOpts, maxAge: 7 * 86400 });
+  jar.set(renovacaoCookie, tokens.refreshToken, { ...cookieOpts, maxAge: validadeRenovacao(tokens.accessToken) });
 }
 
 async function renovar() {

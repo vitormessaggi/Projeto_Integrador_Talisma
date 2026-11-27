@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080,height=1920">
+  <title>Talismã Imóveis — experiência web</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: Poppins; src: url(assets/Poppins-Regular.ttf); font-weight: 400; }
+    @font-face { font-family: Poppins; src: url(assets/Poppins-SemiBold.ttf); font-weight: 600; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Poppins, sans-serif; background: #35000b; }
+    #root { width: 1080px; height: 1920px; overflow: hidden; position: relative; }
+    .scene { position: absolute; inset: 0; overflow: hidden; background: #fcf8f4; color: #35000b; }
+    .dark { color: #fff9f6; background: linear-gradient(155deg,#35000b 5%,#650016 64%,#8d001a); }
+    .copy { position: absolute; top: 190px; left: 92px; width: 898px; }
+    .kicker { margin: 0 0 30px; font-size: 28px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #8d001a; }
+    .dark .kicker { color: #ffd2d8; }
+    h1, h2 { margin: 0; font-size: 110px; line-height: .99; font-weight: 600; letter-spacing: -.069em; }
+    .deck { margin: 38px 0 0; font-size: 35px; line-height: 1.4; max-width: 780px; }
+    .frame { position: absolute; left: 60px; top: 770px; width: 960px; height: 830px; overflow: hidden; border-radius: 32px; background: #fff; border: 2px solid #eee1da; box-shadow: 0 45px 110px #35000b38; }
+    .dark .frame { border-color: #fff4; box-shadow: 0 45px 100px #21000888; }
+    .chrome { position: relative; z-index: 1; height: 61px; display: flex; align-items: center; padding: 0 28px; gap: 10px; border-bottom: 1px solid #e7dbd7; background: #fff9f5; color: #650016; }
+    .chrome i { display: block; width: 13px; height: 13px; border-radius: 50%; background: #e7c1c6; }
+    .chrome i:first-child { background: #8d001a; }
+    .chrome span { margin-left: 18px; font-size: 19px; font-weight: 600; }
+    .screen { position: absolute; top: 61px; width: 1020px; max-width: none; display: block; }
+    .home .screen { left: -30px; width: 1130px; }
+    .catalog .screen { left: -72px; width: 1110px; }
+    .detail .screen { left: -67px; width: 1130px; }
+    .lia .screen { width: 1350px; left: -388px; top: 40px; }
+    .visits .screen { left: -205px; width: 1180px; }
+    .ribbon { position: absolute; left: 92px; right: 92px; bottom: 163px; border-top: 2px solid #8d001a35; padding-top: 29px; font-size: 27px; font-weight: 600; letter-spacing: .02em; }
+    .dark .ribbon { border-color: #ffd2d870; }
+    .outline { position: absolute; left: 504px; top: 1010px; width: 750px; height: 750px; border: 1px solid #8d001a38; border-radius: 50%; }
+    .dark .outline { border-color: #ffd2d844; }
+    .end { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .end .outline { left: 103px; top: 516px; width: 874px; height: 874px; }
+    .end img { width: 580px; position: relative; }
+    .end h2 { margin-top: 70px; max-width: 740px; font-size: 62px; line-height: 1.08; letter-spacing: -.05em; }
+    .end p { margin-top: 36px; font-size: 26px; color: #ffd2d8; }
+  </style>
+</head>
+<body>
+  <main id="root" data-composition-id="main" data-start="0" data-duration="28.7" data-width="1080" data-height="1920">
+    <section id="inicio" class="scene dark home clip" data-start="0" data-duration="5" data-track-index="0">
+      <div class="outline"></div>
+      <div class="copy"><p class="kicker">Talismã Imóveis · Web</p><h1>Seu próximo capítulo começa em casa.</h1><p class="deck">Compras e locações em São Paulo e região.</p></div>
+      <div class="frame"><div class="chrome"><i></i><i></i><i></i><span>Talismã Imóveis</span></div><img class="screen" src="assets/01-inicio.png" alt="Página inicial da Talismã"></div>
+      <div class="ribbon">Um novo endereço. Do seu jeito.</div>
+    </section>
+    <section id="localizar" class="scene catalog clip" data-start="5" data-duration="4.8" data-track-index="0">
+      <div class="outline"></div>
+      <div class="copy"><p class="kicker">Catálogo</p><h2>Perto de você.</h2><p class="deck">Filtre por tipo, preço e localização para encontrar o imóvel certo.</p></div>
+      <div class="frame"><div class="chrome"><i></i><i></i><i></i><span>Imóveis · Perto de mim</span></div><img class="screen" src="assets/03-perto-de-mim.png" alt="Catálogo ordenado por distância"></div>
+      <div class="ribbon">Venda, locação e busca por proximidade</div>
+    </section>
+    <section id="explorar" class="scene dark detail clip" data-start="9.8" data-duration="5" data-track-index="0">
+      <div class="outline"></div>
+      <div class="copy"><p class="kicker">Detalhes e favoritos</p><h2>Imagine a vida nesse lugar.</h2><p class="deck">Veja as fotos, compare as opções e salve o que combina com você.</p></div>
+      <div class="frame"><div class="chrome"><i></i><i></i><i></i><span>Detalhes do imóvel</span></div><img class="screen" src="assets/04-detalhe-imovel.png" alt="Fotos e informações do imóvel"></div>
+      <div class="ribbon">Fotos, características e condições de cada imóvel</div>
+    </section>
+    <section id="visita" class="scene visits clip" data-start="14.8" data-duration="5.1" data-track-index="0">
+      <div class="outline"></div>
+      <div class="copy"><p class="kicker">Área do cliente</p><h2>O próximo passo é visitar.</h2><p class="deck">Escolha a data e acompanhe a resposta do corretor em Minha conta.</p></div>
+      <div class="frame"><div class="chrome"><i></i><i></i><i></i><span>Minha conta · Visitas</span></div><img class="screen" src="assets/visita.png" alt="Acompanhamento do status de visita na área do cliente"></div>
+      <div class="ribbon">Agendamento e acompanhamento em um só lugar</div>
+    </section>
+    <section id="lia" class="scene dark lia clip" data-start="19.9" data-duration="4.8" data-track-index="0">
+      <div class="outline"></div>
+      <div class="copy"><p class="kicker">Assistente Talismã</p><h2>Tem dúvida? Pergunte à Lia.</h2><p class="deck">Converse sobre imóveis, visitas e como comprar ou alugar.</p></div>
+      <div class="frame"><div class="chrome"><i></i><i></i><i></i><span>Lia · Assistente da Talismã</span></div><img class="screen" src="assets/05-lia.png" alt="Lia responde a uma pergunta sobre agendamento"></div>
+      <div class="ribbon">Ajuda enquanto você navega</div>
+    </section>
+    <section id="marca" class="scene dark end clip" data-start="24.7" data-duration="4" data-track-index="0">
+      <div class="outline"></div>
+      <img src="assets/logo.svg" alt="Talismã Imóveis">
+      <h2>Encontre o seu lugar.</h2>
+      <p>Compra · Locação · Atendimento</p>
+    </section>
+  </main>
+  <script>
+    const timeline = gsap.timeline({ paused: true });
+    for (const scene of document.querySelectorAll('.scene')) {
+      const start = Number(scene.dataset.start);
+      if (scene.id === 'marca') {
+        timeline.fromTo('#marca img, #marca h2, #marca p',
+          { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.72, stagger: 0.12, ease: 'power3.out' }, start);
+        timeline.fromTo('#marca .outline', { scale: 0.94 }, { scale: 1.06, duration: 4, ease: 'none' }, start);
+        continue;
+      }
+      const selector = '#' + scene.id;
+      const lead = start === 0 ? 0.06 : 0.02;
+      timeline.fromTo(selector + ' .copy', { opacity: 0, y: 39 },
+        { opacity: 1, y: 0, duration: 0.64, ease: 'power3.out' }, start + lead);
+      timeline.fromTo(selector + ' .frame', { opacity: 0, y: 94, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.84, ease: 'power3.out' }, start + 0.12);
+      timeline.fromTo(selector + ' .screen', { scale: 1 }, { scale: 1.035, duration: 4.6, ease: 'none' }, start);
+      timeline.fromTo(selector + ' .ribbon', { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, start + 0.35);
+    }
+    window.__timelines = window.__timelines || {};
+    window.__timelines.main = timeline;
+    timeline.seek(0);
+  </script>
+</body>
+</html>
