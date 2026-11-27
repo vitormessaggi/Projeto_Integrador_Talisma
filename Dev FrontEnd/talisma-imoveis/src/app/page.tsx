@@ -1,11 +1,17 @@
 import Image from "next/image";
 import Form from "next/form";
 import Link from "next/link";
-import { ArrowRight, Search, MapPin, ShieldCheck, MessagesSquare, KeyRound } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search, MapPin, ShieldCheck, MessagesSquare, KeyRound } from "lucide-react";
 import { chamada, type Imovel, type Pagina, type Schemas } from "@/lib/api";
 import { caixa, campo, CartaoImovel, primario, rotulo, Vazio } from "@/components/vitrine";
 
 export const dynamic = "force-dynamic";
+
+const regioes = [
+  { cidade: "São Paulo", descricao: "Da Vila Mariana a Pinheiros", foto: "/images/regioes/sao-paulo.webp" },
+  { cidade: "Santo André", descricao: "Descubra os espaços do ABC", foto: "/images/regioes/santo-andre.webp" },
+  { cidade: "Cotia", descricao: "Mais espaço e verde no dia a dia", foto: "/images/regioes/cotia.webp" },
+];
 
 export default async function Home() {
   const [filtros, destaques] = await Promise.allSettled([
@@ -42,6 +48,28 @@ export default async function Home() {
       {lista.length ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{lista.map(imovel=><CartaoImovel key={imovel.id} imovel={imovel}/>)}</div> : <Vazio>{destaques.status === "rejected" ? "Não foi possível carregar os destaques. Tente novamente em instantes." : "Novas oportunidades em breve. Explore o catálogo para encontrar imóveis disponíveis."}</Vazio>}
     </section>
     <section className="border-y border-border bg-[#f5f1ef]"><div className={`${caixa} py-14 md:py-20`}><p className="eyebrow">MAIS DO QUE ENCONTRAR UM IMÓVEL</p><div className="mt-4 grid gap-10 lg:grid-cols-[1fr_1.6fr]"><div><h2 className="max-w-sm text-3xl font-semibold leading-tight tracking-tight">Um novo lar.<br/>Com toda a confiança.</h2><Link href="/sobre" className="mt-6 inline-flex items-center gap-2 text-xs font-semibold text-primary">Conheça a Talismã<ArrowRight size={16}/></Link></div><div className="grid gap-8 sm:grid-cols-3">{[[ShieldCheck,"Escolhas seguras","Informações claras para encontrar o imóvel certo para você."],[MessagesSquare,"Atendimento próximo","Converse com nossos corretores e tire suas dúvidas."],[KeyRound,"Do seu jeito","Compra ou locação, com acompanhamento em cada etapa."]].map(([Icon,titulo,texto])=>{const I=Icon as typeof ShieldCheck;return <div key={titulo as string}><I className="mb-4 text-primary" size={25}/><h3 className="text-sm font-semibold">{titulo as string}</h3><p className="mt-2 text-xs leading-6 text-muted-foreground">{texto as string}</p></div>;})}</div></div></div></section>
+    <section aria-labelledby="regioes" className={`${caixa} pt-14 md:pt-20`}>
+      <div className="mb-8 text-center">
+        <h2 id="regioes" className="text-balance text-3xl font-semibold tracking-tight md:text-4xl">Um novo endereço, muitas possibilidades</h2>
+        <p className="mt-3 text-sm text-muted-foreground">Escolha uma região e conheça os imóveis disponíveis.</p>
+      </div>
+      <div className="grid gap-5 md:grid-cols-3">
+        {regioes.map(({ cidade, descricao, foto }) => (
+          <Link key={cidade} href={{ pathname: "/imoveis", query: { cidade } }}
+            aria-label={`Explorar imóveis em ${cidade}`}
+            className="group relative isolate flex min-h-64 flex-col justify-end overflow-hidden rounded-2xl bg-[#650014] p-6 text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary md:min-h-72">
+            <Image src={foto} alt="" fill sizes="(max-width: 767px) 100vw, 33vw"
+              className="-z-20 object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105" />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-[#200008] via-[#200008]/65 to-[#200008]/5" />
+            <MapPin size={19} aria-hidden="true" />
+            <h3 className="mt-2 text-2xl font-semibold">{cidade}</h3>
+            <p className="mt-1 text-sm text-rose-50">{descricao}</p>
+            <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">Explorar região <ArrowUpRight size={17} aria-hidden="true" /></span>
+          </Link>
+        ))}
+      </div>
+      <p className="mt-5 text-center text-xs text-muted-foreground">Fotografias ilustrativas dos imóveis do catálogo.</p>
+    </section>
     <section className={`${caixa} py-14 md:py-20`}><div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-border bg-white p-8 sm:flex-row sm:items-center sm:p-12"><div><p className="eyebrow">VAMOS CONVERSAR?</p><h2 className="mt-3 text-2xl font-semibold tracking-tight">O próximo passo pode ser mais simples.</h2><p className="mt-3 text-sm text-muted-foreground">Conte o que você procura. Nossa equipe ajuda a encontrar.</p></div><Link href="/contato" className={`${primario} shrink-0`}>Fale com a Talismã<ArrowRight size={16}/></Link></div></section>
   </>;
 }

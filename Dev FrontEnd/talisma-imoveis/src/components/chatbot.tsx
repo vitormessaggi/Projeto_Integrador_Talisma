@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Send, X } from "lucide-react";
+import { RotateCcw, Send, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 type RespostaChat = { resposta: string; links?: { titulo: string; href: string }[] };
 type Mensagem = RespostaChat & { autor: "visitante" | "lia" };
@@ -36,6 +36,16 @@ export function Chatbot() {
     botao.current?.focus();
   }
 
+  function limparConversa() {
+    pedido.current?.abort();
+    pedido.current = null;
+    setMensagens([]);
+    setTexto("");
+    setErro("");
+    setAguardando(false);
+    entrada.current?.focus();
+  }
+
   async function enviar(valor: string) {
     const mensagem = valor.trim();
     if (!mensagem || pedido.current) return;
@@ -56,16 +66,20 @@ export function Chatbot() {
       });
       if (!resposta.ok) throw new Error("Falha no chat");
       const dados: RespostaChat = await resposta.json();
-      setMensagens(atual => [...atual, { ...dados, autor: "lia" }]);
+      if (pedido.current === controller) {
+        setMensagens(atual => [...atual, { ...dados, autor: "lia" }]);
+      }
     } catch {
-      if (!controller.signal.aborted) {
+      if (pedido.current === controller && !controller.signal.aborted) {
         setMensagens(atual => atual.slice(0, -1));
         setTexto(mensagem);
         setErro("Não consegui responder agora. Tente enviar novamente.");
       }
     } finally {
-      pedido.current = null;
-      setAguardando(false);
+      if (pedido.current === controller) {
+        pedido.current = null;
+        setAguardando(false);
+      }
     }
   }
 
@@ -83,7 +97,10 @@ export function Chatbot() {
           <header className="flex shrink-0 items-center gap-3 bg-[#650014] px-4 py-3 text-white">
             <Image src={avatar} alt="" width={42} height={42} className="rounded-full ring-1 ring-white/40" />
             <div className="flex-1"><h2 id="chat-lia-titulo" className="font-semibold">Lia</h2><p className="text-xs text-rose-100">Assistente virtual da Talismã</p></div>
-            <button type="button" onClick={fechar} aria-label="Fechar conversa" className="rounded-full p-2 hover:bg-white/15"><X size={20} /></button>
+            <div className="flex shrink-0 items-center">
+              <button type="button" onClick={limparConversa} aria-label="Limpar conversa" title="Limpar conversa" className="rounded-full p-2 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white"><RotateCcw size={18} aria-hidden="true" /></button>
+              <button type="button" onClick={fechar} aria-label="Fechar conversa" className="rounded-full p-2 hover:bg-white/15"><X size={20} /></button>
+            </div>
           </header>
           <div ref={conversa} role="log" aria-label="Mensagens da conversa" className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4 text-sm">
             <p className="mr-4 rounded-2xl rounded-tl-sm bg-[#f7eff0] px-3 py-2.5">Olá! Sou a Lia. Posso ajudar você a encontrar um imóvel, entender como comprar ou alugar e agendar uma visita.</p>
